@@ -1,0 +1,365 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage[numbers, sort&compress]{natbib}
+\usepackage{calc}
+\usepackage{fancyhdr}
+\usepackage{graphics}
+\usepackage{nowidow}
+\usepackage{color}
+\usepackage{subcaption}
+
+
+\newlength{\eqMargin}
+\newlength{\eqHorizMargin}
+\newlength{\eqVertMargin}
+
+\setlength{\eqMargin}{20mm}
+\setlength{\eqHorizMargin}{\eqMargin}
+\setlength{\eqVertMargin}{\eqMargin}
+
+% Paper
+\setlength{\paperwidth}{210mm}
+\setlength{\paperheight}{297mm}
+
+% Rid the extra space
+\setlength{\hoffset}{-1in}
+\setlength{\voffset}{-1in}
+\addtolength{\hoffset}{\eqHorizMargin}
+\addtolength{\voffset}{\eqVertMargin}
+
+% Set margin from the page border (horizontal)
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+
+% Header
+\setlength{\topmargin}{0pt}
+\setlength{\headheight}{30pt}
+\setlength{\headsep}{18pt}
+\renewcommand{\headrulewidth}{0pt}
+
+% Footer
+\addtolength{\footskip}{18pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Margin notes
+\setlength{\marginparsep}{0pt}
+\setlength{\marginparwidth}{0pt}
+
+% Text
+\setlength{\textwidth}{\paperwidth - \hoffset - \hoffset - 25.4mm - 25.4mm}
+\setlength{\textheight}{\paperheight - \voffset - \topmargin - \headheight - \headsep - \footskip - \voffset - 25.4mm - 25.4mm}
+
+%\setlength{\labelwidth}{20mm}
+
+% Hyperref settings
+\hypersetup{
+    unicode=true,					% non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,				% show Acrobat's toolbar?
+    pdfmenubar=true,				% show Acrobat's menu?
+    pdffitwindow=false,				% window fit to page when opened
+    pdfstartview={FitH},			% fits the width of the page to the window
+    pdftitle={S-26.3120 Radio Engineering, laboratory course},	% title
+    pdfauthor={Tuomas Leinonen} {Sampo Salo},	% author
+    pdfsubject={Radio Engineering},	% subject of the document
+    pdfcreator={LaTeX},				% creator of the document
+    pdfproducer={Aalto},			% producer of the document
+    pdfkeywords={radio} {gsm} {bs} {tx},	% list of keywords
+    pdfnewwindow=true,				% links in new window
+    colorlinks=true,				% false: boxed links; true: colored links
+    linkcolor=black,				% color of internal links
+    citecolor=black,				% color of links to bibliography
+    filecolor=black,				% color of file links
+    urlcolor=black					% color of external links
+}
+
+% Bad hyphenation
+%\hyphenation{}
+
+\definecolor{dkred}{rgb}{0.6, 0, 0}
+\definecolor{dkgrn}{rgb}{0, 0.6, 0}
+\definecolor{dkblue}{rgb}{0, 0, 0.6}
+
+\pagestyle{fancy}
+\lhead{S-26.3120 Radio Engineering, laboratory course\\Lab 1: GSM BS TX -- Pre-study}
+\rhead{Sampo Salo, 79543L\\Tuomas Leinonen, 84695P}
+\cfoot{\thepage}
+
+
+\begin{document}
+
+\begin{titlepage}
+\pagestyle{empty}
+\begin{center}
+
+\vspace*{3cm}
+\noindent\LARGE{\textbf{S-26.3120 Radio Engineering, laboratory course}}
+
+\vspace*{2cm}
+
+\Large{\textbf{Lab 1: GSM Basestation Transmitter}}\\
+
+\vspace*{1.5cm}
+
+\large{\textbf{Pre-study report}}\\
+\vspace{1.5cm}
+\large{\today}
+	
+\vspace*{3cm}
+\large{
+	\begin{tabular}{l l}
+		\textbf{Group 4:} 	& \\
+		Sampo Salo			& 79543L	\\
+		Tuomas Leinonen 	& 84695P		
+	\end{tabular}
+}
+
+\end{center}
+
+\end{titlepage}
+
+\section*{Measurement and setup descriptions}
+
+\textit{Give a short description how the measurements will be carried out, 
+how measurement and test equipment setup is connected during measurements.}
+
+
+\subsection*{Measurement 1: Dynamic Downlink Power Control Level}
+
+In the first measurement, the transmitter power is measured using five 
+different power control levels. The final measurement setup will made 
+using the following connections: TX $\rightarrow$ Cable $\rightarrow$ 
+Attenuator $\rightarrow$ Cable $\rightarrow$ Spectrum Analyzer. Thus 
+before we begin with the actual measurement, the combined effect of 
+the cables and attenuator need to be determined. This may be carried 
+out using a VNA or a power meter (both of which need to be calibrated, 
+just like the spectrum analyzer for the actual measurement).
+
+For the actual measurement we focus a single frequency from inside the 
+BS TX band of $935 - 960$ MHz. As this frequency was not specified in 
+the instructions, the center frequency (947,5 MHz) would be our guess.
+This will most likely be set in the BS software. We will ask the assistant. 
+The spectrum analyzer will be configured as follows: given center 
+frequency (see above), zero span, video and resolution bandwidth of 
+30 kHz and 500-measurements averaging.
+
+
+\subsection*{Measurement 2: In-band output spectrum}
+
+In the second measurement the setup will be the same as before, but 
+the measurement is done using only one transmitted power level chosen 
+based on the first measurement (the measurements should thus be ordered).
+Maximum power level is suggested in the instructions.
+
+Here we are interested of the shape of the spectrum, not of the absolute 
+power. Thus we will measure the relative power levels around the carrier 
+with specified offsets. These offsets are given in the GSM specifications, 
+to which the measured levels are eventually compared.
+
+
+\subsection*{Measurement 3: Interference}
+
+Yet again the measurement setup will be same as before. In contrast to the 
+measurements made before, here we are interested of a much larger bands than 
+previously. The interference will be worst when the TX power is at its maximum, 
+and at harmonic multiples of the carrier, as suggested by the instructions. 
+Thus we will focus our efferts on those frequencies as the measurement is 
+basically ``a peak search''.
+
+
+\subsection*{Measurement 4: Diplexer characterization}
+
+The last measurement will be done using a Vector Network Analyzer, which is 
+first calibrated (and verified) using a VNA calibration set for the intented 
+measurement setup: cables, frequency band (e.g., $850 - 1000$ MHz) and other 
+related settings (enough points per sweep, suitable averaging factor). After 
+this, the VNA is connected successively to the port pairs (VNA $\leftrightarrow$ 
+``port pair'' $\leftrightarrow$ VNA), and the $S_{21}$-parameter 
+will be measured (only the absolute value is required for insertion loss). 
+This raw data is stored onto a USB-memory for postprocessing.
+
+
+\section*{Problem 1}
+
+\textit{What is the minimum TX power needed for a 1 km mobile downlink assuming an ideal 
+half-wavelength dipole on the base station (TX) and an ideal monopole on ground 
+plane at the mobile end (RX), the receiver sensitivity is $-95$ dBm, SNR = 15 dB.}
+
+We assume ideal, direct line-of-sight link in totally empty space between the base 
+station and the mobile receiver, neglecting nonideal effects such as multipath, 
+shadowing and weather. Solving the Friis transmission equation \cite{pozar}
+
+\begin{equation}
+P_\mathrm{R} = SNR \times P_\mathrm{min} = G_\mathrm{T} \times G_\mathrm{R} \times \left(\frac{\lambda}{4 \pi r}\right)^2 \times P_\mathrm{T} 
+\end{equation}
+
+\noindent for transmission power $P_\mathrm{T}$, using the following values
+
+\begin{table}[!h]
+\begin{tabular}{llrll}
+Transmitter power 		& $P_\mathrm{T}$ 		& ??? 						& 			& \\
+Receiver sensitivity 	& $P_\mathrm{min}$		& $-95$ 					& dBm 		& \\
+Signal-to-noise ratio 	& $SNR$ 				& $15$ 						& dB 		& \\
+Link length		 		& $r$ 					& $1000$ 					& m 		& \\
+Frequency				& $f$ 					& $947,\!5$ 				& MHz 		& Taken as the center frequency. \\
+TX antenna gain			& $P_\mathrm{T}$ 		& $2,\!16$ 					& dBi 		& $\lambda/2$-dipole \cite{gains} \\
+RX antenna gain	 		& $G_\mathrm{R}$		& $5,\!16$ 					& dBi 		& $\lambda/4$-monopole, infinite ground plane \cite{gains} \\
+The speed of light		& $c$ 					& $2,\!998 \times 10^8$ 	& m/s 		& $\lambda = c / f$\\
+\end{tabular}
+\end{table}
+
+\noindent while also substituting $\lambda = c / f$, yields
+
+\begin{equation}
+P_\mathrm{T} = \frac{SNR \times P_\mathrm{min}}{G_\mathrm{T} \times G_\mathrm{R} \times \displaystyle \left(\frac{c}{4 \pi f r}\right)^2}.
+\end{equation}
+
+\noindent By taking $10 \lg \left( \; \right)$ dB on both sides, we have an equation with 
+decibels (and its derivatives) from which we finally solve $P_\mathrm{T}$:
+
+\begin{eqnarray}
+P_\mathrm{T,\,dBm} & = & SNR_\mathrm{dB} + P_\mathrm{min,\,dBm} - G_\mathrm{T,\,dBi} - G_\mathrm{R,\,dBi} - 20 \lg \left(\frac{c}{4 \pi f r}\right) \mathrm{\;dB}\\[2pt]
+& = & \left[ 15 - 95 - 2,\!16 - 5,\!16 - 20 \lg \left(\frac{2,\!998 \times 10^8}{4 \pi \times 947,\!5 \times 10^8 \times 1000}\right) \right] \mathrm{\;dBm}\\[2pt]
+& = & +4,\!6591... \mathrm{\;dBm} \approx +4,\!66 \mathrm{\;dBm} \\[2pt]
+& = & 2,\!9235... \textrm{ mW} \approx 2,\!92 \textrm{ mW}
+\end{eqnarray}
+
+\noindent The minimum transmitter power is thus $+4,\!66 \mathrm{\;dBm}$ or $2,\!92 \textrm{ mW}$.
+
+
+\section*{Problem 2}
+
+\textit{Compare the I/Q-diagrams of the MSK- and QPSK-modulation methods to each other. 
+Which fundamental difference do they have?}
+
+\begin{figure}[!h]
+	\begin{center}
+	\begin{subfigure}[c]{0.3\textwidth}
+		\includegraphics{img/MSK_IQ.pdf}
+	\end{subfigure}
+	\begin{subfigure}[c]{0.3\textwidth}
+		\includegraphics{img/QPSK_IQ.pdf}
+	\end{subfigure}
+	\caption{I/Q constellation diagrams of the FSK (left) and QSPK (right) modulations. \cite{parts}}
+	\end{center}
+\end{figure}
+		
+		
+		
+MSK, or Minimum Shift Keying, refers to a specific type of Frequency Shift Keying (FSK), where the 
+information is coded into the frequency of the signal. Simple two-state FSK modulator would be 
+achieved by controlling a PLL with the digital base band signal. In MSK this control signal is 
+low-pass filtered to achieve smooth transitions to between two frequencies (i.e., states). In 
+GMSK, a MSK variant, the signal is gaussian filtered.
+
+QPSK, or Quadrature Phase Shift Keying, refers to a four-state a phase modulation. Now quadrature 
+modulation is required. In the basic form of QPSK, the transitions are not controlled; they may 
+be abrupt and they may include unwanted zero-crossings. There are more advanced alternatives with 
+better amplitude-envelope, such as $\pi/4$-QPSK or Offset-QPSK.
+
+The I/Q diagrams of the previous modulation schemes are presented in the previous figure. Both 
+of the methods store no information in their amplitude and are thus power efficient and provide 
+adequate protection against fading. MSK is better in terms of power efficiency and spurious 
+emissions than the QPSK, but the QPSK is the most noise tolerant of the two. \cite{parts}
+
+For a more thorough discussion, see \cite{parts}.
+
+
+\section*{Problem 3}
+
+\textit{What is the function of the diplexer between the antenna and the RF 
+circuitry and what are the diplexer’s most important performance parameters? 
+What is the difference between a diplexer and a circulator?}
+
+In FDD systems, when both a transmitter and a receiver are part of a single unit, 
+there's inherent possibility of coupling between the TX and RX, be it due to shared 
+antenna or due to coupling between two separate antennas, for example. Without 
+good enough isolation leakinghigh-power TX may desensitize, saturate and/or 
+possibly damage the receiver circuitry. Thus we need to isolate the RX from 
+the TX.
+
+When using a single antenna, required isolation in theory is best achieved 
+with a circulator. In the real world, though, practical circulators are hard 
+to come by. And those antenna mismatches should be accounted as well. Thus 
+the engineers have resorted to diplexers to achieve the required isolation. 
+Where as circulators are wide-band, diplexers are narrowband due to their 
+filter-like nature. 
+
+Diplexers are in essence a power divider/combiner and two neighbouring, but 
+not overlapping, high-quality bandpass filters with steep roll-offs packed 
+in a single 3-port. Thus RX-TX isolation is achieved with two filter stop bands. 
+In addition to the isolation they work as a spurious emissions filter and a 
+pre-select filter on the TX and RX sides, respectively.
+
+Thus multiple diplexers are required for multi-band operation. They are 
+characterized, by the TX-RX isolation and in both bands by the corner
+frequencies, in-band insertion losses and stop-band attenuations. Other 
+practical characteristics include (but are not limited to) size, cost, 
+temperature stability, maximum power, tunability (for SDRs) and linearity. 
+In mobile handsets, diplexers are most commonly realized using acoustic 
+wave technologies. \cite{kandi}
+
+An example of a commercially available SAW dupler for cellular applications 
+is available here: \cite{triquint}.
+
+
+\section*{Problem 4}
+
+\textit{What is the minimum isolation required from the diplexer between TX and RX 
+if we want to avoid saturation of the RX pre-amp (LNA) by the leakage TX (blocker) 
+signal, assuming $P_\mathrm{TX,\,max} = 10$ W, and the maximum RX pre-amp (LNA) 
+input power level without desensitisation (or distortion) to be $-55$ dBm.}
+
+The maximum TX power leaking to RX satisfies
+
+\begin{equation}
+P_\mathrm{RX,\,max} = \frac{P_\mathrm{TX,\,max}}{I_\mathrm{PDX,\,min}},
+\end{equation}
+\vspace{2pt}
+
+\noindent from which we can find the required minimum diplexer isolation $I_\mathrm{DPX,\,min}$. 
+Converting to decibels we obtain ($P_\mathrm{TX,\,max} = 40$ dBm)
+
+\begin{equation}
+I_\mathrm{DPX,\,min,\,dB} = P_\mathrm{TX,\,max,\,dBm} - P_\mathrm{RX,\,max,\,dBm} 
+	= \left[ 55 - (-40) \right] \mathrm{\;dB}
+	= 95 \mathrm{\;dB}
+\end{equation}
+\vspace{2pt}
+
+\noindent Thus the diplexer TX-RX isolation should be at least $95 \mathrm{\;dB}$ or $3,\!16 \times 10^9$.
+
+
+\begin{thebibliography}{9}%\itemsep 7pt\parskip -5pt 
+
+
+\bibitem{pozar} D.\ M.\ Pozar, 
+	\textit{Microwave Engineering}, 
+	J.\ Wiley \& Sons, 4th Edition, 2012. 
+	ISBN: 978-0-470-63155-3.
+	
+\bibitem{gains} J.\ C.\ Logan, J.\ W.\ Rockway, 
+	``Dipole and Monopole Antenna Gain and Effective Area for Communication Formulas.''
+	Available online at \url{www.dtic.mil/cgi-bin/GetTRDoc?AD=ADA332891}
+	[Retrieved: November 25, 2013].
+
+\bibitem{parts} M.\ Steer, 
+	\textit{Microwave and RF Design -- A Systems Approach}, 
+	SciTech Publishing, 2010. 
+	ISBN: 978-1-891-12188-3.
+	
+\bibitem{kandi} T.\ Leinonen, ``Antenna and front-end challenges for mobile software-defined radio receiver,''
+	B.\ Sc.\ (Tech.) thesis (in Finnish), 2012. Available online at \url{http://urn.fi/URN:NBN:fi:aalto-201301161154}.
+	
+\bibitem{triquint} Triquint 856908 (836.5/881.5 MHz SAW Duplexer) datasheet. Available online at 
+\url{http://triquint.com/products/d/DOC-A-00000661} [Retrieved: December 1, 2013].
+	
+%\bibitem{iet} R.\ J.\ Collier, A.\ D.\ Skinner (editors), \textit{Microwave Measurements}, 
+%	The Institution of Engineering and Technology, 3rd Edition, 2007. ISBN: 978-0-86341-735-1.
+
+\end{thebibliography}
+
+\end{document}
