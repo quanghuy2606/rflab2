@@ -12,6 +12,8 @@
 \usepackage{color}
 \usepackage{subcaption}
 \usepackage{enumitem}
+\usepackage{epsfig}
+\usepackage{epstopdf}
 
 
 \newlength{\oneLine}
@@ -132,22 +134,22 @@
 
 \textit{Present all the required measurement setups (draw a figure) 
 and procedures. Take into account the attenuation of the cables. In 
-which range is the attenuation of coaxial cables at 900 MHz? Pick 
+which range is the attenuation of coaxial cables at 900~MHz? Pick 
 the most suitable measurement equipment if there are several options 
 to choose from.}
 
 \vspace*{\oneLine}
 \noindent
 The figure on page 8 in \cite{hs} suggests that for a standard PE coax 
-cables the attenuation ranges between $0.32 \ldots 1.36$ dB/m at a frequency 
+cables the attenuation ranges between $0.32 \ldots 1.36$~dB/m at a frequency 
 of 900 MHz. Even lower losses may be achieved with more expensive cables 
-(down to roughly 0.2 dB/m, as suggested on page 29 in \cite{hs}). Similarly, 
-some maltreated cables may have an attenuation in excess of 2 dB/m. In 
+(down to roughly 0.2~dB/m, as suggested on page 29 in \cite{hs}). Similarly, 
+some maltreated cables may have an attenuation in excess of 2~dB/m. In 
 addition, one should not overlook the attenuation from connectors and 
 connecting.
 
-When it comes to this lab course and our measurements, an attenuation of roughly 
-0.5 dB/m would most likely be a realistic estimate.
+When it comes to this lab course and our measurements, an attenuation 
+of roughly 0.5~dB/m would most likely be a realistic estimate.
 
 
 \subsection{1 dB compression point of the RX pre-amplifier block}
@@ -167,7 +169,7 @@ respectively. An attenuator is used between the generator and the DDU module,
 if necessary. While the operator's manual of the R\&S SML03 signal generator 
 does not explicitly mention the power range, the testing range defined in the 
 \textit{Performance Tests} suggests a (reliable) minimum output power level 
-of $-80$ dBm.
+of $-80$~dBm.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -186,7 +188,7 @@ of $-80$ dBm.
 		%\put(78, 4){\makebox(0,0){Cable}}
 		%\put(120, 4){\makebox(0,0){Cable}}
 		\put(99, 7){\makebox(0,0){DDU module}}
-		\put(66.5, 8){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{only if needed}$}}
+		\put(66.5, 8){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{if needed}$}}
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Measurement setup used in the first measurement task.}
@@ -197,8 +199,8 @@ of $-80$ dBm.
 
 The measurement itself is basically a power sweep at a constant frequency of 
 $f = 900$ MHz. We start off with a power level well above the receiver sensitivity 
-level ($P_\mathrm{min,\;BS} \approx -112.5$ dBm), say $-100$ dBm. From there we 
-gradually increase the power in suitable steps of $1 \ldots 5$ dBm, depending on 
+level ($P_\mathrm{min,\;BS} \approx -112.5$~dBm), say $-100$~dBm. From there we 
+gradually increase the power in suitable steps of $1 \ldots 5$~dB, depending on 
 the current position on the $P_\mathrm{out}(P_\mathrm{in})$ transfer curve. That 
 is, we'll decrease the step size as we get close to the ``sweet spot''. 
 
@@ -211,7 +213,7 @@ ideal behaviour.
 
 Since we are dealing with a GSM receiver, we may use the same settings for the 
 spectrum analyzer as we did in the first labs -- except for the averaging factor. 
-They were as follows: an averaging factor of 500, zero span and 30 Hz video and 
+They were as follows: an averaging factor of 500, zero span and 30~Hz video and 
 resolution bandwidths. An averaing factor of 500 would make the measurement quite 
 lengthy, especially if dense power ``grid'' is used. Averaging over 100 measurements 
 will most likely be more than adequate.
@@ -220,13 +222,19 @@ will most likely be more than adequate.
 \subsection{Gain of the RX pre-amplifier block}
 
 \textit{The bandwidth of the RX block should account for the GSM specification 
-for the RX band limits. Measure the 3 dB bandwidth of the block and determine 
+for the RX band limits. Measure the 3~dB bandwidth of the block and determine 
 approximately the equivalent noise bandwidth (graphically using the additional 
 material) and the TX-band (stop band) attenuation.}
 
 \vspace*{\oneLine}
 \noindent
-Text here.
+Wasn't this already covered in the first laboratory assignment as a part of the 
+diplexer characterization? Fig. \ref{f:m2} presents the measurement setup used 
+there. The DDU module is simply connected between the two ports of a precalibrated 
+VNA; ANT and RX$_1$ connectors of the DDU module are connected to ports 1 and 2 of 
+the VNA, respectively. In the VNA, measurement power shoud be as high as possible 
+due the stop band-attenuation, yet simultaneously small enough not to cause 
+compression in the pass-band (in neither the VNA nor in the pre-amp itself).
 
 \begin{figure}[h!]
 	\begin{center}
@@ -246,6 +254,26 @@ Text here.
 	\vspace*{\halfLine}
 	\caption{Measurement setup used when determining the gain of the pre-amplifier block.}
 	\label{f:m2}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
+
+The following figure (Fig. \ref{f:r1}) shows the results obtained in the first 
+measurements. The noise bandwidth is found using the formula given in the lecture 
+supplement handout:
+
+\begin{equation}
+B_\mathrm{n} = \frac{1}{G_\mathrm{T,\;max}} \int_0^\infty G_\mathrm{T}(f) \, df,
+\end{equation}
+
+or more specifically, it's numerical approximation in the frequency range of 
+$850 \ldots 1000$~MHz.
+
+\begin{figure}[h!]
+	\begin{center}
+	\epsfig{file=img/s12.eps, width=\textwidth}
+	\caption{Results from the diplexer characterization.}
+	\label{f:r1}
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
@@ -353,13 +381,13 @@ Text here.
 
 \textit{The noise temperature of the pre-amp block is determined using the 
 Y-coefficient method. The noise level of the spectrum analyzer HP8596E is 
-$P_\mathrm{SA} < -125$ dBm when the input is matched and the resolution 
-bandwidth is 30 Hz.
+$P_\mathrm{SA} < -125$~dBm when the input is matched and the resolution 
+bandwidth is 30~Hz.
 \vspace*{-\halfLine}
 \begin{enumerate}[label=\alph*), itemsep=0pt]
 \item How much gain is required from the LNA in order to measure the noise 
-	temperature with the HP8596E? The noise figure of the amplifier is 2.8 dB 
-	and the attenuation of the bias Tee and the diplexer is 0.7 and 0.4 dB, 
+	temperature with the HP8596E? The noise figure of the amplifier is 2.8~dB 
+	and the attenuation of the bias Tee and the diplexer is 0.7~dB and 0.4~dB, 
 	respectively.
 \item Does the order (i.e. which is first in the chain) of the amplifier, 
 	bias tee and the diplexer in the pre-amp block have any influence on the 
