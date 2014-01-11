@@ -159,7 +159,15 @@ center of the RX band.}
 
 \vspace*{\oneLine}
 \noindent
-Text here.
+The measurement setup suitable for this measurement is shown in Fig. \ref{f:m1}. 
+A signal generator is used as a signal source, and the generated signal is passed 
+through the DDU module before detection with a (precalibrated) spectrum analyzer. 
+The input and output connections used in the DDU module are ANT and RX$_1$, 
+respectively. An attenuator is used between the generator and the DDU module, 
+if necessary. While the operator's manual of the R\&S SML03 signal generator 
+does not explicitly mention the power range, the testing range defined in the 
+\textit{Performance Tests} suggests a (reliable) minimum output power level 
+of $-80$ dBm.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -174,11 +182,11 @@ Text here.
 		\put(113, 1.4){\vector(1,0){14}}
 		\put(127, 0.4){\framebox[40mm]{Sprectrum analyzer}}
 		
-		\put(41, 4){\makebox(0,0){Cable}}
-		\put(78, 4){\makebox(0,0){Cable}}
-		\put(120, 4){\makebox(0,0){Cable}}
+		%\put(41, 4){\makebox(0,0){Cable}}
+		%\put(78, 4){\makebox(0,0){Cable}}
+		%\put(120, 4){\makebox(0,0){Cable}}
 		\put(99, 7){\makebox(0,0){DDU module}}
-		\put(66.5, 10){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{only if needed}$}}
+		\put(66.5, 8){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{only if needed}$}}
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Measurement setup used in the first measurement task.}
@@ -186,6 +194,27 @@ Text here.
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
+
+The measurement itself is basically a power sweep at a constant frequency of 
+$f = 900$ MHz. We start off with a power level well above the receiver sensitivity 
+level ($P_\mathrm{min,\;BS} \approx -112.5$ dBm), say $-100$ dBm. From there we 
+gradually increase the power in suitable steps of $1 \ldots 5$ dBm, depending on 
+the current position on the $P_\mathrm{out}(P_\mathrm{in})$ transfer curve. That 
+is, we'll decrease the step size as we get close to the ``sweet spot''. 
+
+This power sweep is continued until we experience a compression of more than the 
+required 1 dB. While one could just measure the input power required for the output 
+to be 1 dB less than the expected value, this type of ``on-the-fly'' comparison 
+is prone to error. Thus it's better to measure a full power sweep and leave the 
+comparison to be done after the measurement and against a fitted straight representing 
+ideal behaviour.
+
+Since we are dealing with a GSM receiver, we may use the same settings for the 
+spectrum analyzer as we did in the first labs -- except for the averaging factor. 
+They were as follows: an averaging factor of 500, zero span and 30 Hz video and 
+resolution bandwidths. An averaing factor of 500 would make the measurement quite 
+lengthy, especially if dense power ``grid'' is used. Averaging over 100 measurements 
+will most likely be more than adequate.
 
 
 \subsection{Gain of the RX pre-amplifier block}
@@ -210,8 +239,8 @@ Text here.
 		\put(77, 1.4){\vector(1,0){20}}
 		\put(97, 0.4){\framebox[29mm]{VNA (Port 2)}}
 		
-		\put(39, 4){\makebox(0,0){Cable}}
-		\put(87, 4){\makebox(0,0){Cable}}
+		%\put(39, 4){\makebox(0,0){Cable}}
+		%\put(87, 4){\makebox(0,0){Cable}}
 		\put(63, 7){\makebox(0,0){DDU module}}
 	\end{picture}
 	\vspace*{\halfLine}
@@ -246,10 +275,10 @@ Text here.
 		\put(108, 1.4){\vector(1,0){20}}
 		\put(128, 0.4){\framebox[40mm]{Sprectrum analyzer}}
 		
-		\put(20, 4){\makebox(0,0){Cable}}
+		%\put(20, 4){\makebox(0,0){Cable}}
 		\put(67.5, 8){\makebox(0,0){Direct}}
 		\put(67.5, 4){\makebox(0,0){connection}}
-		\put(118, 4){\makebox(0,0){Cable}}
+		%\put(118, 4){\makebox(0,0){Cable}}
 		\put(94, 7){\makebox(0,0){DDU module}}
 	\end{picture}
 	\vspace*{\halfLine}
@@ -281,11 +310,11 @@ Text here.
 		\put(113, 1.4){\vector(1,0){14}}
 		\put(127, 0.4){\framebox[40mm]{Sprectrum analyzer}}
 		
-		\put(41, 4){\makebox(0,0){Cable}}
-		\put(78, 4){\makebox(0,0){Cable}}
-		\put(120, 4){\makebox(0,0){Cable}}
+		%\put(41, 4){\makebox(0,0){Cable}}
+		%\put(78, 4){\makebox(0,0){Cable}}
+		%\put(120, 4){\makebox(0,0){Cable}}
 		\put(99, 7){\makebox(0,0){DDU module}}
-		\put(66.5, 10){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{only if needed}$}}
+		\put(66.5, 8){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{only if needed}$}}
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Measurement setup used in the sensitivity measurement.}
