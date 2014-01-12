@@ -93,7 +93,7 @@
 
 \pagestyle{fancy}
 \lhead{S-26.3120 Radio Engineering, laboratory course\\Lab 2: GSM Base Station Receiver -- Pre-study report\\}
-\rhead{Sampo Salo, 79543L\\Tuomas Leinonen, 84695P\\Huy Nguyen, 12345A}
+\rhead{Sampo Salo, 79543L\\Tuomas Leinonen, 84695P\\Huy Nguyen, 411330}
 \cfoot{\thepage}
 
 
@@ -122,7 +122,7 @@
 		\textbf{Group 3:} 	& \\
 		Sampo Salo			& 79543L	\\
 		Tuomas Leinonen 	& 84695P	\\
-		Huy Nguyen			& 12345A			
+		Huy Nguyen			& 411330			
 	\end{tabular}
 }
 
@@ -200,9 +200,10 @@ of $-80$~dBm.
 The measurement itself is basically a power sweep at a constant frequency of 
 $f = 900$ MHz. We start off with a power level well above the receiver sensitivity 
 level ($P_\mathrm{min,\;BS} \approx -112.5$~dBm), say $-100$~dBm. From there we 
-gradually increase the power in suitable steps of $1 \ldots 5$~dB, depending on 
+gradually increase the power in suitable steps of $0.1 \ldots 10$~dB, depending on 
 the current position on the $P_\mathrm{out}(P_\mathrm{in})$ transfer curve. That 
-is, we'll decrease the step size as we get close to the ``sweet spot''. 
+is, we'll start with a big step size and decrease it as we get close to the 
+``sweet spot''. 
 
 This power sweep is continued until we experience a compression of more than the 
 required 1 dB. While one could just measure the input power required for the output 
@@ -216,7 +217,14 @@ spectrum analyzer as we did in the first labs -- except for the averaging factor
 They were as follows: an averaging factor of 500, zero span and 30~Hz video and 
 resolution bandwidths. An averaing factor of 500 would make the measurement quite 
 lengthy, especially if dense power ``grid'' is used. Averaging over 100 measurements 
-will most likely be more than adequate.
+will most likely be more than adequate. Depending on the 1~dB compression point, 
+we might need to watch out for compression in the spectrum analyzer. This is taken 
+care of by altering the input attenuation.
+
+The effect of the cables and the attenuator may be measured using a VNA, or using 
+the SA by making the whole measurement relative. In a relative measurement, the power 
+is measured again when the DDU module is by-passed to account only for the cables 
+and the possible attenuator. This also required to know the real input power.
 
 
 \subsection{Gain of the RX pre-amplifier block}
@@ -258,16 +266,22 @@ compression in the pass-band (in neither the VNA nor in the pre-amp itself).
 	\vspace*{-12pt}
 \end{figure}
 
-The following figure (Fig. \ref{f:r1}) shows the results obtained in the first 
-measurements. The noise bandwidth is found using the formula given in the lecture 
-supplement handout:
+The following figure (Fig. \ref{f:r1}) shows the results obtained in the first lab works 
+with a transmit power of $-20$ dBm in the VNA (using the B-half of the BS and connecting 
+the ports vice versa). In the figure, in addition to GSM RX and TX bands (in red), both 
+3~dB (in blue) and noise (in green) bandwidth of the pre-amp block are visualized. The 
+shown noise bandwidth is found using a numerical approximation with $|S_{12}|$ of the 
+formula given in the lecture supplement handout:
 
 \begin{equation}
-B_\mathrm{n} = \frac{1}{G_\mathrm{T,\;max}} \int_0^\infty G_\mathrm{T}(f) \, df,
+B_\mathrm{n} = \frac{1}{G_\mathrm{T,\;max}} \int_0^\infty G_\mathrm{T}(f) \, df.
 \end{equation}
 
-or more specifically, it's numerical approximation in the frequency range of 
-$850 \ldots 1000$~MHz.
+The bandwidth shown is less than the actual band since we cannot use infinite frequency 
+range. Frequency range of $850 \ldots 1000$~MHz with $G_\mathrm{T,\;max} = 24.4$~dB was 
+used instead. The obtained value (38.1~MHz) is roughly 6~\% shy of the 3~dB bandwidth 
+(40.6~MHz), as one might expect. The 3~dB bandwidth may thus be used to avoid being 
+over-optimistic.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -277,6 +291,21 @@ $850 \ldots 1000$~MHz.
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
+
+In the graphical approximation method we need to investigate the effect of frequency 
+roll-off speed. From Fig. \ref{f:r1} the transition bands are approx. 30~MHz (3.4 \%) 
+and 5~MHz (0.55 \%) for lower and upper bands, respectively. During this transition, 
+the $S_12$ drops roughly 100~dB from $+20$~dB to $-80$~dB. This corresponds to a slope 
+of $3.3$~dB/MHz (29~dB/\%) and $-20$~dB/MHz ($-180$~dB/\%), respectively. The effect of 
+such steep slopes are neglectable, and thus the 3~dB bandwidth may be used as the noise 
+bandwidth.
+
+If a VNA is not available as the instructions suggest, the task is quite laborious and 
+absurd, just to be honest. Nevertheless, the procedure is listed here for completeness. 
+We would need to simulate the VNA function manually using a signal generator and a power 
+meter or a signal analyzer, leading to a setup like the one shown in Fig. \ref{f:m1}. The
+output power is kept constant while frequency is swept over the range, taking notes on the 
+relative power levels observed in the detector.
 
 
 \subsection{Noise temperature of the RX pre-amplifier block}
@@ -288,26 +317,36 @@ supply voltage is switched off).}
 
 \vspace*{\oneLine}
 \noindent
-Text here.
+In the third measurement task, we'll use a setup shown in Fig. \ref{f:m3}. 
+A DC-voltage source is connected to a noise diode connected directly to the 
+ANT-input in the pre-amplifier block. This direct connection is desirable as 
+attenuation changes the noise temperature. The signal led from the RX$_1$ 
+output to a spectrum analyzer. An LNA may be needed in between the DDU output 
+and the spectrum analyzer, as the spectrum analyzer might not be sensitive 
+enough for the cold noise source. 
 
 \begin{figure}[h!]
 	\begin{center}
 	\setlength{\unitlength}{1mm}
-	\begin{picture}(168, 13)
+	\begin{picture}(166, 13)
 		\linethickness{0.2mm}
 		\put(0, 0.4){\framebox[10mm]{$V_\mathrm{DC}$}}
-		\put(10, 1.4){\vector(1,0){20}}
-		\put(30, 0){\framebox[25mm]{Noise diode}}
-		\put(55, 1.4){\vector(1,0){25}}
-		\put(80, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
-		\put(108, 1.4){\vector(1,0){20}}
-		\put(128, 0.4){\framebox[40mm]{Sprectrum analyzer}}
+		\put(10, 1.4){\vector(1,0){9}}
+		\put(19, 0){\framebox[25mm]{Noise diode}}
+		\put(44, 1.4){\vector(1,0){24}}
+		\put(68, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
+		\put(96, 1.4){\vector(1,0){9}}
+		\put(105, 0.4){\framebox[12mm]{LNA}}
+		\put(117, 1.4){\vector(1,0){9}}
+		\put(126, 0.4){\framebox[40mm]{Sprectrum analyzer}}
 		
+		\put(5, 7){\makebox(0,0){On/Off}}
 		%\put(20, 4){\makebox(0,0){Cable}}
-		\put(67.5, 8){\makebox(0,0){Direct}}
-		\put(67.5, 4){\makebox(0,0){connection}}
+		\put(56, 8){\makebox(0,0){Direct}}
+		\put(56, 4){\makebox(0,0){connection}}
 		%\put(118, 4){\makebox(0,0){Cable}}
-		\put(94, 7){\makebox(0,0){DDU module}}
+		\put(81.5, 7){\makebox(0,0){DDU module}}
+		\put(115.5, 8){\makebox(0,0){$\overbrace{\hspace*{19mm}}^\textrm{if needed}$}}
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Noise temperature measurement setup}
@@ -316,6 +355,21 @@ Text here.
 	\vspace*{-12pt}
 \end{figure}
 
+In room temperature, a matched load (approximation in this case) outputs a noise power
+of $-174$ dBm. With a gain of 24.4~dB and a total noise figure of 3.9~dB, the expected 
+noise level is around $-146$~dBm. This value is considerably lower than the given 
+sensitivity of the SA: $P_\mathrm{SA,\;min} < -125$~dBm when $B_\mathrm{res.} = 30$~Hz. 
+LNA could be used to boost the signal to a more appropriate level as it's effect on the 
+noise temperature could be compensated using the Friis' noise formula.
+
+The measurement itself is carried out measuring two power levels required in the 
+Y-pa\-ram\-e\-ter; when the DC-voltage is off/shorted (``cold'') and on (``hot''). As 
+for the SA settings, we are measuring noise at a single frequency (using zero-span): 
+a very weak, random signal. Thus, input attenuator should be disabled, and minimum 
+resolution bandwith used. A large averaging factor, say a thousand, is also beneficial. 
+The measurement may take a few minutes, and it's OK; there's only two measurements 
+to be made.
+
 
 \subsection{Sensitivity of the RX pre-amplifier block}
 
@@ -323,7 +377,11 @@ Text here.
 
 \vspace*{\oneLine}
 \noindent
-Text here.
+In the sensitivity measurement, we're trying to measure the minimum input power at 
+ANT input that results in a detectable signal above the noise floor in the ouput 
+of the DDU module. For this, a measurement setup identical to the one used in the 
+first task may be used, as is shown in the following figure (Fig \ref{f:m4}). This 
+time though it's more than likely that an attenuator is required.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -342,7 +400,7 @@ Text here.
 		%\put(78, 4){\makebox(0,0){Cable}}
 		%\put(120, 4){\makebox(0,0){Cable}}
 		\put(99, 7){\makebox(0,0){DDU module}}
-		\put(66.5, 8){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{only if needed}$}}
+		\put(66.5, 8){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{if needed}$}}
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Measurement setup used in the sensitivity measurement.}
@@ -350,6 +408,20 @@ Text here.
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
+
+The measurement starts be measing the noise floor at 900~MHz without any signal 
+we're hoping to detect. That is, the RF power is switched off at the generator. 
+Then we turn on an input signal that's some dBs sensitivity of $-112.5$~dBm. We 
+gradually increase the power until the signal-to-noise ratio is no less than the 
+10~dB required by the standard. One could also measure the power required to beat 
+the noise just barely, and add the SNR later on if  $P_\mathrm{out}(P_\mathrm{in})$ 
+relation is assumed to be ideal.
+
+Since it's a GSM system, we use the measurement settings as they are defined in 
+the standard. They are as follows: an averaging factor of 500, zero span and 30~Hz 
+video and resolution bandwidths. As the spectrum analyzer input power is expected 
+to be less than $-80$~dBm ($-112.5 \mathrm{\;dBm} + 24.4 \mathrm{\;dB}= -88.1 \mathrm{\;dBm}$), 
+it's best to disable the input attenuator.
 
 
 \newpage
@@ -407,7 +479,8 @@ RF performance of the blocks in the RX chain when we move from 2G to
 
 \vspace*{\oneLine}
 \noindent
-Text here.
+More frequency bands, higher bandwidth, modulation methods, linearity 
+requirements, carrier agggeration, multiaccess method, FDD/TDD
 
 
 \begin{thebibliography}{9}%\itemsep 7pt\parskip -5pt 

@@ -150,7 +150,7 @@ set(gca, 'XTickLabel', ...
     cellfun(@num2str, {x'}, 'UniformOutput', false));
 
 title('GSM Base Station Pre-Amplifier Block', 'interpreter', 'latex');
-ylabel('$$S_{12}$$ [dB]', 'interpreter', 'latex');
+ylabel('$$|S_{12}|$$ [dB]', 'interpreter', 'latex');
 xlabel('$$f$$ [MHz]', 'interpreter', 'latex');
 
 legend(h, {'$$\mathrm{ANT_B \rightarrow RX_{B1}}$$'}, ...
