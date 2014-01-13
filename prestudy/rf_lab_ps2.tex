@@ -221,10 +221,11 @@ will most likely be more than adequate. Depending on the 1~dB compression point,
 we might need to watch out for compression in the spectrum analyzer. This is taken 
 care of by altering the input attenuation.
 
-The effect of the cables and the attenuator may be measured using a VNA, or using 
-the SA by making the whole measurement relative. In a relative measurement, the power 
-is measured again when the DDU module is by-passed to account only for the cables 
-and the possible attenuator. This also required to know the real input power.
+The effect of the cables and the attenuator may be measured using a VNA (could be used 
+for the entire measurement aswell), or using the SA by making the whole measurement 
+relative. In a relative measurement, the power is measured again when the DDU module 
+is by-passed to account only for the cables and the possible attenuator. This also 
+required to know the real input power. 
 
 
 \subsection{Gain of the RX pre-amplifier block}
@@ -279,7 +280,7 @@ B_\mathrm{n} = \frac{1}{G_\mathrm{T,\;max}} \int_0^\infty G_\mathrm{T}(f) \, df.
 \end{equation}
 
 The noise bandwidth shown is less than the actual band since we cannot use infinite frequency 
-range. Frequency range of $850 \ldots 1000$~MHz with $|S_{12}|_\mathrm{T,\;max} = 24.4$~dB 
+range. Frequency range of $850 \ldots 1000$~MHz with $|S_{12}|_\mathrm{max} = 24.4$~dB 
 was used instead. The obtained value (38.1~MHz) is roughly 6~\% shy of the 3~dB bandwidth 
 (40.6~MHz), as one might expect. The 3~dB bandwidth may thus be used to avoid being 
 overly optimistic.
