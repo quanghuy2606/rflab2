@@ -269,19 +269,20 @@ compression in the pass-band (in neither the VNA nor in the pre-amp itself).
 The following figure (Fig. \ref{f:r1}) shows the results obtained in the first lab works 
 with a transmit power of $-20$ dBm in the VNA (using the B-half of the BS and connecting 
 the ports vice versa). In the figure, in addition to GSM RX and TX bands (in red), both 
-3~dB (in blue) and noise (in green) bandwidth of the pre-amp block are visualized. The 
-shown noise bandwidth is found using a numerical approximation with $|S_{12}|$ of the 
-formula given in the lecture supplement handout:
+3~dB (in blue) and noise (in green) bandwidth of the pre-amp block are visualized. This 
+noise bandwidth visualization is somewhat questionable as it's a purely theoretical concept, 
+but is nevertheless shown for scale. The shown noise bandwidth is found using a numerical 
+approximation with $|S_{12}|$ of the formula given in the lecture supplement handout:
 
 \begin{equation}
 B_\mathrm{n} = \frac{1}{G_\mathrm{T,\;max}} \int_0^\infty G_\mathrm{T}(f) \, df.
 \end{equation}
 
-The bandwidth shown is less than the actual band since we cannot use infinite frequency 
-range. Frequency range of $850 \ldots 1000$~MHz with $G_\mathrm{T,\;max} = 24.4$~dB was 
-used instead. The obtained value (38.1~MHz) is roughly 6~\% shy of the 3~dB bandwidth 
+The noise bandwidth shown is less than the actual band since we cannot use infinite frequency 
+range. Frequency range of $850 \ldots 1000$~MHz with $|S_{12}|_\mathrm{T,\;max} = 24.4$~dB 
+was used instead. The obtained value (38.1~MHz) is roughly 6~\% shy of the 3~dB bandwidth 
 (40.6~MHz), as one might expect. The 3~dB bandwidth may thus be used to avoid being 
-over-optimistic.
+overly optimistic.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -355,12 +356,13 @@ enough for the cold noise source.
 	\vspace*{-12pt}
 \end{figure}
 
-In room temperature, a matched load (approximation in this case) outputs a noise power
-of $-174$ dBm. With a gain of 24.4~dB and a total noise figure of 3.9~dB, the expected 
-noise level is around $-146$~dBm. This value is considerably lower than the given 
-sensitivity of the SA: $P_\mathrm{SA,\;min} < -125$~dBm when $B_\mathrm{res.} = 30$~Hz. 
-LNA could be used to boost the signal to a more appropriate level as it's effect on the 
-noise temperature could be compensated using the Friis' noise formula.
+In room temperature, a matched load (an approximation in this case) outputs a noise power 
+of $-159$ dBm for a 30 Hz band. With a maximum gain of 24.4~dB and a total noise figure 
+of 3.9~dB, the expected noise level is around $-131$~dBm. This value is considerably 
+lower than the given sensitivity of the SA: $P_\mathrm{SA,\;min} < -125$~dBm when 
+$B_\mathrm{res.} = 30$~Hz. LNA could be used to boost the signal to a more appropriate 
+level as it's effect on the noise temperature could be compensated using the Friis' 
+noise formula.
 
 The measurement itself is carried out measuring two power levels required in the 
 Y-pa\-ram\-e\-ter; when the DC-voltage is off/shorted (``cold'') and on (``hot''). As 
@@ -479,8 +481,10 @@ RF performance of the blocks in the RX chain when we move from 2G to
 
 \vspace*{\oneLine}
 \noindent
-More frequency bands, higher bandwidth, modulation methods, linearity 
-requirements, carrier agggeration, multiaccess method, FDD/TDD
+Write (at least) these out in a table and conclusions -like manner, for example.
+
+More frequency bands, higher bandwidth, modulation methods, sensitivity, 
+linearity requirements, carrier aggregation, multiaccess method, FDD/TDD
 
 
 \begin{thebibliography}{9}%\itemsep 7pt\parskip -5pt 
@@ -492,21 +496,20 @@ requirements, carrier agggeration, multiaccess method, FDD/TDD
 		{\texttt{http://ipaper.\linebreak{}ipapercms.dk/HUBERSUHNER/Technologies/Radiofrequency/RFCablesEN/}}
 	[Retrieved: January 10th, 2014].
 
-
-\bibitem{pozar} D.\ M.\ Pozar, 
-	\textit{Microwave Engineering}, 
-	J.\ Wiley \& Sons, 4th Ed., 2012. 
-	ISBN: 978-0-470-63155-3.
+%\bibitem{pozar} D.\ M.\ Pozar, 
+%	\textit{Microwave Engineering}, 
+%	J.\ Wiley \& Sons, 4th Ed., 2012. 
+%	ISBN: 978-0-470-63155-3.
 	
 %\bibitem{gains} J.\ C.\ Logan, J.\ W.\ Rockway, 
 %	``Dipole and Monopole Antenna Gain and Effective Area for Communication Formulas.''
 %	Available online at \url{www.dtic.mil/cgi-bin/GetTRDoc?AD=ADA332891}
 %	[Retrieved: November 25th, 2013].
 
-\bibitem{parts} M.\ Steer, 
-	\textit{Microwave and RF Design -- A Systems Approach}, 
-	SciTech Publishing, 2010. 
-	ISBN: 978-1-891-12188-3.
+%\bibitem{parts} M.\ Steer, 
+%	\textit{Microwave and RF Design -- A Systems Approach}, 
+%	SciTech Publishing, 2010. 
+%	ISBN: 978-1-891-12188-3.
 	
 %\bibitem{kandi} T.\ Leinonen, 
 % 	``Antenna and front-end challenges for mobile software-defined radio receiver,''
