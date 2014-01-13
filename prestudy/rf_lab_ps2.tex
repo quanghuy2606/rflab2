@@ -471,8 +471,31 @@ bandwidth is 30~Hz.
 
 \vspace*{\halfLine}
 \noindent
-Text here.
 
+\begin{enumerate}[label=\alph*), itemsep=0pt]
+\item The total noise figure $F_{TOT}$ is
+
+	\begin{equation}
+	F_{TOT} = L_{BT} + L_D + F,
+	\end{equation}
+	
+	where $L_{BT}$ and $L_D$ are bias tee and diplexer attenuations, and $F$ is 
+	the LNA's noise figure. Therefore, the total noise power $P_N$ from the cold load 
+	reaching the spectrum analyser is 
+	
+	\begin{equation}
+	P_N = -159 dBm + F_{TOT} + G ,
+	\end{equation}
+	
+	where $-159$~dBm is the 30 Hz band noise power at room temperature (290 K), and G 
+	is the LNA's gain. The spectrum analyser noise level is $P_\mathrm{SA} < -125$~dBm, 
+	and so the LNA gain should be at least
+	
+	\begin{equation}
+	G = -125 dBm + 159 dBm - F_{TOT} = 30.1 dB
+	\end{equation}
+	
+\end{enumerate}
 
 \subsection{Requirements with evolving standards}
 
