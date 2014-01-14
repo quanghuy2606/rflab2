@@ -88,6 +88,11 @@
 % Bad hyphenation
 %\hyphenation{}
 
+% Macros
+\newcommand{\dB}{\mathrm{\;dB}}
+\newcommand{\dBm}{\mathrm{\;dBm}}
+\newcommand{\m}[1]{\mathrm{#1}}
+
 \definecolor{dkred}{rgb}{0.6, 0, 0}
 \definecolor{dkgrn}{rgb}{0, 0.6, 0}
 \definecolor{dkblue}{rgb}{0, 0, 0.6}
@@ -456,38 +461,39 @@ transfer fully to the load. The power attenuation $\eta$ due to mismatch is poss
 to be calculated using equations
 
 \begin{equation}
-\eta_\mathrm{SLmax} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|)^2}
-{(1 - (|\rho_\mathrm{S}||\rho_\mathrm{L}|)^2}
+\eta_\mathrm{SL,\;max} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|)^2}
+	{1 - (|\rho_\mathrm{S}||\rho_\mathrm{L}|)^2}
 \end{equation}
 
+\noindent
 and
 
 \begin{equation}
-\eta_\mathrm{SLmin} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|)^2}
-{(1 + (|\rho_\mathrm{S}||\rho_\mathrm{L}|)^2},
+\eta_\mathrm{SL,\;min} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|)^2}
+{1 + (|\rho_\mathrm{S}||\rho_\mathrm{L}|)^2},
 \end{equation}
 
 \noindent
 where $\rho_\mathrm{S}$ and $\rho_\mathrm{S}$ are the source and load reflection 
-coefficients. The equations are special forms of an equation, and are used in 
-the case when the phase relation of the set-up is not known. The reflection 
+coefficients, respectively. The equations are special forms of an equation, and are 
+used in the case when the phase relation of the set-up is not known. The reflection 
 coefficients can be calculated from voltage standing wave ratio 
-$VSWR$ by 
+$\mathit{VSWR}$ by 
 
 \begin{equation}
-|\rho| = \frac{1 - VSWR}{1 + VSWR}.
+|\rho| = \frac{1 - \mathit{VSWR}}{1 + \mathit{VSWR}}.
 \end{equation} 
 \noindent
-Using the equations, the maximum efficiency of power is $\eta_\mathrm{SLmax} 
+Using the equations, the maximum efficiency of power is $\eta_\mathrm{SL,\;max} 
 = -0.14$ dB, and the minimum efficiency of power transfer is 
-$\eta_\mathrm{SLmin} = -1.10$ dB. Therefore, the range of the attenuation due 
-to mismatch is -1.1 ... -0.14 dB.
+$\eta_\mathrm{SL,\;min} = -1.10$~dB. Therefore, the range of mismatch attenuation 
+is $-1.10 \ldots {-0.14}$~dB.
 
 With the attenuator in between, the reflections are attenuated 20 dB each time 
 the power travels back and forth in between the source and the load. The 
 attenuation for the reflections grows relatively large, and so the maximum 
 efficiency of power can be approximated using an equation that is derived for 
-a set-up with a power isolator in between the source and the load. The equation 
+a set-up where an isolator is placed between the source and the load. The equation 
 is
 
 \begin{equation}
@@ -495,11 +501,12 @@ is
 \end{equation}
 
 \noindent
-and it gives an power attenuation of -0.63 dB. The advantage of using a power 
+and it gives an power attenuation of $-0.63$~dB. The advantage of using a power 
 attenuator in between the source and the load is that the attenuation due to 
 mismatch can be approximated more precisely. On the other hand, the total 
-attenuation grows to -10.6 dB, which could be a big drawback for some 
+attenuation grows to $-10.6$~dB, which could be a big drawback for some 
 measurements.
+
 
 \subsection{Noise temperature}
 \label{s:noise}
@@ -512,7 +519,7 @@ bandwidth is 30~Hz.
 \begin{enumerate}[label=\alph*), itemsep=0pt]
 \item How much gain is required from the LNA in order to measure the noise 
 	temperature with the HP8596E? The noise figure of the amplifier is 2.8~dB 
-	and the attenuation of the bias Tee and the diplexer is 0.7~dB and 0.4~dB, 
+	and the attenuation of the bias tee and the diplexer is 0.7~dB and 0.4~dB, 
 	respectively.
 \item Does the order (i.e. which is first in the chain) of the amplifier, 
 	bias tee and the diplexer in the pre-amp block have any influence on the 
@@ -535,10 +542,10 @@ the following table (Table \ref{t:c2}).
 	\begin{tabular}{lccc}
 	\textbf{Block} 			& \textbf{Subscript}	& \textbf{Attenuation} $L$ 	& \textbf{Noise figure} $F$ \\
 	\hline
-	Bias tee				& BT					& 0.7~dB					& 0.7~dB \\
-	Diplexer				& DPX					& 0.4~dB					& 0.4~dB \\
-	Low-noise amplifier		& LNA					& ???						& 2.8~dB \\
-	4-way power divider		& DIV					& 6.0~dB					& 6.0~dB
+	Bias tee				& BT					& $0.7 \dB \approx 1.175$	& $0.7 \dB \approx 1.175$ \\
+	Diplexer				& DPX					& $0.4 \dB \approx 1.096$	& $0.4 \dB \approx 1.096$ \\
+	Low-noise amplifier		& LNA					& ???						& $2.8 \dB \approx 1.905$ \\
+	4-way power divider		& DIV					& $6.0 \dB \approx 3.981$	& $6.0 \dB \approx 3.981$
 	\end{tabular}
 	\end{center}
 	\vspace*{-12pt}
@@ -547,7 +554,7 @@ the following table (Table \ref{t:c2}).
 The total noise figure of a cascaded system $F_\mathrm{T}$ is given by the 
 Friis noise equation (linear quatities)
 
-\begin{equation}
+\begin{equation} \label{e:f}
 F_\mathrm{T} = F_1 + \frac{F_2 - 1}{G_1} + \frac{F_3 - 1}{G_1 G_2} + \frac{F_4 - 1}{G_1 G_2 G_3} + \cdots,
 \end{equation}
 
@@ -555,7 +562,7 @@ F_\mathrm{T} = F_1 + \frac{F_2 - 1}{G_1} + \frac{F_3 - 1}{G_1 G_2} + \frac{F_4 -
 or equivalently using noise powers
 
 \begin{equation}
-F_\mathrm{T} = \frac{SNR_\mathrm{in}}{SNR_\mathrm{out}} 
+F_\mathrm{T} = \frac{\mathit{SNR}_\mathrm{in}}{\mathit{SNR}_\mathrm{out}} 
 	= \frac{S_\mathrm{in}}{N_\mathrm{in}} \, \frac{N_\mathrm{out}}{S_\mathrm{out}}
 	= \frac{N_\mathrm{out}}{G_\mathrm{T} N_\mathrm{in}}
 	= \frac{N_\mathrm{out}}{G_\mathrm{T} \, k T_0 B_\mathrm{N}}.
@@ -573,41 +580,40 @@ N_\mathrm{out} = F_\mathrm{T} \, G_\mathrm{T} \, k T_0 B_\mathrm{N}
 which can in turn to be solved for required gain $G_\mathrm{LNA}$ when we set 
 $N_\mathrm{out} > P_\mathrm{SA,\;min}$. Thus we obtain
 
-\begin{equation}
+\begin{equation} \label{e:g}
 G_\mathrm{LNA} > \frac{P_\mathrm{SA,\;min} \, L_\mathrm{BT} \, L_\mathrm{DPX} \, L_\mathrm{DIV}}%
 	{F_\mathrm{T} \, k T_0 B_\mathrm{N}}.
 \end{equation}
 
-(Comment about the matching.)
+\vspace*{\oneLine}
+\noindent
+\textbf{a)} First we need to find the total noise figure of our four-stage cascaded system. 
+Using Eq. \ref{e:f}, it is found to be
+\begin{equation} \label{e:f2}
+F_\mathrm{T} = 2.533 + \frac{3.840}{G_\m{LNA}}.
+\end{equation}
 
+\noindent
+Using this in Eq. \ref{e:g} yields
+\begin{equation} \label{e:g2}
+G_\mathrm{LNA} > 5624.69 \ldots = 37.500 \ldots \dB \approx 37.5 \dB.
+\end{equation}
 
+This assumes the output of the DDU module ($RX_1$) to be perfectly matched 
+to the spectrum analyzer. If we were to neglect the power divider 
+($L_\m{DIV} = F_\m{DIV} = 1 = 0 \dB$), a gain of 31.5~dB would 
+be required from the LNA.
 
-\begin{comment}
-\begin{enumerate}[label=\alph*), itemsep=0pt]
-\item The total noise figure $F_{TOT}$ is
+\vspace*{\oneLine}
+\noindent
+\textbf{b)} From Eq. \ref{e:f} it can be observed that the noise figure of a 
+system is dominated by the noise figure of the first stage since the effect of 
+the following stages are reduced by the several gains. That is, if the first 
+stage has a significant gain, the overall system noise figure more or less 
+depends on the noise characteristics of the stage in question. Thus, if the 
+order in the pre-amp block changes, it will definitely have influence on the 
+noise temperature of the block.
 
-	\begin{equation}
-	F_{TOT} = L_{BT} + L_D + F,
-	\end{equation}
-	
-	where $L_{BT}$ and $L_D$ are bias tee and diplexer attenuations, and $F$ is 
-	the LNA's noise figure. Therefore, the total noise power $P_N$ from the cold load 
-	reaching the spectrum analyser is 
-	
-	\begin{equation}
-	P_N = -159 dBm + F_{TOT} + G ,
-	\end{equation}
-	
-	where $-159$~dBm is the 30 Hz band noise power at room temperature (290 K), and G 
-	is the LNA's gain. The spectrum analyser noise level is $P_\mathrm{SA} < -125$~dBm, 
-	and so the LNA gain should be at least
-	
-	\begin{equation}
-	G = -125 dBm + 159 dBm - F_{TOT} = 30.1 dB
-	\end{equation}
-	
-\end{enumerate}
-\end{comment}
 
 \subsection{Requirements with evolving standards}
 
@@ -624,19 +630,19 @@ linearity requirements, carrier aggregation, multiaccess method, FDD/TDD
 
 \begin{table}[!h]
 	\begin{center}
-	\caption{A simplified list of some of the key requirements in evolving communication systems.}
+	\caption{[WORK IN PROGRESS] A simplified list of some of the key requirements in evolving communication systems.}
 	\label{t:234g}
 	\renewcommand*{\arraystretch}{1.2}
 	\begin{tabular}{lccc}
 	\textbf{Parameter}				& \textbf{2G (GSM)}		& \textbf{3G (UMTS)} 	& \textbf{4G (LTE-A)} \\
 	\hline
-	System frequency [MHz]			& A						& B						& C	 \\
-	Number of system bands			& A						& B						& C	 \\
-	System bandwidth [MHz]			& A						& B						& C	 \\
-	Channel bandwidth [MHz]			& A						& B						& C	 \\
-	Multiple-access method			& A						& B						& C	 \\
-	Duplexing mode					& A						& B						& C	 \\
-	Modulation schemes				& A						& B						& C	 \\
+	System frequency [MHz]			& $820 \ldots 1990$		& $B \ldots B$			& $C \ldots C$	 \\
+	Number of system bands			& 4						& B						& C	 \\
+	System bandwidth [MHz]			& $25 \ldots 95$		& $B \ldots B$			& $C \ldots C$	 \\
+	Channel bandwidth [MHz]			& 0.200					& $B \ldots B$			& $C \ldots C$	 \\
+	Multiple-access method			& TDMA					& WCDMA					& OFDMA	 \\
+	Duplexing mode					& TDD					& FDD					& FDD/TDD	 \\
+	Modulation schemes				& GSMK					& QPSK					& QAM	 \\
 	Sensitivity	req.				& A						& B						& C	 \\
 	Linearity req.					& A						& B						& C	
 	\end{tabular}
