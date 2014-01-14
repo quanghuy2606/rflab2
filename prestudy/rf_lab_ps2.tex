@@ -14,6 +14,7 @@
 \usepackage{enumitem}
 \usepackage{epsfig}
 \usepackage{epstopdf}
+\usepackage{verbatim}
 
 
 \newlength{\oneLine}
@@ -325,7 +326,7 @@ ANT-input in the pre-amplifier block. This direct connection is desirable as
 attenuation changes the noise temperature. The signal led from the RX$_1$ 
 output to a spectrum analyzer. An LNA may be needed in between the DDU output 
 and the spectrum analyzer, as the spectrum analyzer might not be sensitive 
-enough for the cold noise source. 
+enough for the cold noise source. See section \ref{s:noise} for details.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -357,13 +358,13 @@ enough for the cold noise source.
 	\vspace*{-12pt}
 \end{figure}
 
-In room temperature, a matched load (an approximation in this case) outputs a noise power 
-of $-159$ dBm for a 30 Hz band. With a maximum gain of 24.4~dB and a total noise figure 
-of 3.9~dB, the expected noise level is around $-131$~dBm. This value is considerably 
-lower than the given sensitivity of the SA: $P_\mathrm{SA,\;min} < -125$~dBm when 
-$B_\mathrm{res.} = 30$~Hz. LNA could be used to boost the signal to a more appropriate 
-level as it's effect on the noise temperature could be compensated using the Friis' 
-noise formula.
+%In room temperature, a matched load (an approximation in this case) outputs a noise power 
+%of $-159$ dBm for a 30 Hz band. With a maximum gain of 24.4~dB and a total noise figure 
+%of 3.9~dB, the expected noise level is around $-131$~dBm. This value is considerably 
+%lower than the given sensitivity of the SA: $P_\mathrm{SA,\;min} < -125$~dBm when 
+%$B_\mathrm{res.} = 30$~Hz. LNA could be used to boost the signal to a more appropriate 
+%level as it's effect on the noise temperature could be compensated using the Friis' 
+%noise formula.
 
 The measurement itself is carried out measuring two power levels required in the 
 Y-pa\-ram\-e\-ter; when the DC-voltage is off/shorted (``cold'') and on (``hot''). As 
@@ -423,7 +424,7 @@ relation is assumed to be ideal.
 Since it's a GSM system, we use the measurement settings as they are defined in 
 the standard. They are as follows: an averaging factor of 500, zero span and 30~Hz 
 video and resolution bandwidths. As the spectrum analyzer input power is expected 
-to be less than $-80$~dBm ($-112.5 \mathrm{\;dBm} + 24.4 \mathrm{\;dB}= -88.1 \mathrm{\;dBm}$), 
+to be less than $-80$~dBm ($P_\mathrm{SA} \approx P_\mathrm{DDU,\;min} + G_\mathrm{DDU} = -112.5 \mathrm{\;dBm} + 24.4 \mathrm{\;dB}= -88.1 \mathrm{\;dBm}$), 
 it's best to disable the input attenuator.
 
 
@@ -453,6 +454,7 @@ Text here.
 
 
 \subsection{Noise temperature}
+\label{s:noise}
 
 \textit{The noise temperature of the pre-amp block is determined using the 
 Y-coefficient method. The noise level of the spectrum analyzer HP8596E is 
@@ -471,7 +473,68 @@ bandwidth is 30~Hz.
 
 \vspace*{\halfLine}
 \noindent
+The receive path of the DDU module, also referred to as the pre-amp block, 
+consists of a bias tee, diplexer, LNA and a four-way power-divider (in this 
+order). Assuming physical operating temperature of the pre-amp block to be 
+$T_0 = 290$~K, we have the attenuations and noise factors/figures listed in 
+the following table (Table \ref{t:c2}).
 
+\begin{table}[!h]
+	\begin{center}
+	\caption{Given parameters for this problem.}
+	\label{t:c2}
+	\renewcommand*{\arraystretch}{1.2}
+	\begin{tabular}{lccc}
+	\textbf{Block} 			& \textbf{Subscript}	& \textbf{Attenuation} $L$ 	& \textbf{Noise figure} $F$ \\
+	\hline
+	Bias tee				& BT					& 0.7~dB					& 0.7~dB \\
+	Diplexer				& DPX					& 0.4~dB					& 0.4~dB \\
+	Low-noise amplifier		& LNA					& ???						& 2.8~dB \\
+	4-way power divider		& DIV					& 6.0~dB					& 6.0~dB
+	\end{tabular}
+	\end{center}
+	\vspace*{-12pt}
+\end{table}
+
+The total noise figure of a cascaded system $F_\mathrm{T}$ is given by the 
+Friis noise equation (linear quatities)
+
+\begin{equation}
+F_\mathrm{T} = F_1 + \frac{F_2 - 1}{G_1} + \frac{F_3 - 1}{G_1 G_2} + \frac{F_4 - 1}{G_1 G_2 G_3} + \cdots,
+\end{equation}
+
+\noindent
+or equivalently using noise powers
+
+\begin{equation}
+F_\mathrm{T} = \frac{SNR_\mathrm{in}}{SNR_\mathrm{out}} 
+	= \frac{S_\mathrm{in}}{N_\mathrm{in}} \, \frac{N_\mathrm{out}}{S_\mathrm{out}}
+	= \frac{N_\mathrm{out}}{G_\mathrm{T} N_\mathrm{in}}
+	= \frac{N_\mathrm{out}}{G_\mathrm{T} \, k T_0 B_\mathrm{N}}.
+\end{equation}
+
+\noindent
+Solving for $N_\mathrm{out}$ yields
+
+\begin{equation}
+N_\mathrm{out} = F_\mathrm{T} \, G_\mathrm{T} \, k T_0 B_\mathrm{N} 
+	= F_\mathrm{T} \, \frac{G_\mathrm{LNA}}{L_\mathrm{BT} L_\mathrm{DPX} L_\mathrm{DIV}} \, k T_0 B_\mathrm{N}
+\end{equation}
+
+\noindent
+which can in turn to be solved for required gain $G_\mathrm{LNA}$ when we set 
+$N_\mathrm{out} > P_\mathrm{SA,\;min}$. Thus we obtain
+
+\begin{equation}
+G_\mathrm{LNA} > \frac{P_\mathrm{SA,\;min} \, L_\mathrm{BT} \, L_\mathrm{DPX} \, L_\mathrm{DIV}}%
+	{F_\mathrm{T} \, k T_0 B_\mathrm{N}}.
+\end{equation}
+
+(Comment about the matching.)
+
+
+
+\begin{comment}
 \begin{enumerate}[label=\alph*), itemsep=0pt]
 \item The total noise figure $F_{TOT}$ is
 
@@ -496,6 +559,7 @@ bandwidth is 30~Hz.
 	\end{equation}
 	
 \end{enumerate}
+\end{comment}
 
 \subsection{Requirements with evolving standards}
 
@@ -509,6 +573,28 @@ Write (at least) these out in a table and conclusions -like manner, for example.
 
 More frequency bands, higher bandwidth, modulation methods, sensitivity, 
 linearity requirements, carrier aggregation, multiaccess method, FDD/TDD
+
+\begin{table}[!h]
+	\begin{center}
+	\caption{A simplified list of some of the key requirements in evolving communication systems.}
+	\label{t:234g}
+	\renewcommand*{\arraystretch}{1.2}
+	\begin{tabular}{lccc}
+	\textbf{Parameter}				& \textbf{2G (GSM)}		& \textbf{3G (UMTS)} 	& \textbf{4G (LTE-A)} \\
+	\hline
+	System frequency [MHz]			& A						& B						& C	 \\
+	Number of system bands			& A						& B						& C	 \\
+	System bandwidth [MHz]			& A						& B						& C	 \\
+	Channel bandwidth [MHz]			& A						& B						& C	 \\
+	Multiple-access method			& A						& B						& C	 \\
+	Duplexing mode					& A						& B						& C	 \\
+	Modulation schemes				& A						& B						& C	 \\
+	Sensitivity	req.				& A						& B						& C	 \\
+	Linearity req.					& A						& B						& C	
+	\end{tabular}
+	\end{center}
+	\vspace*{-12pt}
+\end{table}
 
 
 \begin{thebibliography}{9}%\itemsep 7pt\parskip -5pt 
