@@ -450,8 +450,56 @@ the output of the signal generator is 1.6.
 		
 \vspace*{\halfLine}
 \noindent
-Text here.
+Mismatch causes some of the source power to be reflected back from the load, 
+reflecting again from the source. This way, the power from the source does not 
+transfer fully to the load. The power attenuation $\eta$ due to mismatch is possible 
+to be calculated using equations
 
+\begin{equation}
+\eta_\mathrm{SLmax} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|)^2}
+{(1 - (|\rho_\mathrm{S}||\rho_\mathrm{L}|)^2}
+\end{equation}
+
+and
+
+\begin{equation}
+\eta_\mathrm{SLmin} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|)^2}
+{(1 + (|\rho_\mathrm{S}||\rho_\mathrm{L}|)^2},
+\end{equation}
+
+\noindent
+where $\rho_\mathrm{S}$ and $\rho_\mathrm{S}$ are the source and load reflection 
+coefficients. The equations are special forms of an equation, and are used in 
+the case when the phase relation of the set-up is not known. The reflection 
+coefficients can be calculated from voltage standing wave ratio 
+$VSWR$ by 
+
+\begin{equation}
+|\rho| = \frac{1 - VSWR}{1 + VSWR}.
+\end{equation} 
+\noindent
+Using the equations, the maximum efficiency of power is $\eta_\mathrm{SLmax} 
+= -0.14$ dB, and the minimum efficiency of power transfer is 
+$\eta_\mathrm{SLmin} = -1.10$ dB. Therefore, the range of the attenuation due 
+to mismatch is -1.1 ... -0.14 dB.
+
+With the attenuator in between, the reflections are attenuated 20 dB each time 
+the power travels back and forth in between the source and the load. The 
+attenuation for the reflections grows relatively large, and so the maximum 
+efficiency of power can be approximated using an equation that is derived for 
+a set-up with a power isolator in between the source and the load. The equation 
+is
+
+\begin{equation}
+\eta = (1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|)^2,
+\end{equation}
+
+\noindent
+and it gives an power attenuation of -0.63 dB. The advantage of using a power 
+attenuator in between the source and the load is that the attenuation due to 
+mismatch can be approximated more precisely. On the other hand, the total 
+attenuation grows to -10.6 dB, which could be a big drawback for some 
+measurements.
 
 \subsection{Noise temperature}
 \label{s:noise}
