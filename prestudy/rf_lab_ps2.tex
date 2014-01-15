@@ -328,7 +328,7 @@ supply voltage is switched off).}
 In the third measurement task, we'll use a setup shown in Fig. \ref{f:m3}. 
 A DC-voltage source is connected to a noise diode connected directly to the 
 ANT-input in the pre-amplifier block. This direct connection is desirable as 
-attenuation changes the noise temperature. The signal led from the RX$_1$ 
+attenuation changes the noise temperature. The signal is led from the RX$_1$ 
 output to a spectrum analyzer. An LNA may be needed in between the DDU output 
 and the spectrum analyzer, as the spectrum analyzer might not be sensitive 
 enough for the cold noise source. See section \ref{s:noise} for details.
@@ -376,7 +376,7 @@ Y-pa\-ram\-e\-ter; when the DC-voltage is off/shorted (``cold'') and on (``hot''
 for the SA settings, we are measuring noise at a single frequency (using zero-span): 
 a very weak, random signal. Thus, input attenuator should be disabled, and minimum 
 resolution bandwith used. A large averaging factor, say a thousand, is also beneficial. 
-The measurement may take a few minutes, and it's OK; there's only two measurements 
+The measurement may take a few minutes, and it's OK; there are only two measurements 
 to be made.
 
 
@@ -418,7 +418,7 @@ time though it's more than likely that an attenuator is required.
 	\vspace*{-12pt}
 \end{figure}
 
-The measurement starts be measing the noise floor at 900~MHz without any signal 
+The measurement starts by measuring the noise floor at 900~MHz without any signal 
 we're hoping to detect. That is, the RF power is switched off at the generator. 
 Then we turn on an input signal that's some dBs sensitivity of $-112.5$~dBm. We 
 gradually increase the power until the signal-to-noise ratio is no less than the 
@@ -456,9 +456,9 @@ the output of the signal generator is 1.6.
 \vspace*{\halfLine}
 \noindent
 Mismatch causes some of the source power to be reflected back from the load, 
-reflecting again from the source. This way, the power from the source does not 
-transfer fully to the load. The power attenuation $\eta$ due to mismatch is possible 
-to be calculated using equations
+reflecting back again from the source. This way, the power from the source does not 
+transfer fully to the load. The power attenuation $\eta$ due to mismatch can be 
+calculated using equations
 
 \begin{equation}
 \eta_\mathrm{SL,\;max} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|^2)}
@@ -484,7 +484,7 @@ $\mathit{VSWR}$ by
 |\rho| = \frac{\mathit{VSWR} - 1}{\mathit{VSWR} + 1}.
 \end{equation} 
 \noindent
-Using the equations, the maximum efficiency of power is $\eta_\mathrm{SL,\;max} 
+Using the equations, the maximum efficiency of power transfer is $\eta_\mathrm{SL,\;max} 
 = -0.05$ dB, and the minimum efficiency of power transfer is 
 $\eta_\mathrm{SL,\;min} = -1.39$~dB. Therefore, the range of mismatch attenuation 
 is $-1.39 \ldots {-0.05}$~dB.
@@ -492,7 +492,7 @@ is $-1.39 \ldots {-0.05}$~dB.
 With the attenuator in between, the reflections are attenuated 20 dB each time 
 the power travels back and forth in between the source and the load. The 
 attenuation for the reflections grows relatively large, and so the maximum 
-efficiency of power can be approximated using an equation that is derived for 
+efficiency of power may be approximated using an equation that is derived for 
 a set-up where an isolator is placed between the source and the load. The equation 
 is
 
@@ -501,13 +501,12 @@ is
 \end{equation}
 
 \noindent
-and it gives an power attenuation of $-0.22$~dB. The advantage of using a power 
+and it gives a power attenuation of $-0.22$~dB. The advantage of using a power 
 attenuator in between the source and the load is that the attenuation due to 
 mismatch can be approximated more precisely. Another advantage is that the 
 attenuator protects the signal generator from reflected power. On the other hand, 
-the total attenuation grows to $-10.2$~dB, which could be a drawback for some 
+the total attenuation grows to $-10.2$~dB, which could be a drawback in some 
 measurements.
-
 
 \subsection{Noise temperature}
 \label{s:noise}
@@ -529,9 +528,9 @@ bandwidth is 30~Hz.
 
 \vspace*{\halfLine}
 \noindent
-The receive path of the DDU module, also referred to as the pre-amp block, 
+The receiver path of the DDU module, also referred to as the pre-amp block, 
 consists of a bias tee, diplexer, LNA and a four-way power-divider (in this 
-order). Assuming physical operating temperature of the pre-amp block to be 
+order). Assuming the physical operating temperature of the pre-amp block to be 
 $T_0 = 290$~K, we have the attenuations and noise factors/figures listed in 
 the following table (Table \ref{t:c2}).
 
@@ -553,7 +552,7 @@ the following table (Table \ref{t:c2}).
 \end{table}
 
 The total noise figure of a cascaded system $F_\mathrm{T}$ is given by the 
-Friis noise equation (linear quatities)
+Friis noise equation (linear quantities)
 
 \begin{equation} \label{e:f}
 F_\mathrm{T} = F_1 + \frac{F_2 - 1}{G_1} + \frac{F_3 - 1}{G_1 G_2} + \frac{F_4 - 1}{G_1 G_2 G_3} + \cdots,
@@ -578,7 +577,7 @@ N_\mathrm{out} = F_\mathrm{T} \, G_\mathrm{T} \, k T_0 B_\mathrm{N}
 \end{equation}
 
 \noindent
-which can in turn to be solved for required gain $G_\mathrm{LNA}$ when we set 
+which can in turn be solved for required gain $G_\mathrm{LNA}$ when we set 
 $N_\mathrm{out} > P_\mathrm{SA,\;min}$. Thus we obtain
 
 \begin{equation} \label{e:g}
@@ -609,7 +608,7 @@ be required from the LNA.
 \noindent
 \textbf{b)} From Eq. \ref{e:f} it can be observed that the noise figure of a 
 system is dominated by the noise figure of the first stage since the effect of 
-the following stages are reduced by the several gains. That is, if the first 
+the following stages are reduced by several gains. That is, if the first 
 stage has a significant gain, the overall system noise figure more or less 
 depends on the noise characteristics of the stage in question. Thus, if the 
 order in the pre-amp block changes, it will definitely have influence on the 
