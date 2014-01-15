@@ -461,16 +461,16 @@ transfer fully to the load. The power attenuation $\eta$ due to mismatch is poss
 to be calculated using equations
 
 \begin{equation}
-\eta_\mathrm{SL,\;max} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|)^2}
-	{1 - (|\rho_\mathrm{S}||\rho_\mathrm{L}|)^2}
+\eta_\mathrm{SL,\;max} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|^2)}
+	{(1 - |\rho_\mathrm{S}||\rho_\mathrm{L}|)^2}
 \end{equation}
 
 \noindent
 and
 
 \begin{equation}
-\eta_\mathrm{SL,\;min} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|)^2}
-{1 + (|\rho_\mathrm{S}||\rho_\mathrm{L}|)^2},
+\eta_\mathrm{SL,\;min} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|^2)}
+{(1 + |\rho_\mathrm{S}||\rho_\mathrm{L}|)^2},
 \end{equation}
 
 \noindent
@@ -481,13 +481,13 @@ coefficients can be calculated from voltage standing wave ratio
 $\mathit{VSWR}$ by 
 
 \begin{equation}
-|\rho| = \frac{1 - \mathit{VSWR}}{1 + \mathit{VSWR}}.
+|\rho| = \frac{\mathit{VSWR} - 1}{\mathit{VSWR} + 1}.
 \end{equation} 
 \noindent
 Using the equations, the maximum efficiency of power is $\eta_\mathrm{SL,\;max} 
-= -0.14$ dB, and the minimum efficiency of power transfer is 
-$\eta_\mathrm{SL,\;min} = -1.10$~dB. Therefore, the range of mismatch attenuation 
-is $-1.10 \ldots {-0.14}$~dB.
+= -0.05$ dB, and the minimum efficiency of power transfer is 
+$\eta_\mathrm{SL,\;min} = -1.39$~dB. Therefore, the range of mismatch attenuation 
+is $-1.39 \ldots {-0.05}$~dB.
 
 With the attenuator in between, the reflections are attenuated 20 dB each time 
 the power travels back and forth in between the source and the load. The 
@@ -497,14 +497,15 @@ a set-up where an isolator is placed between the source and the load. The equati
 is
 
 \begin{equation}
-\eta = (1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|)^2,
+\eta = (1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|^2),
 \end{equation}
 
 \noindent
-and it gives an power attenuation of $-0.63$~dB. The advantage of using a power 
+and it gives an power attenuation of $-0.22$~dB. The advantage of using a power 
 attenuator in between the source and the load is that the attenuation due to 
-mismatch can be approximated more precisely. On the other hand, the total 
-attenuation grows to $-10.6$~dB, which could be a big drawback for some 
+mismatch can be approximated more precisely. Another advantage is that the 
+attenuator protects the signal generator from reflected power. On the other hand, 
+the total attenuation grows to $-10.2$~dB, which could be a drawback for some 
 measurements.
 
 
