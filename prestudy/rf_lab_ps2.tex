@@ -489,7 +489,7 @@ Using the equations, the maximum efficiency of power transfer is $\eta_\mathrm{S
 $\eta_\mathrm{SL,\;min} = -1.39$~dB. Therefore, the range of mismatch attenuation 
 is $-1.39 \ldots {-0.05}$~dB.
 
-With the attenuator in between, the reflections are attenuated 20 dB each time 
+With the attenuator in between, the reflections are attenuated 20~dB each time 
 the power travels back and forth in between the source and the load. The 
 attenuation for the reflections grows relatively large, and so the maximum 
 efficiency of power may be approximated using an equation that is derived for 
@@ -623,34 +623,69 @@ RF performance of the blocks in the RX chain when we move from 2G to
 
 \vspace*{\oneLine}
 \noindent
-Write (at least) these out in a table and conclusions -like manner, for example.
+Following table (Table \ref{t:234g}) lists some of the major differences 
+between digital cellular commucation standards. The table in question has 
+been simplified; an interested reader is adviced to take a look at the actual 
+specifications \cite{2g, 3g, 4g}. In addition, some of the information shown, 
+may be considered ``misleading'' to an untrained eye, as the information shown 
+is based on the specifications. They are known not to address real-life outcomes 
+as much as possibilities.
 
-More frequency bands, higher bandwidth, modulation methods, sensitivity, 
-linearity requirements, carrier aggregation, multiaccess method, FDD/TDD
+For example, there are actually 14 GSM bands defined in the standard, yet only 
+four of those (850/900/1800/1900) are ``widely recognized'' as there's overlapping 
+for instances. One should also note that the newer standards have been written 
+on ``top of'' the existing older standards for backward/co-existence compatibilty. 
+For instance, 3G includes/supports 2G functionality to some extent. 
 
 \begin{table}[!h]
 	\begin{center}
-	\caption{[WORK IN PROGRESS] A simplified list of some of the key requirements in evolving communication systems.}
+	\caption{A simplified list of some of the significant changes in evolving communication systems.}
 	\label{t:234g}
 	\renewcommand*{\arraystretch}{1.2}
 	\begin{tabular}{lccc}
-	\textbf{Parameter}				& \textbf{2G (GSM)}		& \textbf{3G (UMTS)} 	& \textbf{4G (LTE-A)} \\
+	\textbf{Parameter}							& \textbf{2G} \cite{2g} 					& \textbf{3G} \cite{3g} 				& \textbf{4G} \cite{4g} \\
 	\hline
-	System frequency [MHz]			& $820 \ldots 1990$		& $B \ldots B$			& $C \ldots C$	 \\
-	Number of system bands			& 4						& B						& C	 \\
-	System bandwidth [MHz]			& $25 \ldots 95$		& $B \ldots B$			& $C \ldots C$	 \\
-	Channel bandwidth [MHz]			& 0.200					& $B \ldots B$			& $C \ldots C$	 \\
-	Multiple-access method			& TDMA					& WCDMA					& OFDMA	 \\
-	Duplexing mode					& TDD					& FDD					& FDD/TDD	 \\
-	Modulation schemes				& GSMK					& QPSK					& QAM	 \\
-	Sensitivity	req.				& A						& B						& C	 \\
-	Linearity req.					& A						& B						& C	
+	System frequency [MHz]						& $380 \ldots 1990$							& $700 \ldots 3590$						& $700 \ldots 3800$	 \\
+	Number of system bands						& 14										& 30									& 38	 \\
+	System bandwidth [MHz]						& $7 \ldots 75$								& $10 \ldots 80$						& $10 \ldots 200$	 \\
+	Channel bandwidth [MHz]						& 0.2										& $1.3 \ldots 7.7$							& $1.4 \ldots 20$	 \\
+	Duplexing mode								& TDD										& TDD / FDD								& TDD / FDD	 \\
+	%Duplex separation [MHz]						& $10 \ldots 95$							& $0 \ldots 400$						& $0 \ldots 400$	 \\
+	Multi-access method							& TDMA										& CDMA									& FDMA	 \\
+	Modulation schemes							& GSMK, 8PSK, 16QAM,						& QPSK, 8PSK, 							& BPSK, QPSK, 	 \\[-2.4pt]
+												& 32QAM, AQPSK								& 16QAM, 64QAM							& 16QAM, 64QAM	 \\
+	%Max. TX power [dBm]						& $+22 \ldots {+39}$						& $+10 \ldots {+33}$					& $+23$	 \\
+	%Max. RX power [dBm]						& $-$										& $-25$									& $-23$	 \\
+	%Max. IBB [dBm]								& $-53 \ldots {-23}$						& $-61 \ldots {-41}$					& $-23$	 \\
+	%Max. OBB [dBm]								& $-27 \ldots 0$							& $-44 \ldots {-15}$					& $-23$	 \\
+	%Max. NBB [dBm]								& $-$										& $-57 \ldots {-56}$					& $-23$	 \\
+	%Max. spurious [dBm]						& $-$										& $-44$									& $-23$	 \\
+	%Min. ACS [dB]								& $-$										& $33$									& $33$	 \\
+	%Ref. sensitivity [dBm]						& $-104 \ldots {-100}$						& $-108 \ldots {-99}$					& $-91 \ldots {-106}$	 \\
+	%Linearity, min. $\mathit{IIP}_3$ [dBm]		& $+55$										& $+65$									& $+72 \ldots {+90}$
 	\end{tabular}
 	\end{center}
 	\vspace*{-12pt}
 \end{table}
 
+A clear trend toward more users and higher datarates is evident; all the 
+parameters shown point to that fact. More and more frequency bands are 
+allocated as channel bandwidths increse at the same time. More complex 
+multi-level modulation schemes with full-duplex all-time transmission has 
+become more and more common. Also multiple input -- multiple output (MIMO) 
+and carrier aggregation (CA) techniques are emerging to serve customers 
+with the appetite for even larger data rates.
 
+When it comes to the radio receivers, it's all about flexibility. 
+Software-defined radio (SDR) principles come in real handy when the alternative 
+is to replicate a front-end for each band. Naturally some replication of the 
+RX-chain is required for both MIMO and CA. In addition to being required 
+to work on a larger band using wider channel, the linearity requirements 
+have gone up as. In the last two generations, there have been no ground-breaking 
+changes in the power requirements, such as minimum/maximum levels for 
+(un)wanted signals, inside or outside the band of interest.
+
+\newpage
 \begin{thebibliography}{9}%\itemsep 7pt\parskip -5pt 
 
 \bibitem{hs} $\mathrm{Huber}+\mathrm{Suhner}$, 
@@ -659,6 +694,15 @@ linearity requirements, carrier aggregation, multiaccess method, FDD/TDD
 	Available online at \href{http://ipaper.ipapercms.dk/HUBERSUHNER/Technologies/Radiofrequency/RFCablesEN/}
 		{\texttt{http://ipaper.\linebreak{}ipapercms.dk/HUBERSUHNER/Technologies/Radiofrequency/RFCablesEN/}}
 	[Retrieved: January 10th, 2014].
+	
+\bibitem{2g} 3GPP Technical Specification, Series 45: 
+	Radio aspects -- GSM only (Rel-4 and later)
+	
+\bibitem{3g} 3GPP Technical Specification, Series 25: 
+	Radio aspects -- 3G and beyond / GSM (R99 and later)
+	
+\bibitem{4g} 3GPP Technical Specification, Series 36: 
+	LTE (Evolved UTRA) and LTE-Advanced radio technology
 
 %\bibitem{pozar} D.\ M.\ Pozar, 
 %	\textit{Microwave Engineering}, 
