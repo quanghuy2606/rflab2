@@ -139,9 +139,9 @@ TODO: Huy and Sampo (1st paragraph: general intro, 2nd: the measuremets, 3rd: st
 
 \begin{figure}[h!]
 	\begin{center}
-	\epsfig{file=img/bs.jpg, width=\textwidth}
+	\includegraphics[width=\textwidth]{img/bs.jpg}
 	\caption{Receiver under study.}
-	\label{fig:bs}
+	\label{f:bs}
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
@@ -177,21 +177,14 @@ of $-80$~dBm.
 \begin{figure}[h!]
 	\begin{center}
 	\setlength{\unitlength}{1mm}
-	\begin{picture}(167, 13)
+	\begin{picture}(142, 13)
 		\linethickness{0.2mm}
 		\put(0, 0.4){\framebox[34mm]{Signal generator}}
-		\put(34, 1.4){\vector(1,0){14}}
-		\put(48, 0){\framebox[23mm]{Attenuator}}
-		\put(71, 1.4){\vector(1,0){14}}
-		\put(85, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
-		\put(113, 1.4){\vector(1,0){14}}
-		\put(127, 0.4){\framebox[40mm]{Sprectrum analyzer}}
-		
-		%\put(41, 4){\makebox(0,0){Cable}}
-		%\put(78, 4){\makebox(0,0){Cable}}
-		%\put(120, 4){\makebox(0,0){Cable}}
-		\put(99, 7){\makebox(0,0){DDU module}}
-		\put(66.5, 8){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{if needed}$}}
+		\put(34, 1.4){\vector(1,0){20}}
+		\put(54, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
+		\put(82, 1.4){\vector(1,0){20}}
+		\put(102, 0.4){\framebox[40mm]{Sprectrum analyzer}}
+		\put(68, 7){\makebox(0,0){DDU module}}
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Measurement setup used in the first measurement task.}
@@ -230,6 +223,24 @@ relative. In a relative measurement, the power is measured again when the DDU mo
 is by-passed to account only for the cables and the possible attenuator. This also 
 required to know the real input power. 
 
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width=\textwidth]{img/sg-ddu-sa.jpg}
+	\caption{Receiver under study.}
+	\label{f:sg}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width=\textwidth]{img/vna-ddu-vna.jpg}
+	\caption{Receiver under study.}
+	\label{f:vna}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
+
 
 \subsection{Frequency response}
 
@@ -251,9 +262,6 @@ compression in the pass-band (in neither the VNA nor in the pre-amp itself).
 		\put(49, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
 		\put(77, 1.4){\vector(1,0){20}}
 		\put(97, 0.4){\framebox[29mm]{VNA (Port 2)}}
-		
-		%\put(39, 4){\makebox(0,0){Cable}}
-		%\put(87, 4){\makebox(0,0){Cable}}
 		\put(63, 7){\makebox(0,0){DDU module}}
 	\end{picture}
 	\vspace*{\halfLine}
@@ -327,36 +335,32 @@ relative power levels observed in the detector.
 
 \subsection{Noise temperature}
 
+ENR = 21.48 dB
+
 In the third measurement task, we'll use a setup shown in Fig. \ref{f:m3}. 
 A DC-voltage source is connected to a noise diode connected directly to the 
 ANT-input in the pre-amplifier block. This direct connection is desirable as 
 attenuation changes the noise temperature. The signal is led from the RX$_1$ 
 output to a spectrum analyzer. An LNA may be needed in between the DDU output 
 and the spectrum analyzer, as the spectrum analyzer might not be sensitive 
-enough for the cold noise source. See section \ref{s:noise} for details.
+enough for the cold noise source.
 
 \begin{figure}[h!]
 	\begin{center}
 	\setlength{\unitlength}{1mm}
-	\begin{picture}(166, 13)
+	\begin{picture}(163, 13)
 		\linethickness{0.2mm}
 		\put(0, 0.4){\framebox[10mm]{$V_\mathrm{DC}$}}
-		\put(10, 1.4){\vector(1,0){9}}
-		\put(19, 0){\framebox[25mm]{Noise diode}}
-		\put(44, 1.4){\vector(1,0){24}}
-		\put(68, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
-		\put(96, 1.4){\vector(1,0){9}}
-		\put(105, 0.4){\framebox[12mm]{LNA}}
-		\put(117, 1.4){\vector(1,0){9}}
-		\put(126, 0.4){\framebox[40mm]{Sprectrum analyzer}}
-		
-		\put(5, 7){\makebox(0,0){On/Off}}
-		%\put(20, 4){\makebox(0,0){Cable}}
-		\put(56, 8){\makebox(0,0){Direct}}
-		\put(56, 4){\makebox(0,0){connection}}
-		%\put(118, 4){\makebox(0,0){Cable}}
-		\put(81.5, 7){\makebox(0,0){DDU module}}
-		\put(115.5, 8){\makebox(0,0){$\overbrace{\hspace*{19mm}}^\textrm{if needed}$}}
+		\put(10, 1.4){\vector(1,0){12}}
+		\put(22, 0){\framebox[25mm]{Noise diode}}
+		\put(47, 1.4){\vector(1,0){12}}
+		\put(59, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
+		\put(87, 1.4){\vector(1,0){12}}
+		\put(99, 0.4){\framebox[12mm]{LNA}}
+		\put(111, 1.4){\vector(1,0){12}}
+		\put(123, 0.4){\framebox[40mm]{Sprectrum analyzer}}
+		\put(5, 7){\makebox(0,0){0/28 V}}
+		\put(73, 7){\makebox(0,0){DDU module}}
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Noise temperature measurement setup}
@@ -381,6 +385,15 @@ resolution bandwith used. A large averaging factor, say a thousand, is also bene
 The measurement may take a few minutes, and it's OK; there are only two measurements 
 to be made.
 
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width=\textwidth]{img/nd-ddu-sa.jpg}
+	\caption{Receiver under study.}
+	\label{f:nd}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
+
 \subsection{Sensitivity}
 
 In the sensitivity measurement, we're trying to measure the minimum input power at 
@@ -392,21 +405,14 @@ time though it's more than likely that an attenuator is required.
 \begin{figure}[h!]
 	\begin{center}
 	\setlength{\unitlength}{1mm}
-	\begin{picture}(167, 13)
+	\begin{picture}(142, 13)
 		\linethickness{0.2mm}
 		\put(0, 0.4){\framebox[34mm]{Signal generator}}
-		\put(34, 1.4){\vector(1,0){14}}
-		\put(48, 0){\framebox[23mm]{Attenuator}}
-		\put(71, 1.4){\vector(1,0){14}}
-		\put(85, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
-		\put(113, 1.4){\vector(1,0){14}}
-		\put(127, 0.4){\framebox[40mm]{Sprectrum analyzer}}
-		
-		%\put(41, 4){\makebox(0,0){Cable}}
-		%\put(78, 4){\makebox(0,0){Cable}}
-		%\put(120, 4){\makebox(0,0){Cable}}
-		\put(99, 7){\makebox(0,0){DDU module}}
-		\put(66.5, 8){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{if needed}$}}
+		\put(34, 1.4){\vector(1,0){20}}
+		\put(54, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
+		\put(82, 1.4){\vector(1,0){20}}
+		\put(102, 0.4){\framebox[40mm]{Sprectrum analyzer}}
+		\put(68, 7){\makebox(0,0){DDU module}}
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Measurement setup used in the sensitivity measurement.}
@@ -438,12 +444,45 @@ TODO: Huy and Sampo (general results and intro to more specific results)
 
 \subsection{1~dB compression point}
 
-TODO: Text: Huy and Sampo, Graphs: Tuomas
+\begin{figure}[h!]
+	\begin{center}
+	\epsfig{file=img/PoutPin.eps, width=\textwidth}
+	\caption{Results from the diplexer characterization.}
+	\label{f:PoutPin}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{center}
+	\epsfig{file=img/GPin.eps, width=\textwidth}
+	\caption{Results from the diplexer characterization.}
+	\label{f:Gpin}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{center}
+	\epsfig{file=img/GPout.eps, width=\textwidth}
+	\caption{Results from the diplexer characterization.}
+	\label{f:GPout}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
+
 
 
 \subsection{Frequency response}
 
-TODO: Tuomas
+\begin{figure}[h!]
+	\begin{center}
+	\epsfig{file=img/s12.eps, width=\textwidth}
+	\caption{Results from the diplexer characterization.}
+	\label{f:dpx}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
 
 
 \subsection{Noise Temperature}
@@ -540,6 +579,11 @@ cancelled with averaging. The manufacturer provides error estimates for the devi
 itself, giving an error estimate of under $0.3$ dB that is mostly applicable in 
 our case. The topics discussed in the last paragraph of the last subsection apply 
 here to some extent to here as well.
+
+
+\subsection{Noise diode}
+
+See lecture handout supplement.
 
 
 \newpage
