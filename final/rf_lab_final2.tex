@@ -150,29 +150,27 @@ TODO: Huy and Sampo (1st paragraph: general intro, 2nd: the measuremets, 3rd: st
 \newpage
 \section{Measurement steps}
 
-TODO: Tuomas (corrections etc.)
-
-\begin{comment} % As an example
-There were two types of measurements; power measurements with a spectrum analyzer 
-(SA) and two-port measurements with a vector network analyzer (VNA). While the 
-first three measurement tasks (i.e., $3.1 - 3.3$) were of the first kind, the 
-last measurement (i.e., 3.4) was carried out using a VNA. The aforementioned 
-measurement setups are described in detail in the following subsections, respectively. 
-The setups correspond very closely to those presented in the pre-study.
-\end{comment}
+In this section, used measurement configurations are presented for each measurement 
+task. Measurements in question may be divided into two distinct categories: power 
+measurements with a spectrum analyzer (SA) and two-port transmission measurements ($S_{21}$)
+with a vector network analyzer (VNA). There were no significant differences between 
+the planned setups and those used in the actual measurements. The following measuremeent 
+specific subsections will elaborate.
 
 
 \subsection{1~dB compression point}
 
-The measurement setup suitable for this measurement is shown in Fig. \ref{f:m1}. 
-A signal generator is used as a signal source, and the generated signal is passed 
-through the DDU module before detection with a (precalibrated) spectrum analyzer. 
-The input and output connections used in the DDU module are ANT and RX$_1$, 
-respectively. An attenuator is used between the generator and the DDU module, 
-if necessary. While the operator's manual of the R\&S SML03 signal generator 
-does not explicitly mention the power range, the testing range defined in the 
-\textit{Performance Tests} suggests a (reliable) minimum output power level 
-of $-80$~dBm.
+To measure 1~dB compression point of a device, one needs a (manually) sweepable signal source 
+and power detector. These may come separately or be incorporated in a single device. 
+In both cases, the DDU module is connected the in between the source and the detector.
+We used both approaches, and made two measurements with equal power levels.
+
+For separate signal generation and detection, we used Rohde \& Schwarz SML03 signal 
+generator and HP 8596E spectrum analyzer. The measurement setup is shown in Figures 
+\ref{f:sg1} and \ref{f:sg2}. The setup where VNA is used is shown in Figures \ref{f:vna1} 
+and \ref{f:vna2}. The attenuation caused by the two cables measured a cable at a time 
+using VNA in a similar configuration. All equipment were calibrated before any measurements 
+were carried out.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -188,10 +186,62 @@ of $-80$~dBm.
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Measurement setup used in the first measurement task.}
-	\label{f:m1}
+	\label{f:sg1}
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
+
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width=0.75\textwidth]{img/sg-ddu-sa.jpg}
+	\caption{Using a signal generator and spectrum analyzer to characterize the DDU module.}
+	\label{f:sg2}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{center}
+	\setlength{\unitlength}{1mm}
+	\begin{picture}(126, 10)
+		\linethickness{0.2mm}
+		\put(0, 0.4){\framebox[29mm]{VNA (Port 1)}}
+		\put(29, 1.4){\vector(1,0){20}}
+		\put(49, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
+		\put(77, 1.4){\vector(1,0){20}}
+		\put(97, 0.4){\framebox[29mm]{VNA (Port 2)}}
+		\put(63, 7){\makebox(0,0){DDU module}}
+	\end{picture}
+	\vspace*{\halfLine}
+	\caption{VNA measurements connections}
+	\label{f:vna1}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width=0.75\textwidth]{img/vna-ddu-vna.jpg}
+	\caption{Measuring the DDU module with the VNA.}
+	\label{f:vna2}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
+
+
+
+
+The measurement setup suitable for measuring measurement is shown in Fig. \ref{f:m1}. 
+A signal generator is used as a signal source, and the generated signal is passed 
+through the DDU module before detection with a (precalibrated) spectrum analyzer. 
+The input and output connections used in the DDU module are ANT and RX$_1$, 
+respectively. An attenuator is used between the generator and the DDU module, 
+if necessary. While the operator's manual of the R\&S SML03 signal generator 
+does not explicitly mention the power range, the testing range defined in the 
+\textit{Performance Tests} suggests a (reliable) minimum output power level 
+of $-80$~dBm.
+
+
 
 The measurement itself is basically a power sweep at a constant frequency of 
 $f = 900$ MHz. We start off with a power level well above the receiver sensitivity 
@@ -222,24 +272,6 @@ for the entire measurement aswell), or using the SA by making the whole measurem
 relative. In a relative measurement, the power is measured again when the DDU module 
 is by-passed to account only for the cables and the possible attenuator. This also 
 required to know the real input power. 
-
-\begin{figure}[h!]
-	\begin{center}
-	\includegraphics[width=\textwidth]{img/sg-ddu-sa.jpg}
-	\caption{Receiver under study.}
-	\label{f:sg}
-	\end{center}
-	\vspace*{-12pt}
-\end{figure}
-
-\begin{figure}[h!]
-	\begin{center}
-	\includegraphics[width=\textwidth]{img/vna-ddu-vna.jpg}
-	\caption{Receiver under study.}
-	\label{f:vna}
-	\end{center}
-	\vspace*{-12pt}
-\end{figure}
 
 
 \subsection{Frequency response}
@@ -387,7 +419,7 @@ to be made.
 
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width=\textwidth]{img/nd-ddu-sa.jpg}
+	\includegraphics[width=0.75\textwidth]{img/nd-ddu-sa.jpg}
 	\caption{Receiver under study.}
 	\label{f:nd}
 	\end{center}
@@ -444,33 +476,16 @@ TODO: Huy and Sampo (general results and intro to more specific results)
 
 \subsection{1~dB compression point}
 
-\begin{figure}[h!]
-	\begin{center}
-	\epsfig{file=img/PoutPin.eps, width=\textwidth}
-	\caption{Results from the diplexer characterization.}
-	\label{f:PoutPin}
-	\end{center}
-	\vspace*{-12pt}
+\begin{figure}
+\centering
+\subcaptionbox{$P_\mathrm{out}(P_\mathrm{in})$ using SG and SA}{\epsfig{file=img/PoutPin1.eps, width=0.45\textwidth}}
+\subcaptionbox{$P_\mathrm{out}(P_\mathrm{in})$ using VNA}{\epsfig{file=img/PoutPin2.eps, width=0.45\textwidth}}
+\subcaptionbox{$G(P_\mathrm{in})$ using SG and SA}{\epsfig{file=img/GPin1.eps, width=0.45\textwidth}}
+\subcaptionbox{$G(P_\mathrm{in})$ using VNA}{\epsfig{file=img/GPin2.eps, width=0.45\textwidth}}
+\subcaptionbox{$G(P_\mathrm{out})$ using SG and SA}{\epsfig{file=img/GPout1.eps, width=0.45\textwidth}}
+\subcaptionbox{$G(P_\mathrm{out})$ using VNA}{\epsfig{file=img/GPout2.eps, width=0.45\textwidth}}
+\caption{Results from the 1~dB compression point measurements. Ideal behaviour is shown with red straights, measuremets with blue markers and spline inter-/extrapolant in blue.}\label{f:1dB}
 \end{figure}
-
-\begin{figure}[h!]
-	\begin{center}
-	\epsfig{file=img/GPin.eps, width=\textwidth}
-	\caption{Results from the diplexer characterization.}
-	\label{f:Gpin}
-	\end{center}
-	\vspace*{-12pt}
-\end{figure}
-
-\begin{figure}[h!]
-	\begin{center}
-	\epsfig{file=img/GPout.eps, width=\textwidth}
-	\caption{Results from the diplexer characterization.}
-	\label{f:GPout}
-	\end{center}
-	\vspace*{-12pt}
-\end{figure}
-
 
 
 \subsection{Frequency response}
@@ -595,7 +610,7 @@ TODO: Huy and Sampo
 \newpage
 \section{Feedback}
 
-TODO: Huy and Sampo
+TODO: Huy and Sampo (not all devices are listed in the instructions sheet, learning from feedback)
 
 
 \newpage

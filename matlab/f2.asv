@@ -171,8 +171,8 @@ title('GSM Base Station Pre-Amplifier Block: $$\mathrm{ANT_B \rightarrow RX_{B1}
 ylabel('$$|S_{12}|$$ [dB]', 'interpreter', 'latex');
 xlabel('$$f$$ [MHz]', 'interpreter', 'latex');
 
-if saveFig
-exportfig(gcf, 's12.eps', ...
+if true
+exportfig(gcf, 'dpx2.eps', ...
 	'width',		18, ...
 	'height',		10, ...
 	'color',		'rgb', ...
@@ -187,6 +187,7 @@ end
 Psg = [ -40		-30		-25		-20		-15		-10		-9		-8		-7		-6		-5		-4		-3		-2 ];
 Psa = [ -15.90	-5.90	-0.91	4.14	9.13	14.24	15.21	16.10	16.84	17.47	18.13	18.62	19.03	19.36];
 
+Gatt = -19.95;
 Gthin = -0.20;
 Gthick = -0.30;
 
@@ -218,7 +219,7 @@ xlabel('$$P_\mathrm{in}$$ [dBm]', 'interpreter', 'latex');
 grid on;
 hold off;
 
-if saveFig
+if true
 exportfig(gcf, 'PoutPin1.eps', ...
 	'width',		18, ...
 	'height',		10, ...
@@ -231,7 +232,7 @@ exportfig(gcf, 'PoutPin1.eps', ...
 end
 
 
-GGG = 24.6200;
+GGG = 24.5800;
 idx2 = round(mean([find(GGG-GG <= 1.0, 1, 'last') find(GGG - GG >= 1.0, 1, 'first')]));
 
 figure(3);
@@ -250,7 +251,7 @@ ylabel('$$|S_{21}|$$ [dB]', 'interpreter', 'latex');
 xlabel('$$P_\mathrm{in}$$ [dBm]', 'interpreter', 'latex');
 grid on;
 
-if saveFig
+if true
 exportfig(gcf, 'GPin1.eps', ...
 	'width',		18, ...
 	'height',		10, ...
@@ -278,7 +279,7 @@ ylabel('$$|S_{21}|$$ [dB]', 'interpreter', 'latex');
 xlabel('$$P_\mathrm{out}$$ [dBm]', 'interpreter', 'latex');
 grid on;
 
-if saveFig
+if true
 exportfig(gcf, 'GPout1.eps', ...
 	'width',		18, ...
 	'height',		10, ...
@@ -302,26 +303,26 @@ SS21 = interp1(P1, S21, PP1, 'spline', 'extrap');
 GG = SS21 - Gatt;
 PP2 = PP1 + GG;
 
-PPP2 = 1.0014 * PP1 + 24.6; %1.005*PP1 + 24.8;
-idx = round(mean([find(PPP2 - PP2 <= 1.0, 1, 'last') find(PPP2 - PP2 >= 1.0, 1, 'first')]));
+%PPP2 = 1.005*PP1 + 24.8;
+%idx = round(mean([find(PPP2 - PP2 <= 1.0, 1, 'last') find(PPP2 - PP2 >= 1.0, 1, 'first')]));
 
-figure(5);
+figure(2);
 clf;
 hold on;
-plot([min(PP1), PP1(idx)], PP2(idx) * [1 1], 'k');
-plot(PP1(idx) * [1 1], [min(PP2) PP2(idx)], 'k');
-plot(PP1, PPP2, 'color', 'r', 'linewidth', 2);
+%plot([min(PP1), PP1(idx)], PP2(idx) * [1 1], 'k');
+%plot(PP1(idx) * [1 1], [min(PP2) PP2(idx)], 'k');
+%plot(PP1, PPP2, 'color', 'r', 'linewidth', 2);
 plot(P1, P2, 'bo', 'linewidth', 2, 'markersize', 6);
 plot(PP1, PP2, 'b', 'linewidth', 2);
 ylim([-20 25]);
 xlim([-45 0]);
-title(sprintf('$$P_\\mathrm{1\\;dB,\\;in} = %+.1f $$ dBm, $$P_\\mathrm{1\\;dB,\\;out} = %+.1f $$ dBm, $$|S_{21}|_\\mathrm{avg} = %.1f $$ dB', PP1(idx), PP2(idx), 0.1 + mean(GG(1:idx))), 'interpreter', 'latex');
+%title(sprintf('$$P_\\mathrm{1\\;dB,\\;in} = %+.1f $$ dBm, $$P_\\mathrm{1\\;dB,\\;out} = %+.1f $$ dBm, $$|S_{21}|_\\mathrm{avg} = %.1f $$ dB', PP1(idx), PP2(idx), mean(GG(1:idx))), 'interpreter', 'latex');
 ylabel('$$P_\mathrm{out}$$ [dB]', 'interpreter', 'latex');
 xlabel('$$P_\mathrm{in}$$ [dBm]', 'interpreter', 'latex');
 grid on;
 hold off;
 
-if saveFig
+if true
 exportfig(gcf, 'PoutPin2.eps', ...
 	'width',		18, ...
 	'height',		10, ...
@@ -334,26 +335,26 @@ exportfig(gcf, 'PoutPin2.eps', ...
 end
 
 
-GGG = 24.5500;
-idx2 = round(mean([find(GGG-GG <= 1.0, 1, 'last') find(GGG - GG >= 1.0, 1, 'first')]));
+%GGG = 24.5800;
+%idx2 = round(mean([find(GGG-GG <= 1.0, 1, 'last') find(GGG - GG >= 1.0, 1, 'first')]));
 
-figure(6);
+figure(3);
 clf;
 hold on;
-plot([min(PP1), PP1(idx2)], GG(idx2) * [1 1], 'k');
-plot(PP1(idx2) * [1 1], [min(GG) GG(idx2)], 'k');
-plot([PP1(1) PP1(end)], GGG * [1 1], 'color', 'r', 'linewidth', 2);
+%plot([min(PP1), PP1(idx2)], GG(idx2) * [1 1], 'k');
+%plot(PP1(idx2) * [1 1], [min(GG) GG(idx2)], 'k');
+%plot([PP1(1) PP1(end)], GGG * [1 1], 'color', 'r', 'linewidth', 2);
 plot(P1, G, 'bo', 'linewidth', 2, 'markersize', 6);
 plot(PP1, GG, 'b', 'linewidth', 2);
 hold off;
 ylim([23 25]);
 xlim([-45 0]);
-title(sprintf('$$|S_{21}|_\\mathrm{avg} = %.1f $$ dB, $$P_\\mathrm{1\\;dB,\\;in} = %+.1f $$ dBm', GGG, PP1(idx2)), 'interpreter', 'latex');
+%title(sprintf('$$|S_{21}|_\\mathrm{avg} = %.1f $$ dB, $$P_\\mathrm{1\\;dB,\\;in} = %+.1f $$ dBm', GGG, PP1(idx2)), 'interpreter', 'latex');
 ylabel('$$|S_{21}|$$ [dB]', 'interpreter', 'latex');
 xlabel('$$P_\mathrm{in}$$ [dBm]', 'interpreter', 'latex');
 grid on;
 
-if saveFig
+if true
 exportfig(gcf, 'GPin2.eps', ...
 	'width',		18, ...
 	'height',		10, ...
@@ -365,24 +366,24 @@ exportfig(gcf, 'GPin2.eps', ...
 	'LineMode',		'scaled'	);
 end
 
-figure(7);
+figure(4);
 clf;
 hold on;
-plot([min(PP2), PP2(idx2)], GG(idx2) * [1 1], 'k');
-plot(PP2(idx2) * [1 1], [min(GG) GG(idx2)], 'k');
-plot([PP2(1) PP2(end)], GGG * [1 1], 'color', 'r', 'linewidth', 2);
+%plot([min(PP2), PP2(idx2)], GG(idx2) * [1 1], 'k');
+%plot(PP2(idx2) * [1 1], [min(GG) GG(idx2)], 'k');
+%plot([PP2(1) PP2(end)], GGG * [1 1], 'color', 'r', 'linewidth', 2);
 plot(P2, G, 'bo', 'linewidth', 2, 'markersize', 6);
 plot(PP2, GG, 'b', 'linewidth', 2);
 hold off;
 ylim([23 25]);
 xlim([-20 20]);
-title(sprintf('$$|S_{21}|_\\mathrm{avg} = %.1f $$ dB, $$P_\\mathrm{1\\;dB,\\;out} = %+.1f $$ dBm', GGG, PP2(idx2)), 'interpreter', 'latex');
+%title(sprintf('$$|S_{21}|_\\mathrm{avg} = %.1f $$ dB, $$P_\\mathrm{1\\;dB,\\;out} = %+.1f $$ dBm', GGG, PP2(idx2)), 'interpreter', 'latex');
 ylabel('$$|S_{21}|$$ [dB]', 'interpreter', 'latex');
 xlabel('$$P_\mathrm{out}$$ [dBm]', 'interpreter', 'latex');
 grid on;
 
-if saveFig
-exportfig(gcf, 'GPout2.eps', ...
+if true
+exportfig(gcf, 'GPout.eps', ...
 	'width',		18, ...
 	'height',		10, ...
 	'color',		'rgb', ...
