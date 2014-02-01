@@ -437,9 +437,11 @@ add the SNR later on. This approach is, however, less accurate and more painful.
 also assumes $P_\mathrm{out}(P_\mathrm{in})$ relationship to be ideal in the range.
 
 Since it's a GSM system, we use the measurement settings as they are defined in 
-the standard with the exception of a smaller averaging factor. They final settings
-were as follows: an averaging factor of 100, zero span and 30~kHz video and 
-resolution bandwidths. The input attenuator was disabled in the SA setting.
+the standard with the exception of averaging. The standard 500-sweep averaging was 
+used in when measuring the noise floow, but 100 was used when RF power was enabled. 
+The final settings were as follows: an averaging factor of 500/100, zero span and 
+30~kHz video and resolution bandwidths. The input attenuator was disabled in the 
+SA settings.
 
 
 \newpage
@@ -509,8 +511,8 @@ TODO: Huy and Sampo
 	\begin{tabular}{cccccc}
 	LNA? 			& $P_\mathrm{C}$ [dBm] 		& $P_\mathrm{H}$ [dBm]	& $T_\mathrm{total}$ [K] 	& $T_\mathrm{DDU}$ [K] 	& $F_\mathrm{DDU}$ [dB] \\
 	\hline
-	No				&  							&  						&  							&  						& \\
-	Yes				&  							&  						&  							&  						&  	
+	No				& $-107.3$					& $-90.8$				&  							&  						& \\
+	Yes				& $-91.3$					& $-71.7$				&  							&  						&  	
 	\end{tabular}
 	\end{center}
 	\vspace*{-12pt}
@@ -523,16 +525,15 @@ TODO: Huy and Sampo
 
 \begin{table}[!h]
 	\begin{center}
-	\caption{Results from the sensitivity measurement.}
+	\caption{Results from the sensitivity measurement. The noise floor was measured to be at $-101.98$~dBm.}
 	\label{t:sens}
 	\renewcommand*{\arraystretch}{1.2}
-	\begin{tabular}{ccc}
-	$\mathit{SNR}$ [dB] 			& $P_\mathrm{transmit}$ [dBm] 			& $P_\mathrm{measured}$ [dBm] \\
+	\begin{tabular}{cc}
+	$\mathit{SNR}$ [dB] 			& $P_\mathrm{transmit}$ [dBm]  \\
 	\hline
-	\multicolumn{2}{c}{Noise floor (RF Power Off)}							& \\
-	7.5								& X 									& \\
-	10								& X 									& \\
-	12.5							& X 									&
+	7.5								& $-118.0$ 	\\
+	10								& $-115.6$ 	\\
+	12.5							& $-113.0$ 	
 	\end{tabular}
 	\end{center}
 	\vspace*{-12pt}
