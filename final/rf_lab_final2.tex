@@ -168,7 +168,8 @@ We used both approaches, and made two measurements with equal power levels.
 For separate signal generation and detection, we used \textit{Rohde \& Schwarz SML03} signal 
 generator (SG) and \textit{HP 8596E} spectrum analyzer.The measurement setup is shown in Figures 
 \ref{f:sg1} and \ref{f:sg2}. The setup employing \textit{Rohde \& Schwarz ZVL} VNA is shown in 
-Figures \ref{f:vna1} and \ref{f:vna2}. All equipment came precalibrated.
+Figures \ref{f:vna1} and \ref{f:vna2}. All equipment came precalibrated. In both measurements, 
+the A-half of the base station was used.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -249,7 +250,7 @@ higher powers.
 The two cables and attenuators were measured separately using a VNA. For the VNA, 
 the measurement settings throughout this lab were as follows: 1601 points over 
 a frequency range of $800 \ldots 1000$~MHz, a measurement bandwidth of 10~kHz 
-and averaging over 200 samples.
+and averaging over 200 samples with a transmit power of $-20$~dBm.
 
 For more accurate and/or reliable SA measurements, even a larger attenuation factor 
 could have been used to avoid the small, yet possible, compression in the SA. One 
@@ -270,28 +271,43 @@ the first labs, it is repeated here for completeness.
 
 The measurement was carried out using a \textit{Rohde \& Schwarz ZVL} VNA, 
 calibrated by the assistant prior to our arrival. The calibration settings were 
-as follows: full two-port calibration with 1577 points within the $850 \ldots 1000$ 
-MHz band, $-20$ dBm reference power, and an averaging factor of 100. The reference 
-plane was located at the non-VNA end of used the cables.
+as follows: full two-port calibration with 1577 points within the $850 \ldots 1000$~MHz 
+band, $-20$ dBm reference power, and an averaging factor of 100. The reference 
+plane was located at the non-VNA end of the used cables.
 
-The actual measurement included connecting the VNA the port pairs in order to obtain 
-the absolute values of $S_{12}$ parameter over a set frequency range. In terms of physical 
-connections, this would mean the following: VNA (Port 2) $\rightarrow$ DDU modul $\rightarrow$ VNA (Port 1). 
+The actual measurement included connecting the VNA to the B-half of the DDU module in 
+order to obtain the values of $|S_{12}|$ over a set frequency range. In terms of physical 
+connections, this would mean the following: VNA (Port~2) $\rightarrow$ DDU module 
+(in: $\mathrm{ANT}_\mathrm{B}$, out: $\mathrm{RX}_\mathrm{B1}$) $\rightarrow$ VNA (Port~1). 
 The raw data was stored onto a USB-memory as \texttt{*.s1p} files for post processing 
 using Matlab.
+
+The theoretical noise bandwidth $B_\mathrm{n}$ for a device may be found as using the 
+following formula
+\begin{equation}\label{e:Bn}
+B_\mathrm{n} = \frac{1}{G_\mathrm{T,\;max}} \int_0^\infty G_\mathrm{T}(f) \, df,
+\end{equation}
+where $G_\mathrm{T}(f)$ is the transducer gain at frequency $f$. In practice, one may 
+only approximate this using numerical integration over the finite measurement bandwidth. Such 
+approximation is bound to yield slightly optimistic values. Another possibility is to 
+approximate the noise bandwidth as the 3~dB bandwidth, and applying a compensation factor 
+based on the transition bands. Results obtained using both methods are shown and compared 
+later in the text.
 
 
 \subsection{Noise temperature}
 
-ENR = 21.48 dB
+In the noise measurement task, we used the $Y$-coefficient method. The setup is shown 
+in Figures \ref{f:nd1} and \ref{f:nd2}. A DC-voltage source is connected to a noise 
+diode which is in turn connected by an SMA-cable to the $\mathrm{ANT}_\mathrm{A}$-input 
+in the pre-amplifier block (A-half). It would have been better to use desired direct 
+connection, but that was not possible due to missing adapters.
 
-In the third measurement task, we'll use a setup shown in Fig. \ref{f:m3}. 
-A DC-voltage source is connected to a noise diode connected directly to the 
-ANT-input in the pre-amplifier block. This direct connection is desirable as 
-attenuation changes the noise temperature. The signal is led from the RX$_1$ 
-output to a spectrum analyzer. An LNA may be needed in between the DDU output 
-and the spectrum analyzer, as the spectrum analyzer might not be sensitive 
-enough for the cold noise source.
+The signal is led then from the RX$_\mathrm{A1}$ output to the spectrum analyzer. We 
+made another measurement where an amplifier was placed in between, as the noise power 
+from the cold noise source might've been masked by the SA noise. The parameters of 
+the amplifier, made by Minicircuits, were as follows: $B = 15 \ldots 3000$~MHz, 
+$G = 19$~dB, $T = 463$~K, $F = 4.1$~dB and $V_\mathrm{CC} = +15$~V.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -309,39 +325,86 @@ enough for the cold noise source.
 		\put(123, 0.4){\framebox[40mm]{Sprectrum analyzer}}
 		\put(5, 7){\makebox(0,0){0/28 V}}
 		\put(73, 7){\makebox(0,0){DDU module}}
+		\put(111, 8){\makebox(0,0){$\overbrace{\hspace{23mm}}^\textrm{with and without}$}}
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Noise temperature measurement setup}
-	\label{f:m3}
+	\label{f:nd1}
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
-
-The measurement itself is carried out measuring two power levels required in the 
-Y-pa\-ram\-e\-ter; when the DC-voltage is off/shorted (``cold'') and on (``hot''). As 
-for the SA settings, we are measuring noise at a single frequency (using zero-span): 
-a very weak, random signal. Thus, input attenuator should be disabled, and minimum 
-resolution bandwith used. A large averaging factor, say a thousand, is also beneficial. 
-The measurement may take a few minutes, and it's OK; there are only two measurements 
-to be made.
 
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.75\textwidth]{img/nd-ddu-sa.jpg}
-	\caption{Receiver under study.}
-	\label{f:nd}
+	\caption{Noise temperature measurement setup without the additional amplifier.}
+	\label{f:nd2}
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
 
+The measurements themselves were carried out measuring two power levels required in the 
+Y-pa\-ram\-e\-ter; when the DC-voltage is off/shorted (``cold'') and on (``hot''). We 
+used \textit{HP 346B} noise diode ($\textit{ENR} = 21.48$~dB when $f = 1.00$~GHz) with 
+a control voltage of 28~V$_\mathrm{DC}$ taken from a laboratory-grade voltage source.
+
+As for the SA settings, the settings we as follows: 0~dB input attenuation, zero span, 
+10~kHz resolution and video bandwidths and an averaging over 100 sweeps. For more accurate 
+results, more time should have spent on this measurement. This would have allowed us to use 
+smaller bandwidths and larger averaging factor.
+
+The noise temperature, or equivalently noise factor/figure, may be found using the following
+formulae. $Y$-coefficient is given as
+\begin{equation}\label{e:Y}
+Y = \frac{P_\mathrm{H}}{P_\mathrm{C}} 
+	= \frac{T_\mathrm{H} + T_\mathrm{e}}{T_\mathrm{C} + T_\mathrm{e}}
+	\quad\Rightarrow\quad
+	T_\mathrm{e} = \frac{T_\mathrm{H} + YT_\mathrm{C}}{Y - 1},
+\end{equation}
+where $P_\mathrm{H/C}$ is the measured power for hot and cold loads at equivalent noise 
+temperatures $T_\mathrm{H/C}$, and $T_\mathrm{e}$ is the noise temperature of the measured 
+device. $T_\mathrm{C} = 295$~K is the physical temperature of the noise diode, and 
+$T_\mathrm{H}$ may be solved from the definition of $\textit{ENR}$:
+\begin{equation}
+\mathit{ENR} = 10 \lg \left( \frac{T_\mathrm{H}}{T_\mathrm{C}} - 1 \right) 
+	\quad\Rightarrow\quad
+	T_\mathrm{H} = T_\mathrm{C} \left( 10^\frac{\mathit{ENR}}{10} + 1 \right).
+\end{equation}
+Obtained noise temperature $T_\mathrm{e}$ may be converted to noise factor $F$ or figure 
+$F_\mathrm{dB}$ using the following relationship:
+\begin{equation}
+F_\mathrm{dB} = 10 \lg \left( F \right) \mathrm{\;dB} =  10 \lg \left( 1 + \frac{T_\mathrm{e}}{T_0} \right) \mathrm{\;dB}.
+\end{equation}
+
+One should notice that the $T_\mathrm{e}$ given by Eq.~\ref{e:Y} is actually the noise 
+temperature of the whole chain. This chain is a cascaded system, consisting of a SMA-cable, 
+the DDU module, the optional amplifier, another SMA-cable and the spectrum analyzer, in 
+this order. The contribution of the DDU module may be determined by reverse calculating 
+Friis' noise equation:
+\begin{equation}
+	F_\mathrm{total} = F_1 + \frac{F_2 - 1}{G_1} + \frac{F_3 - 1}{G_1 G_2} + \cdots
+	\quad\Leftrightarrow\quad
+	T_\mathrm{total} = T_1 + \frac{T_2}{G_1} + \frac{T_3}{G_1 G_2} + \cdots,
+\end{equation}
+where $G_i$ is the available power gain of the $i$th stage. Similar indexing is also used 
+for both of the noise quantities $F$ and $T$. This simplified formula assumes equal noise 
+bandwidths between the stages.
+
+The parameters required by the formula may be obtained through calculation, or are provided 
+by the manufacturer. For example the noise contribution of the cables can be obtained from 
+their attenuation $L$ and physical temperature $T_\mathrm{phys}$ through formula 
+$F = (L - 1) T_\mathrm{phys}$. The amplifier specifications were given already in the text.
+For the spectrum analyzer, $F = ?$~dB.
+
 
 \subsection{Sensitivity}
 
-In the sensitivity measurement, we're trying to measure the minimum input power at 
-ANT input that results in a detectable signal above the noise floor in the ouput 
-of the DDU module. For this, a measurement setup identical to the one used in the 
-first task may be used, as is shown in the following figure (Fig \ref{f:m4}). This 
-time though it's more than likely that an attenuator is required.
+In the sensitivity measurement, we're measured the minimum input power at the ANT$_\mathrm{A}$-input 
+that results in a reliably detectable signal above the noise floor in the ouput of the DDU module. 
+In GSM-systems, a signal with $\mathit{SNR} > 10$~dB is detected with an acceptable $\mathit{BER}$. 
+For this, a measurement setup identical to the one used in the first task may be used. The setup 
+used there is shown in Figures \ref{f:sg1} and \ref{f:sg2}. An attenuator may be used between 
+the signal generator and the DDU module.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -362,19 +425,21 @@ time though it's more than likely that an attenuator is required.
 	\vspace*{-12pt}
 \end{figure}
 
-The measurement starts by measuring the noise floor at 900~MHz without any signal 
-we're hoping to detect. That is, the RF power is switched off at the generator. 
-Then we turn on an input signal that's some dBs sensitivity of $-112.5$~dBm. We 
-gradually increase the power until the signal-to-noise ratio is no less than the 
-10~dB required by the standard. One could also measure the power required to beat 
-the noise just barely, and add the SNR later on if  $P_\mathrm{out}(P_\mathrm{in})$ 
-relation is assumed to be ideal.
+The first step was to measure the noise floor at 900~MHz without any signal 
+we're hoping to detect. That is, the RF power was switched off at the generator. 
+Then we turned on an input signal that's some dBs below the reported sensitivity 
+level of $-112.5$~dBm. We gradually increased the power until the signal-to-noise 
+ratio was no less than the 10~dB required by the standard. The corresponding power 
+level was recorded.
+
+One could have also measure the power required to beat the noise just barely, and 
+add the SNR later on. This approach is, however, less accurate and more painful. It 
+also assumes $P_\mathrm{out}(P_\mathrm{in})$ relationship to be ideal in the range.
 
 Since it's a GSM system, we use the measurement settings as they are defined in 
-the standard. They are as follows: an averaging factor of 500, zero span and 30~Hz 
-video and resolution bandwidths. As the spectrum analyzer input power is expected 
-to be less than $-80$~dBm ($P_\mathrm{SA} \approx P_\mathrm{DDU,\;min} + G_\mathrm{DDU} = -112.5 \mathrm{\;dBm} + 24.4 \mathrm{\;dB}= -88.1 \mathrm{\;dBm}$), 
-it's best to disable the input attenuator.
+the standard with the exception of a smaller averaging factor. They final settings
+were as follows: an averaging factor of 100, zero span and 30~kHz video and 
+resolution bandwidths. The input attenuator was disabled in the SA setting.
 
 
 \newpage
@@ -384,6 +449,8 @@ TODO: Huy and Sampo (general results and intro to more specific results)
 
 
 \subsection{1~dB compression point}
+
+TODO: Huy and Sampo
 
 \begin{figure}
 \centering
@@ -396,84 +463,85 @@ TODO: Huy and Sampo (general results and intro to more specific results)
 \caption{Results from the 1~dB compression point measurements. Ideal behaviour is shown with red straights, measuremets with blue markers and spline inter-/extrapolant in blue.}\label{f:1dB}
 \end{figure}
 
-
+\newpage
 \subsection{Frequency response}
 
-Wasn't this already covered in the first laboratory assignment as a part of the 
-diplexer characterization? Fig. \ref{f:m2} presents the measurement setup used 
-there. The DDU module is simply connected between the two ports of a precalibrated 
-VNA; ANT and RX$_1$ connectors of the DDU module are connected to ports 1 and 2 of 
-the VNA, respectively. In the VNA, measurement power shoud be as high as possible 
-due the stop band-attenuation, yet simultaneously small enough not to cause 
-compression in the pass-band (in neither the VNA nor in the pre-amp itself).
-
-\begin{figure}[h!]
-	\begin{center}
-	\setlength{\unitlength}{1mm}
-	\begin{picture}(126, 10)
-		\linethickness{0.2mm}
-		\put(0, 0.4){\framebox[29mm]{VNA (Port 1)}}
-		\put(29, 1.4){\vector(1,0){20}}
-		\put(49, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
-		\put(77, 1.4){\vector(1,0){20}}
-		\put(97, 0.4){\framebox[29mm]{VNA (Port 2)}}
-		\put(63, 7){\makebox(0,0){DDU module}}
-	\end{picture}
-	\vspace*{\halfLine}
-	\caption{Measurement setup used when determining the gain of the pre-amplifier block.}
-	\label{f:m2}
-	\end{center}
-	\vspace*{-12pt}
-\end{figure}
-
-The following figure (Fig. \ref{f:r1}) shows the results obtained in the first lab works 
-with a transmit power of $-20$ dBm in the VNA (using the B-half of the BS and connecting 
-the ports vice versa). In the figure, in addition to GSM RX and TX bands (in red), both 
-3~dB (in blue) and noise (in green) bandwidth of the pre-amp block are visualized. This 
-noise bandwidth visualization is somewhat questionable as it's a purely theoretical concept, 
-but is nevertheless shown for scale. The shown noise bandwidth is found using a numerical 
-approximation with $|S_{12}|$ of the formula given in the lecture supplement handout:
-
-\begin{equation}
-B_\mathrm{n} = \frac{1}{G_\mathrm{T,\;max}} \int_0^\infty G_\mathrm{T}(f) \, df.
-\end{equation}
-
-The noise bandwidth shown is less than the actual band since we cannot use infinite frequency 
-range. Frequency range of $850 \ldots 1000$~MHz with $|S_{12}|_\mathrm{max} = 24.4$~dB 
-was used instead. The obtained value (38.1~MHz) is roughly 6~\% shy of the 3~dB bandwidth 
-(40.6~MHz), as one might expect. The 3~dB bandwidth may thus be used to avoid being 
-overly optimistic.
+The $|S_{12}|$ response of the DDU module (B-half) within the $850 \ldots 1000$~MHz band 
+is shown in the following figure (Fig.~\ref{f:s12}). In the figure, in addition to the 
+actual response (in black), additional information is shown. GSM RX and TX band limits 
+(in red), both 3~dB (in blue) and noise (in green) bandwidth of the pre-amp block are also 
+visualized. Visualization of the noise bandwidth is somewhat questionable as it's a purely 
+theoretical concept, but is nevertheless shown for scale. 
 
 \begin{figure}[h!]
 	\begin{center}
 	\epsfig{file=img/s12.eps, width=\textwidth}
-	\caption{Results from the diplexer characterization.}
-	\label{f:r1}
+	\caption{$S_{12}$ of the DDU module as was measured in the first labs.}
+	\label{f:s12}
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
 
+The noise bandwidth shown, obtained from Eq.~\ref{e:Bn} is less than the actual band since 
+we cannot use infinite frequency range. Frequency range of $850 \ldots 1000$~MHz with
+$G_\mathrm{T,\;max} = |S_{12}|_\mathrm{max} = 24.4$~dB was used instead. The obtained 
+value (38.1~MHz) is roughly 6~\% shy of the 3~dB bandwidth (40.6~MHz), as one might expect.
+The 3~dB bandwidth may thus be used to avoid being overly optimistic.
+
 In the graphical approximation method we need to investigate the effect of frequency 
-roll-off speed. From Fig. \ref{f:r1} the transition bands are approx. 30~MHz (3.4 \%) 
+roll-off speed. From Fig.~\ref{f:s12} the transition bands are approx. 30~MHz (3.4 \%) 
 and 5~MHz (0.55 \%) for lower and upper bands, respectively. During this transition, 
 the $S_12$ drops roughly 100~dB from $+20$~dB to $-80$~dB. This corresponds to a slope 
 of $3.3$~dB/MHz (29~dB/\%) and $-20$~dB/MHz ($-180$~dB/\%), respectively. The effect of 
 such steep slopes are neglectable, and thus the 3~dB bandwidth may be used as the noise 
 bandwidth.
 
+
 \subsection{Noise Temperature}
 
 TODO: Huy and Sampo
+
+\begin{table}[!h]
+	\begin{center}
+	\caption{Results from the noise measurement.}
+	\label{t:noise}
+	\renewcommand*{\arraystretch}{1.2}
+	\begin{tabular}{cccccc}
+	LNA? 			& $P_\mathrm{C}$ [dBm] 		& $P_\mathrm{H}$ [dBm]	& $T_\mathrm{total}$ [K] 	& $T_\mathrm{DDU}$ [K] 	& $F_\mathrm{DDU}$ [dB] \\
+	\hline
+	No				&  							&  						&  							&  						& \\
+	Yes				&  							&  						&  							&  						&  	
+	\end{tabular}
+	\end{center}
+	\vspace*{-12pt}
+\end{table}
 
 
 \subsection{Sensitivity}
 
 TODO: Huy and Sampo
 
+\begin{table}[!h]
+	\begin{center}
+	\caption{Results from the sensitivity measurement.}
+	\label{t:sens}
+	\renewcommand*{\arraystretch}{1.2}
+	\begin{tabular}{ccc}
+	$\mathit{SNR}$ [dB] 			& $P_\mathrm{transmit}$ [dBm] 			& $P_\mathrm{measured}$ [dBm] \\
+	\hline
+	\multicolumn{2}{c}{Noise floor (RF Power Off)}							& \\
+	7.5								& X 									& \\
+	10								& X 									& \\
+	12.5							& X 									&
+	\end{tabular}
+	\end{center}
+	\vspace*{-12pt}
+\end{table}
+
 
 \subsection{Dynamic range}
 
-TODO: Huy and Sampo
+TODO: Huy and Sampo (refer to 1dB comp and sens.)
 
 
 \newpage
@@ -571,7 +639,7 @@ TODO: Huy and Sampo
 \newpage
 \section{Feedback}
 
-TODO: Huy and Sampo (not all devices are listed in the instructions sheet, learning from feedback)
+TODO: Huy and Sampo (not all devices are listed in the instructions sheet, learning from feedback, sweeptime)
 
 
 \newpage
