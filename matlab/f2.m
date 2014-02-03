@@ -1,6 +1,8 @@
 saveFig = true;
-save1 = true;
-save2 = false;
+save1 = false;
+save2 = true;
+
+interpFunc = 'pchip';
 
 [f, s, z] = readSparamFile('ANTBRXB.s1p');
 
@@ -206,7 +208,7 @@ Pout = Psa - Gthick;
 G = Pout - Pin;
 
 PPin = -45:0.01:0.0;
-PPout = interp1(Pin, Pout, PPin, 'spline', 'extrap');
+PPout = interp1(Pin, Pout, PPin, interpFunc, 'extrap');
 GG = PPout - PPin;
 
 
@@ -309,7 +311,7 @@ G = S21 - Gatt;
 P2 = P1 + G;
 
 PP1 = -45:0.01:0.0;
-SS21 = interp1(P1, S21, PP1, 'spline', 'extrap');
+SS21 = interp1(P1, S21, PP1, interpFunc, 'extrap');
 GG = SS21 - Gatt;
 PP2 = PP1 + GG;
 
