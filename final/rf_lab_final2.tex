@@ -133,10 +133,8 @@
 
 \section{Introduction}
 
-TODO: Huy and Sampo (1st paragraph: general intro, 2nd: the measuremets, 3rd: structure of this report)
-
-% ref:  (see Fig. \ref{fig:bs})
-
+The second laboratory assignment was mainly about getting acquainted with the receiver part of a GSM base station (BS), understand the effect of noise and non-linearity in different parts of the heterodyne receiver, and to practice RF measurement with commonly used measurement equipment, including coaxial cables and attenuators, a vector network analyzer (VNA), a spectrum analyzer HP8596E, a signal generator Rohde\&Schwarz SML03 and a noise diode HP346C. The measurement covered the RF part of the heterodyne receiver (see Fig. \ref{f:bs}), focusing on the input receiver chain (the RX pre-amplifier block): the bias Tee, the diplexer and the LNA.
+\\
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=\textwidth]{img/bs.jpg}
@@ -145,6 +143,13 @@ TODO: Huy and Sampo (1st paragraph: general intro, 2nd: the measuremets, 3rd: st
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
+
+The laboratory consisted of four measrurement tasks. In the first task, the 1-dB compression point of the RX pre=amp block was measured at 900MHz using both the spectrum analyzer and the VNA. The 1-dB compression point sets the limit to maximum power level of the received signal at input of the pre-amp block. In the second task, the gain of the RX pre-amp block was determined by measuring the 3-dB RX bandwidth of the block. The approximated equivalent noise bandwidth of the block and the TX-band attenuation were also measured. This task was already covered in the first lab assignment as a part of the diplexer characteristics. The third task is a noise measurement whose purpose was to determine the noise temperature of the RX pre-amplifier block using Y-coefficient method. Finally, the fourth task measured the sensitivity of the RX pre-amplifier block (the minimum received power level at input of the pre-amp block).
+\\
+
+This report is divided in five sections. The section after \textit{Introduction} describes the general measurement procedures for the measurement setups used. The third section presents the measurement results, while the fourth section deals with error estimation. In the fifth section, conclusion is drawn, and feedback is also given in the last section to further improve this laboratory assignment of the course.
+\\
+
 
 
 \newpage
@@ -547,11 +552,11 @@ The final results are presented in table (1). The results differ significantly. 
 
 \subsection{Sensitivity}
 
-TODO: Huy and Sampo
+In this measurement, the sensitivity or the minimum detectable input power of the RX pre-amp block was measured using SA. The noise level at the output of the block was measured, when the RF power from SG was completely turned off, to be at \textbf{$-101.89$~dBm}. Three different output SNR values of the block, the minimum SNR from GSM standard, below GSM minimum standard and above GSM minimum standard, were used to calculate desired power level at the output side. Input power levels from SG were written down when the desired output powers were reached. The Table \ref{t:sens} below summarizes the measurement data for the minimum detectable input power at different values of SNR.
 
 \begin{table}[!h]
 	\begin{center}
-	\caption{Results from the sensitivity measurement. The noise floor was measured to be at $-101.98$~dBm.}
+	\caption{Results from the sensitivity measurement.}
 	\label{t:sens}
 	\renewcommand*{\arraystretch}{1.2}
 	\begin{tabular}{cc}
@@ -565,10 +570,32 @@ TODO: Huy and Sampo
 	\vspace*{-12pt}
 \end{table}
 
+It can be seen that at the minimum SNR required from GSM standard (around 10 dB) the measured sensitivity of the RX pre-amp block is $-115.6$~dBm. Taking into account the attenuations caused by SMA-cables, which were measured in the first task), the actual sensitivity is \textbf{$-116.1$~dBm} (=$-115.6 dBm - 0.2 dB - 0.3 dB$). In comparison with the sensitivity specified by producer ($-112.5$~dBm), the measured value is $-3.6$~dB lower than the given one from producer.
 
 \subsection{Dynamic range}
 
-TODO: Huy and Sampo (refer to 1dB comp and sens.)
+The dynamic range of a radio receiver is a range of received signal levels over which the receiver can operate. The dynamic range of the DDU under test can be determined as a ratio of the 1-dB compression point and the sensitivity or the minimum detectable power (MDP) of the pre-amp block. In decibels, the dynamic range is simply a difference between these two power limits:
+
+\begin{equation}
+DR[\mathrm{dB}] = P_\mathrm{1dB} - P_\mathrm{MDP} 
+\end{equation}
+\\
+
+Using the values of the 1-dB compression point and the sensitivity obtained from measurement, the measured dynamic range of the RX pre-amp block is:
+
+\begin{equation}
+DR[\mathrm{dB}]_\mathrm{meas} = -4.1 \mathrm{\;dBm} - (-116.1 \mathrm{\;dBm}) = 112 \mathrm{\;dB}
+\end{equation}
+\\
+
+The theoretical value of dynamic range is calculated with the provided sensitivity from producer as following:
+
+\begin{equation}
+DR[\mathrm{dB}]_\mathrm{theo} = -4.1 \mathrm{\;dBm} - (-112.5 \mathrm{\;dBm}) = 108.4 \mathrm{\;dB}
+\end{equation}
+\\
+
+The measured 1-dB compression point value was applied in the theoretical dynamic range calculation above, since there is no such value given by producer. Therefore, the dynamic range values in theory and in measurement are $-3.6$~dB difference due to different sensitivity values as discussed in the previous subsection 3.4.
 
 
 \newpage
