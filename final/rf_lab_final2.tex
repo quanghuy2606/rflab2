@@ -452,7 +452,23 @@ SA settings.
 \newpage
 \section{Results}
 
-TODO: Huy and Sampo (general results and intro to more specific results)
+The four measurement data were post-processed either by MATLAB or by means of calculation to find wanted parameters of the pre-amp block under test. The results are described in detail in following subsections. The attenuation of cables and attenuator used in those measurement were determined using the VNA, and were taken into account when post-processing the measurement data: 
+\begin{table}[!h]
+
+	\renewcommand*{\arraystretch}{1.2}
+	\begin{tabular}{ll}
+	The Attenuator:				& $L=19.95\mathrm{\;dBm}$ 	\\
+	The narrow cable:			& $L=0.2\mathrm{\;dBm}$ 	\\
+	The thick cable:				& $L=0.3\mathrm{\;dBm}$ 	
+	\end{tabular}
+
+	\vspace*{-12pt}
+\end{table}
+
+The parameters of the amplifier used in the noise measurement, which were used in noise temperature calculation below, were specified as follows: G = 19 dB, T = 463 K, F = 4.1 dB.
+\\
+
+In the last subsection, the dynamic range of the RX pre-amplifier under test was calculated based on both measured parameters and provided parameters from producers. The comparison between those were also discussed.
 
 
 \subsection{1~dB compression point}
@@ -570,7 +586,7 @@ In this measurement, the sensitivity or the minimum detectable input power of th
 	\vspace*{-12pt}
 \end{table}
 
-It can be seen that at the minimum SNR required from GSM standard (around 10 dB) the measured sensitivity of the RX pre-amp block is $-115.6$~dBm. Taking into account the attenuations caused by SMA-cables, which were measured in the first task), the actual sensitivity is \textbf{$-116.1$~dBm} (=$-115.6 dBm - 0.2 dB - 0.3 dB$). In comparison with the sensitivity specified by producer ($-112.5$~dBm), the measured value is $-3.6$~dB lower than the given one from producer.
+It can be seen that at the minimum SNR required from GSM standard (around 10 dB) the measured sensitivity of the RX pre-amp block is $-115.6$~dBm. Taking into account the attenuations caused by SMA-cables, which were measured in the first task), the actual sensitivity is \textbf{$\textbf{-116.1}$~dBm} (=$-115.6\mathrm{\;dBm} - 0.2\mathrm{\;dBm} - 0.3\mathrm{\;dBm}$). In comparison with the sensitivity specified by producer ($-112.5$~dBm), the measured value is $-3.6$~dB lower than the given one from producer.
 
 \subsection{Dynamic range}
 
