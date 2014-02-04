@@ -452,7 +452,17 @@ TODO: Huy and Sampo (general results and intro to more specific results)
 
 \subsection{1~dB compression point}
 
-TODO: Huy and Sampo
+\noindent
+1 dB compression point arises from the nonlinearities of the receiver LNA. At high enough powers, the gain of the LNA for a certain frequency starts to drop with increasing power. The input power at which the LNA gain is compressed by 1 dB was measured using two different measurement setups.
+
+The first measurement setup consisted of a signal generator and a spectrum analyser. With this setup, a single frequency of 900 MHz sent from the signal generator was measured with the spectrum analyser. The signal generator power was increased gradually, until a -1 dB drop in the gain was achieved. The measurement results for the first setup are presented in figures 9 a (original data), c, and e, for which the attenuations of the cables are taken into account.
+
+The second measurement setup consisted of a vector network analyser. The VNA was measuring the S21 –parameter as the input power was increased gradually, until a -1 dB drop was visible in the S21 -parameter. An attenuator was required in between the base station and VNA port 2 to protect the device from the amplified signal. The measurement results for the second setup are presented in figures 9 b, d (original data), and f. The vector network analyser was calibrated before use. 
+
+All the subfigures are plotted from one data set for spectrum analyser setup and VNA setup each. The data sets are post processed using Matlab. Both data sets are visualised with three different figures, so that it is easier to compare the two measurements. The extrapolated sections are plotted only for eye candy, and they should not be taken into account when analysing the RX block performance.
+
+The compression point derived from the spectrum analyser measurement is $CP_a = -5.6$~dBm. Figure 9 c shows how the measured gain fluctuates around the average gain of 24.6 dB, however, with a small amplitude. The compression point derived from the VNA measurement is $CP_b = -4.1$~dBm without gain fluctuation.
+
 
 \begin{figure}
 \centering
@@ -502,7 +512,20 @@ bandwidth.
 
 \subsection{Noise Temperature}
 
-TODO: Huy and Sampo
+\noindent
+The noise of the RX block was measured two times using the Y coefficient method, the noise diode
+working as a hot load and a short circuit as a cold load in room temperature (295 K). The first measurement was done without an extra LNA in between the spectrum analyser and the RX block, and the second measurement was done with the LNA in between.
+
+The noise temperature of the hot load can be calculated from the ENR using equation (3), which gives $T_H = 41773.4$~K. The equivalent noise temperature of the chain in between the diode and the spectrum analyser can be calculated from this temperature, room temperature and the measured noise powers. This is done using the Y coefficient method, which gives $T_{\mathrm{total, w}} = 164.9$~K and $T_{\mathrm{total, wo}} = 654.9$~K for the setups with and without the LNA, respectively.
+
+The previous noise temperature values still include the noise powers from the other parts of the chain, eg. cables and the LNA. The RX block noise temperature can be obtained from equation 5, which is for example for the LNA setup
+
+\begin{equation}
+T_\mathrm{DDU, w} = T_\mathrm{cable 1} + \frac{T_\mathrm{DDU}}{L_\mathrm{cable 1}} + \frac{T_\mathrm{LNA}}{L_\mathrm{cable, 1} G_\mathrm{DDU}} + \frac{T_\mathrm{cable, 2}}{L_\mathrm{cable} G_\mathrm{DDU} G_\mathrm{LNA}},
+\end{equation}
+
+\noindent
+and yields $T_{\mathrm{DDU, w}} = 142.4$~K and $T_{\mathrm{DDU, wo}} = 612.1$~K for the setups with and without the LNA, respectively.
 
 \begin{table}[!h]
 	\begin{center}
@@ -512,13 +535,15 @@ TODO: Huy and Sampo
 	\begin{tabular}{cccccc}
 	LNA? 			& $P_\mathrm{C}$ [dBm] 		& $P_\mathrm{H}$ [dBm]	& $T_\mathrm{total}$ [K] 	& $T_\mathrm{DDU}$ [K] 	& $F_\mathrm{DDU}$ [dB] \\
 	\hline
-	No				& $-107.3$					& $-90.8$				&  							&  						& \\
-	Yes				& $-91.3$					& $-71.7$				&  							&  						&  	
+	No				& $-107.3$					& $-90.8$				& $654.9$ 							& $612.1$ 						& $4.9$\\
+	Yes				& $-91.3$					& $-71.7$				& $164.3$ 							& $142.4$ 						& $1.7$ 	
 	\end{tabular}
 	\end{center}
 	\vspace*{-12pt}
 \end{table}
 
+\noindent
+The final results are presented in table (1). The results differ significantly. The noise temperature calculated from the LNA setup is clearly closer to reality, than the result obtained without the LNA. The reason for this is that the noise power is situated lower than the actual noise floor of the spectrum analyser. The LNA is required in the setup to rise the noise level high enough, so that it can be defined more precisely with the spectrum analyser.
 
 \subsection{Sensitivity}
 
@@ -635,7 +660,15 @@ See lecture handout supplement.
 \newpage
 \section{Conclusions}
 
-TODO: Huy and Sampo
+In this laboratory assignment, the receiver part of a GSM base station was measured. The measurements covered the most important performance parameters of a receiver part, including 1-dB compression point, frequency response, noise temperature, and sensitivity. The most important learning outcome was to understand high and low power measurements, and how a power level affects measurements. Sensitivity and noise measurements require very low power measurements, whereas 1-dB compression point demonstrates the effects of high powers. This report presented the measurement setups and their corresponding results.
+
+The 1-dB compression point was measured with two different measurements. The first was done using a signal generator and a spectrum analyser, and the second was done using only a VNA. In a nutshell, the input power was gradually increased, and the output power measured. In this report, figures were presented from which it was possible to define the 1-dB compression point. The compression point defined with the first setup is $CP_a = -5.6 \pm 1.5$~dBm, and the second setup gave a compression point of $CP_b = -4.1 \pm 0.2$~dBm, with the given error estimations.
+
+The frequency response was already defined in the previous laboratory assignment. 
+
+The main measurement instruments included a spectrum analyser, a vector network analyser, and a signal generator, which all were pre calibrated and ready to use. An attenuator and a low noise amplifier were used to transform the measured signals to proper levels. In addition, different connecting cables were used, and their attenuations defined with the VNA.
+
+
 
 
 \newpage
