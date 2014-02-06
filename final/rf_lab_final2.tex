@@ -585,14 +585,14 @@ DR[\mathrm{dB}] = P_\mathrm{1dB} - P_\mathrm{MDP}
 Using the values of the 1-dB compression point and the sensitivity obtained from measurement, the measured dynamic range of the RX pre-amp block is:
 
 \begin{equation}
-DR[\mathrm{dB}]_\mathrm{meas} = -4.1 \mathrm{\;dBm} - (-116.1 \mathrm{\;dBm}) = 112 \mathrm{\;dB}
+DR[\mathrm{dB}]_\mathrm{meas} = -5.6 \mathrm{\;dBm} - (-116.1 \mathrm{\;dBm}) = 110.5 \mathrm{\;dB}
 \end{equation}
 \\
 
 The theoretical value of dynamic range is calculated with the provided sensitivity from producer as following:
 
 \begin{equation}
-DR[\mathrm{dB}]_\mathrm{theo} = -4.1 \mathrm{\;dBm} - (-112.5 \mathrm{\;dBm}) = 108.4 \mathrm{\;dB}
+DR[\mathrm{dB}]_\mathrm{theo} = -5.6 \mathrm{\;dBm} - (-112.5 \mathrm{\;dBm}) = 106.9 \mathrm{\;dB}
 \end{equation}
 \\
 
@@ -699,12 +699,10 @@ The frequency response was already defined in the previous laboratory assignment
 The DDU noise power was measured with and without a low noise amplifier in between the signal generator and the spectrum analyser. The noise power was then calculated using Y coefficient method, which requires a hot/cold noise source. The noise temperature results for the DDU are $T_\mathrm{DDU, w} = 142.4$~K and $T_\mathrm{DDU, wo} = 612.1$~K, with and without the LNA, respectively. It is concluded that the measurement setup requires an amplifier, as the cold source noise power is too low to be measured precisely without. Therefore, the DDU noise temperature is $142.4$~K. The result seems realistic.
 
 The minimum detectable power of the RX pre-amp block was measured using the spectrum amplifier, and compared to the GSM standard. The GSM standard specifies a signal to noise ratio of $10$~dB for sensitivity measurements. With the specified signal to noise ratio, the sensitivity is defined to be $-116.1 \pm 1.5$~dBm. In comparison with the sensitivity specified by producer ($-112.5$~dBm), the measured value is about $-3.6$~dB lower.
-\\
 
-dynamic range
-\\
+The dynamic range can be calculated from the minimum detectable power and $1$~dB compression point given above. It is the range in between these two values, and is the range of received signal levels over which the receiver can operate. The measured dynamic range is therefore $110.5 \pm 3.0$~dB. The theoretical dynamic range calculated using the manufacturers MDP is $106.9 \pm 1.5$~dB. The measured dynamic range is therefore about 3.6 dBs lower than the manufacturers range.
 
-conclusion
+In conclusion, the receiver block parameters were measured, and a good deal of new things learned. It was especially interesting to measure low powers and to estimate how it effects the measurements. It was also fun to measure the same parameters using different devices/setups, and see how they affect the results.
 
 \newpage
 \section{Feedback}
