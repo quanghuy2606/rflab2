@@ -682,9 +682,11 @@ here to some extent to here as well.
 
 \subsection{Noise diode}
 
-See lecture handout supplement.
+According to the lecture supplement handout \cite{kakkaa_huuleen}, error sources in noise measurements can be divided into four categories. First error source is the noise diode calibration error, second error source arises from Y-factor method, third from mismatches and fourth from the attenuations.
 
+The noise diode calibration uncertainty is about $\pm0.1$~dB. The noise diode ENR varies $0.01$~dB for degree Celsius, and $0.1$~dB for a $1$ percent variation in operating voltage. In the Y-factor method, the hot and cold temperatures should be suitable for the noise temperature that is to be defined. Mismatch prevents some of the noise from reaching to the measurement device. Finally, attenuations have to be taken carefully into account when calculating the noise temperature using the formula.
 
+For our laboratory assignment it is assumed, that the chain is perfectly matched, attenuations precisely measured, and the ENR variations due to temperature and voltage source fluctuations are small. Therefore, only the effect of the $\pm 0.1$~dB calibration uncertainty is to be taken into account. This corresponds to about $\pm900$~K in hot source temperature, and $\pm20$~K in the final equivalent noise temperature.
 \newpage
 \section{Conclusions}
 
@@ -696,7 +698,7 @@ The 1-dB compression point was measured with two different measurements. The fir
 
 The frequency response was already defined in the previous laboratory assignment. The S21 parameter of the RX block was measured with a VNA. The $3$~dB and noise bandwidths were defined from the obtained graph, yielding $40.6$~MHz and $38.1$~MHz, respectively. However, the difference between these two values is small. Therefore, it is concluded that the $3$~dB bandwidth may be used as the noise bandwidth as well, thus avoiding too optimistic measurement results.
 
-The DDU noise power was measured with and without a low noise amplifier in between the signal generator and the spectrum analyser. The noise power was then calculated using Y coefficient method, which requires a hot/cold noise source. The noise temperature results for the DDU are $T_\mathrm{DDU, w} = 142.4$~K and $T_\mathrm{DDU, wo} = 612.1$~K, with and without the LNA, respectively. It is concluded that the measurement setup requires an amplifier, as the cold source noise power is too low to be measured precisely without. Therefore, the DDU noise temperature is $142.4$~K. The result seems realistic.
+The DDU noise power was measured with and without a low noise amplifier in between the signal generator and the spectrum analyser. The noise power was then calculated using Y coefficient method, which requires a hot/cold noise source. The noise temperature results for the DDU are $T_\mathrm{DDU, w} = 142.4$~K and $T_\mathrm{DDU, wo} = 612 \pm 20$~K, with and without the LNA, respectively. It is concluded that the measurement setup requires an amplifier, as the cold source noise power is too low to be measured precisely without. Therefore, the DDU noise temperature is $142 \pm 20$~K. The result seems realistic.
 
 The minimum detectable power of the RX pre-amp block was measured using the spectrum amplifier, and compared to the GSM standard. The GSM standard specifies a signal to noise ratio of $10$~dB for sensitivity measurements. With the specified signal to noise ratio, the sensitivity is defined to be $-116.1 \pm 1.5$~dBm. In comparison with the sensitivity specified by producer ($-112.5$~dBm), the measured value is about $-3.6$~dB lower.
 
@@ -720,7 +722,7 @@ The assistant was very helpful and ready to answer questions. For example, when 
 	\textit{GSM Receiver laboratory assignment instructions},
 	S-26.3120 Laboratory course in Radio Engineering course material.
 	
-\bibitem{} C.\ Icheln (edited), 
+\bibitem{kakkaa_huuleen} C.\ Icheln (edited), 
 	\textit{Lecture supplement handout},
 	S-26.3120 Laboratory course in Radio Engineering course material.
 
