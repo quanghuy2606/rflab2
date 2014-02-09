@@ -133,8 +133,13 @@
 
 \section{Introduction}
 
-The second laboratory assignment was mainly about getting acquainted with the receiver part of a GSM base station (BS), understand the effect of noise and non-linearity in different parts of the heterodyne receiver, and to practice RF measurement with commonly used measurement equipment, including coaxial cables and attenuators, a vector network analyzer (VNA), a spectrum analyzer HP8596E, a signal generator Rohde\&Schwarz SML03 and a noise diode HP346C. The measurement covered the RF part of the heterodyne receiver (see Fig. \ref{f:bs}), focusing on the input receiver chain (the RX pre-amplifier block): the bias Tee, the diplexer and the LNA.
-\\
+The second laboratory assignment was mainly about getting acquainted with the receiver 
+part of the GSM base station (BS), understand the effect of noise and non-linearity in 
+different parts of the heterodyne receiver, and to practice RF measurement with commonly 
+used measurement equipment, including coaxial cables and attenuators, a vector network 
+analyzer (VNA), a spectrum analyzer (SA), a signal generator and a noise diode. The 
+measurement covered the pre-stage of the heterodyne receiver, consisting of the bias 
+tee, the diplexer and the LNA, as shown in Fig.~\ref{f:bs}.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -145,11 +150,23 @@ The second laboratory assignment was mainly about getting acquainted with the re
 	\vspace*{-12pt}
 \end{figure}
 
-The laboratory consisted of four measrurement tasks. In the first task, the 1-dB compression point of the RX pre=amp block was measured at 900MHz using both the spectrum analyzer and the VNA. The 1-dB compression point sets the limit to maximum power level of the received signal at input of the pre-amp block. In the second task, the gain of the RX pre-amp block was determined by measuring the 3-dB RX bandwidth of the block. The approximated equivalent noise bandwidth of the block and the TX-band attenuation were also measured. This task was already covered in the first lab assignment as a part of the diplexer characteristics. The third task is a noise measurement whose purpose was to determine the noise temperature of the RX pre-amplifier block using Y-coefficient method. Finally, the fourth task measured the sensitivity of the RX pre-amplifier block (the minimum received power level at input of the pre-amp block).
+The laboratory consisted of four measrurement tasks. In the first task, the 1~dB compression 
+point of the RX pre-amp block was measured at 900~MHz using both the spectrum analyzer and the 
+VNA. The 1~dB compression point sets the limit to maximum power level of the received signal 
+at input of the pre-amp block. In the second task, the gain of the RX pre-amp block was 
+determined by measuring the 3-dB RX bandwidth of the block. The approximated equivalent 
+noise bandwidth of the block and the TX-band attenuation were also measured. This task was 
+already covered in the first lab assignment as a part of the diplexer characteristics. 
 
-This report is divided in five sections. The section after \textit{Introduction} describes the general measurement procedures for the measurement setups used. The third section presents the measurement results, while the fourth section deals with error estimation. In the fifth section, conclusion is drawn, and feedback is also given in the last section to further improve this laboratory assignment of the course.
-\\
+The third task is a noise measurement whose purpose was to determine the noise temperature of 
+the RX pre-amplifier block using $Y$-coefficient method. Finally, the fourth task involving 
+measuring the sensitivity of the RX pre-amplifier block, i.e., the minimum power level at 
+input of the pre-amp block that can be detected with predefined $\textit{BER}$.
 
+This report is divided in five sections. After this introduction, general measurement procedures 
+are discussed. The third section presents the measurement results while the fourth section includes 
+the error estimates. In the second to last section, some conclusions are drawn. Finally, feedback 
+is also given in the last section to further improve this laboratory assignment of the course.
 
 
 \newpage
@@ -159,8 +176,8 @@ In this section, used measurement configurations are presented for each measurem
 task. Measurements in question may be divided into two distinct categories: power 
 measurements with a spectrum analyzer (SA) and two-port transmission measurements ($S_{21}$)
 with a vector network analyzer (VNA). There were no significant differences between 
-the planned setups and those used in the actual measurements. The following measuremeent 
-specific subsections will elaborate.
+the planned setups and those used in the actual measurements. The following 
+measurement-specific subsections will elaborate.
 
 
 \subsection{1~dB compression point}
@@ -370,7 +387,7 @@ where $P_\mathrm{H/C}$ is the measured power for hot and cold loads at equivalen
 temperatures $T_\mathrm{H/C}$, and $T_\mathrm{e}$ is the noise temperature of the measured 
 device. $T_\mathrm{C} = 295$~K is the physical temperature of the noise diode, and 
 $T_\mathrm{H}$ may be solved from the definition of $\textit{ENR}$:
-\begin{equation}
+\begin{equation}\label{e:ENR}
 \mathit{ENR} = 10 \lg \left( \frac{T_\mathrm{H}}{T_\mathrm{C}} - 1 \right) 
 	\quad\Rightarrow\quad
 	T_\mathrm{H} = T_\mathrm{C} \left( 10^\frac{\mathit{ENR}}{10} + 1 \right).
@@ -386,7 +403,7 @@ temperature of the whole chain. This chain is a cascaded system, consisting of a
 the DDU module, the optional amplifier, another SMA-cable and the spectrum analyzer, in 
 this order. The contribution of the DDU module may be determined by reverse calculating 
 Friis' noise equation:
-\begin{equation}
+\begin{equation}\label{e:Friis}
 	F_\mathrm{total} = F_1 + \frac{F_2 - 1}{G_1} + \frac{F_3 - 1}{G_1 G_2} + \cdots
 	\quad\Leftrightarrow\quad
 	T_\mathrm{total} = T_1 + \frac{T_2}{G_1} + \frac{T_3}{G_1 G_2} + \cdots,
@@ -452,22 +469,47 @@ SA settings.
 \newpage
 \section{Results}
 
-The results are described in detail in the following subsections. The four measurement data were post-processed either by MATLAB or by means of calculation to find wanted parameters of the pre-amp block under test.
+The results are described in detail in the following subsections. The four measurement 
+data were post-processed either by Matlab or by means of calculation to find wanted 
+parameters of the pre-amp block under test.
 
-The attenuation of cables and attenuator used in the measurements were determined using the VNA, and were taken into account when post-processing the measurement data. The attenuations are $19.95$~dB, $0.2$~dB and $0.3$~dB, for the attenuator, narrow cable and thick cable, respectively. The parameters of the amplifier used in the noise measurement, which were used in noise temperature calculation below, were specified as follows: $G = 19$~dB, $T = 463$~K, $F = 4.1$~dB.
+The attenuation of cables and attenuator used in the measurements were determined using 
+the VNA, and were taken into account when post-processing the measurement data. The 
+attenuations are $19.95$~dB, $0.2$~dB and $0.3$~dB, for the attenuator, thin cable and 
+thick cable, respectively. The parameters of the additional amplifier used in the noise 
+measurement were specified as follows: $G = 19$~dB, $T = 463$~K, $F = 4.1$~dB.
+
 
 \subsection{1~dB compression point}
 
-\noindent
-1 dB compression point arises from the nonlinearities of the receiver LNA. At high enough powers, the gain of the LNA for a certain frequency starts to drop with increasing power. The input power at which the LNA gain is compressed by 1 dB was measured using two different measurement setups. The results are presented here.
+1~dB compression point arises from the nonlinearities of the receiver LNA. At high enough 
+powers, the gain of the LNA for a certain frequency starts to drop with increasing power. 
+The input power at which the LNA gain is compressed by 1~dB was measured using two different 
+measurement setups. The results are presented here.
 
-The first measurement setup consisted of a signal generator and a spectrum analyser. A single frequency of 900 MHz sent from the signal generator was measured with the spectrum analyser. The signal generator power was increased gradually, until a 1 dB drop in the gain was achieved. The measurement results for the first setup are presented in figures 9 a (original data), c, and e, for which the attenuations of the cables are taken into account.
+The first measurement setup consisted of a signal generator and a spectrum analyser. A single 
+frequency of 900~MHz sent from the signal generator was measured with the spectrum analyser. 
+The signal generator power was increased gradually, until a 1~dB drop in the gain was achieved. 
+The measurement results for the first setup are presented in Fig.~\ref{f:1dB}(a, c and e). 
+The attenuations of the cables are corrected from the results.
 
-The second measurement setup consisted of a vector network analyser. The VNA was measuring the S21 –parameter as the input power was increased gradually, until a 1 dB drop was visible in the S21 -parameter. An attenuator was required in between the base station and VNA port 2 to protect the device from the amplified signal. The measurement results for the second setup are presented in figures 9 b, d (original data), and f. The vector network analyser was calibrated before use. 
+The second measurement setup consisted of a vector network analyser. The VNA was measuring 
+the $|S_{21}|$ as the input power was increased gradually, until a 1 dB~drop was visible 
+on the screen. An attenuator was required in between the base station and VNA port 2 
+to protect the device from the amplified signal. The measurement results for the second setup 
+are presented in Fig.~\ref{f:1dB}(b, d and f). The vector network analyser was calibrated 
+before use. 
 
-All the sub figures are plotted from one data set for spectrum analyser setup and VNA setup each. The data sets are post processed using Matlab. Both data sets are visualised with three different figures, so that it is easier to compare the two measurements. The extrapolated sections are plotted only for eye candy, and they should not be taken into account when analysing the DDU performance.
+All the sub figures are plotted from one data set for spectrum analyser setup and VNA setup each. 
+The data sets are post processed using Matlab. Both data sets are visualised with three different 
+figures, so that it is easier to compare the two measurements. Matlab \textit{'phcip'} interpolation with 
+additional extrapolation was used for completeness. The Extrapolated data should not thus be taken 
+into account when analysing the DDU performance.
 
-The compression point derived from the spectrum analyser measurement is $CP_a = -5.6$~dBm. Figure 9 c shows how the measured gain fluctuates around the average gain of 24.6 dB, however, with a small amplitude. The compression point derived from the VNA measurement is $CP_b = -4.1$~dBm withou any gain fluctuation.
+The compression point derived from the spectrum analyser measurement is \linebreak{}$CP_\mathrm{a} = -5.6$~dBm. 
+Fig. \ref{f:1dB}(c) shows how the measured gain fluctuates around the average gain of 24.6~dB, 
+however, with a small amplitude. The compression point derived from the VNA measurement is 
+$CP_\mathrm{b} = -4.1$~dBm without any gain fluctuation.
 
 
 \begin{figure}
@@ -520,18 +562,27 @@ bandwidth.
 
 \noindent
 The noise of the RX block was measured two times using the Y coefficient method, the noise diode
-working as a hot load and a short circuit as a cold load in room temperature (295 K). The first measurement was done without an extra LNA in between the spectrum analyser and the RX block, and the second measurement was done with the LNA in between.
+working as a hot load and a short circuit as a cold load in room temperature (295~K). The first 
+measurement was done without an extra LNA in between the spectrum analyser and the RX block, and 
+the second measurement was done with the LNA in between.
 
-The noise temperature of the hot load can be calculated from the ENR using equation (3), which gives $T_H = 41773.4$~K. The equivalent noise temperature of the chain in between the diode and the spectrum analyser can be calculated from this temperature, room temperature and the measured noise powers. This is done using the Y coefficient method, which gives $T_{\mathrm{total, w}} = 164.9$~K and $T_{\mathrm{total, wo}} = 654.9$~K for the setups with and without the LNA, respectively.
+The noise temperature of the hot load can be calculated from the $\mathit{ENR}$ using Eq. \ref{e:ENR}, which 
+gives $T_\mathrm{H} = 41773.4$~K. The equivalent noise temperature of the chain in between the diode and 
+the spectrum analyser can be calculated from this temperature, room temperature and the measured 
+noise powers. This is done using the $Y$-coefficient method, which gives $T_{\mathrm{total,\;w/}} = 164.9$~K 
+and $T_{\mathrm{total,\;w/o}} = 654.9$~K for the setups with and without the LNA, respectively.
 
-The previous noise temperature values still include the noise powers from the other parts of the chain, eg. cables and the LNA. The RX block noise temperature can be obtained from equation 5, which is for example for the LNA setup
+The previous noise temperature values still include the noise powers from the other parts of the 
+chain, i.e., cables, the LNA and the SA. The RX block noise temperature can be obtained from Eq.~\ref{e:Friis},
+which is for example for the LNA setup
 
 \begin{equation}
-T_\mathrm{DDU, w} = T_\mathrm{cable 1} + \frac{T_\mathrm{DDU}}{L_\mathrm{cable 1}} + \frac{T_\mathrm{LNA}}{L_\mathrm{cable, 1} G_\mathrm{DDU}} + \frac{T_\mathrm{cable, 2}}{L_\mathrm{cable} G_\mathrm{DDU} G_\mathrm{LNA}},
+T_\mathrm{DDU,\;w/} = T_\mathrm{C1} + L_\mathrm{C1} T_\mathrm{DDU} + \frac{L_\mathrm{C1} T_\mathrm{LNA}}{G_\mathrm{DDU}} + \frac{L_\mathrm{C1} T_\mathrm{C2}}{G_\mathrm{DDU} G_\mathrm{LNA}},
 \end{equation}
 
 \noindent
-and yields $T_{\mathrm{DDU, w}} = 142.4$~K and $T_{\mathrm{DDU, wo}} = 612.1$~K for the setups with and without the LNA, respectively.
+and yields $T_{\mathrm{DDU,\;w/}} = 142.4$~K and $T_{\mathrm{DDU,\;w/o}} = 612.1$~K for the setups 
+with and without the LNA, respectively.
 
 \begin{table}[!h]
 	\begin{center}
@@ -549,11 +600,21 @@ and yields $T_{\mathrm{DDU, w}} = 142.4$~K and $T_{\mathrm{DDU, wo}} = 612.1$~K 
 \end{table}
 
 
-The final results are presented in table (1). The results differ significantly. The noise temperature calculated from the LNA setup is clearly closer to reality than the result obtained without the LNA. The reason for this is that the noise power is situated lower than the actual noise floor of the spectrum analyser. The LNA is required in the setup to rise the noise level high enough, so that it can be defined more precisely with the spectrum analyser.
+The final results are presented in Table \ref{t:noise}. The results differ significantly. The noise temperature 
+calculated from the LNA setup is clearly closer to reality than the result obtained without the LNA. 
+The reason for this is that the noise power is situated lower than the actual noise floor of the 
+spectrum analyser. The LNA is required in the setup to rise the noise level high enough, so that it 
+can be defined more precisely with the spectrum analyser.
 
 \subsection{Sensitivity}
 
-In this measurement, the sensitivity or the minimum detectable input power of the RX pre-amp block was measured using SA. The noise level at the output of the block was measured, when the RF power from SG was completely turned off, to be at $-101.89$~dBm. Three different output SNR values of the block, the minimum SNR from GSM standard, below GSM minimum standard and above GSM minimum standard, were used to calculate desired power level at the output side. Input power levels from SG were written down when the desired output powers were reached. The Table \ref{t:sens} below summarizes the measurement data for the minimum detectable input power at different values of SNR.
+In this measurement, the sensitivity or the minimum detectable input power of the RX pre-amp block 
+was measured using SA. The noise level at the output of the block was measured, when the RF power from 
+SG was completely turned off, to be at $-101.89$~dBm. Three different output SNR values of the block, 
+the minimum SNR from GSM standard, below GSM minimum standard and above GSM minimum standard, were 
+used to calculate desired power level at the output side. Input power levels from SG were written 
+down when the desired output powers were reached. Table \ref{t:sens} below summarizes the 
+measurement data for the minimum detectable input power at different values of SNR.
 
 \begin{table}[!h]
 	\begin{center}
@@ -571,39 +632,39 @@ In this measurement, the sensitivity or the minimum detectable input power of th
 	\vspace*{-12pt}
 \end{table}
 
-It can be seen that at the minimum SNR required from GSM standard (around 10 dB) the measured sensitivity of the RX pre-amp block is $-115.6$~dBm. Taking into account the attenuations caused by SMA-cables, which were measured in the first task, the actual sensitivity is $-116.1$~dBm (=$-115.6\mathrm{\;dBm} - 0.2\mathrm{\;dBm} - 0.3\mathrm{\;dBm}$).
+It can be seen that at the minimum SNR required from GSM standard (around 10 dB) the measured 
+sensitivity of the RX pre-amp block is $-115.6$~dBm. Taking into account the attenuations caused 
+by SMA-cables, which were measured in the first task, the actual sensitivity is $-116.1$~dBm 
+(${\!\!}=-115.6\mathrm{\;dBm} - 0.2\mathrm{\;dBm} - 0.3\mathrm{\;dBm}$).
 
 \subsection{Dynamic range}
 
-The dynamic range of a radio receiver is a range of received signal levels over which the receiver can operate. The dynamic range of the DDU under test can be determined as a ratio of the 1-dB compression point and the sensitivity or the minimum detectable power (MDP) of the pre-amp block. In decibels, the dynamic range is simply a difference between these two power limits:
-
+The dynamic range of a radio receiver is a range of received signal levels over which the receiver 
+can operate. The dynamic range of the DDU under test can be determined as a ratio of the 1-dB 
+compression point and the sensitivity or the minimum detectable power (MDP) of the pre-amp block. 
+In decibels, the dynamic range is simply a difference between these two power limits:
 \begin{equation}
-DR[\mathrm{dB}] = P_\mathrm{1dB} - P_\mathrm{MDP} 
+\mathit{DR} = P_\mathrm{1\;dB} - P_\mathrm{MDP} 
 \end{equation}
-\\
-
-Using the values of the 1-dB compression point and the sensitivity obtained from measurement, the measured dynamic range of the RX pre-amp block is:
-
+Using the values of the 1~dB compression point and the sensitivity obtained from measurement, the 
+measured dynamic range of the RX pre-amp block is:
 \begin{equation}
-DR[\mathrm{dB}]_\mathrm{meas} = -5.6 \mathrm{\;dBm} - (-116.1 \mathrm{\;dBm}) = 110.5 \mathrm{\;dB}
+\mathit{DR}_\mathrm{meas} = -5.6 \mathrm{\;dBm} - (-116.1 \mathrm{\;dBm}) = 110.5 \mathrm{\;dB}
 \end{equation}
-\\
-
-The theoretical value of dynamic range is calculated with the provided sensitivity from producer as following:
-
+The theoretical value of dynamic range is calculated with the provided sensitivity from producer as 
+following:
 \begin{equation}
-DR[\mathrm{dB}]_\mathrm{theo} = -5.6 \mathrm{\;dBm} - (-112.5 \mathrm{\;dBm}) = 106.9 \mathrm{\;dB}
+\mathit{DR}_\mathrm{theoretical} = -5.6 \mathrm{\;dBm} - (-112.5 \mathrm{\;dBm}) = 106.9 \mathrm{\;dB}
 \end{equation}
-\\
 
-The measured 1-dB compression point value was applied in the theoretical dynamic range calculation above, since there is no such value given by producer. Therefore, the dynamic range values in theory and in measurement are $-3.6$~dB difference due to different sensitivity values as discussed in the previous subsection 3.4.
+The measured 1~dB compression point value was applied in the theoretical dynamic range calculation 
+above, since there is no such value given by producer. Therefore, the theoretical and measured dynamic 
+ranges differ by $-3.6$~dB due to different sensitivity values as discussed in the 
+previous subsection.
 
 
 \newpage
 \section{Error estimates}
-
-TODO: Huy and Sampo (make additions, corrections, change the style to avoid excess 
-repetition etc.)
 
 In this section, error estimates for the two types of measurements are presented.
 The values presented here are only rough estimates based on literature (with more 
@@ -612,7 +673,7 @@ In this section, we do not take human errors (see previous section) into account
 It is just stated that systematic errors arising from the cables and connections 
 are possible in measurement all measurements. Thus they are valid only for 
 ``correct'' measurements, and are more of the ``provided for completeness'' 
-nature. Probabilities are not given due to the nature/basis of the estimation.
+nature. Propabilities are not given due to the nature/basis of the estimation.
 
 
 \subsection{Spectrum analyzer}
@@ -622,7 +683,7 @@ depending for example on the signal frequencies, amplitudes, and measurement set
 The Agilent (former HP, manufacturer of the used SA) has made available a document that 
 specifies the different error sources, giving also rough estimates for some spectrum 
 analyzers. According to the document \cite{sa}, the error estimates vary broadly among 
-different analyzer models, giving worst case uncertainties exceeding $\pm 6$ dB. On the 
+different analyzer models, giving worst case uncertainties exceeding $\pm 6$~dB. On the 
 other hand, the document gives also representative values of amplitude uncertainties, 
 which in our case yields about $\pm 1$ dB.
 
@@ -667,53 +728,116 @@ measurement was done inside a short time interval.
 Rohde \& Schwarz provides specifications that describe the measurement uncertainty 
 of the VNA in question in different frequency bands. For transmission measurements 
 in the frequency range of 50 MHz to 3 GHz, accuracy for signal powers of $-50 \ldots 0$ 
-dB is better than $0.2$ dB ($0.3$ dB for powers of $-50 \ldots {-70}$ dB) with 0 dBm 
+dB is better than $0.2$ dB ($0.3$ dB for powers of $-50 \ldots {-70}$ dB) with 0~dBm 
 transmit power. \cite{vna} The reader should note that these ranges was exceeded 
 from both ends during the measurements (the measurement power range was roughly 
 $-100 \ldots {+4}$ dBm). 
 
 In conclusion, two things are assumed. First, calibration is assumed to cancel the 
-systematic errors arising from cables and connectors. Second, random errors are 
-cancelled with averaging. The manufacturer provides error estimates for the device 
-itself, giving an error estimate of under $0.3$ dB that is mostly applicable in 
-our case. The topics discussed in the last paragraph of the last subsection apply 
-here to some extent to here as well.
+systematic errors arising from cables and connectors to a neligible level. Second, 
+random errors are cancelled with averaging almost entirely. The manufacturer provides 
+error estimates for the device itself, giving an error estimate of under $0.3$ dB that 
+is mostly applicable in our case. The topics discussed in the last paragraph of the 
+last subsection apply here to some extent to here as well.
 
 
 \subsection{Noise diode}
 
-According to the lecture supplement handout \cite{kakkaa_huuleen}, error sources in noise measurements can be divided into four categories. First error source is the noise diode calibration error, second error source arises from Y-factor method, third from mismatches and fourth from the attenuations.
+According to the lecture supplement handout \cite{kakkaa_huuleen}, error sources in noise 
+measurements can be divided into four categories. First error source is the noise diode 
+calibration error, second error source arises from Y-factor method, third from mismatches 
+and fourth from the attenuations.
 
-The noise diode calibration uncertainty is about $\pm0.1$~dB. The noise diode ENR varies $0.01$~dB for degree Celsius, and $0.1$~dB for a $1$ percent variation in operating voltage. In the Y-factor method, the hot and cold temperatures should be suitable for the noise temperature that is to be defined. Mismatch prevents some of the noise from reaching to the measurement device. Finally, attenuations have to be taken carefully into account when calculating the noise temperature using the formula.
+The noise diode calibration uncertainty is about $\pm0.1$~dB. The noise diode ENR varies 
+$0.01$~dB/${}^\circ \mathrm{\,C}$, and $0.1$~dB/\% for variations in the operating voltage. 
+In the $Y$-factor method, the hot and cold temperatures should be suitable for the noise 
+temperature that is to be defined. Mismatch prevents some of the noise from reaching to 
+the measurement device. Finally, attenuations have to be taken carefully into account when 
+calculating the noise temperature using the formula.
 
-For our laboratory assignment it is assumed, that the chain is perfectly matched, attenuations precisely measured, and the ENR variations due to temperature and voltage source fluctuations are small. Therefore, only the effect of the $\pm 0.1$~dB calibration uncertainty is to be taken into account. This corresponds to about $\pm900$~K in hot source temperature, and $\pm20$~K in the final equivalent noise temperature.
+For our laboratory assignment it is assumed, that the chain is perfectly matched, attenuations 
+precisely measured, and the $\mathit{ENR}$ variations due to temperature and voltage source fluctuations 
+are small. Therefore, only the effect of the $\pm 0.1$~dB calibration uncertainty is to be 
+taken into account. This corresponds to about $\pm900$~K in hot source temperature, and 
+$\pm20$~K in the final equivalent noise temperature.
+
 \newpage
 \section{Conclusions}
 
-In this laboratory assignment, the receiver part of a GSM base station was measured. The measurements covered the most important performance parameters of a receiver part, including 1-dB compression point, frequency response, noise temperature, and sensitivity. The most important learning outcome was to understand high and low power measurements, and how a power level affects measurements. Sensitivity and noise measurements require very low power measurements, whereas 1-dB compression point demonstrates the effects of high powers. This report presented the measurement setups and their corresponding results.
+In this laboratory assignment, the receiver part of a GSM base station was measured. The 
+measurements covered the most important performance parameters of a receiver part, including 
+1-dB compression point, frequency response, noise temperature, and sensitivity. The most 
+important learning outcome was to understand high and low power measurements, and how a 
+power level affects measurements. Sensitivity and noise measurements require very low power 
+measurements, whereas 1~dB compression point demonstrates the effects of high powers. This 
+report presented the measurement setups and their corresponding results.
 
-The main measurement instruments included a spectrum analyser, a vector network analyser, and a signal generator, which all were pre calibrated and ready to use. An attenuator and a low noise amplifier were used to transform the measured signals to proper levels. In addition, different connecting cables were used, and their attenuations defined with the VNA. Measurement uncertainties for the spectrum analyser and VNA are estimated to be approximately $\pm1.5$~dB and $\pm0.3$~dB, respectively.
+The main measurement instruments included a spectrum analyser, a vector network analyser, and 
+a signal generator, which all were pre calibrated and ready to use. An attenuator and a low 
+noise amplifier were used to transform the measured signals to proper levels. In addition, 
+different connecting cables were used, and their attenuations defined with the VNA. Measurement 
+uncertainties for the spectrum analyser and VNA are estimated to be approximately $\pm1.5$~dB 
+and $\pm0.3$~dB, respectively.
 
-The 1-dB compression point was measured with two different measurements. The first was done using a signal generator and a spectrum analyser, and the second was done using only a VNA. In a nutshell, the input power was gradually increased, and the output power measured. In this report, figures are presented from which it is possible to define the 1-dB compression point. The compression point defined with the first setup is $CP_a = -5.6 \pm 1.5$~dBm and the second setup gives a compression point of $CP_b = -4.1 \pm 0.3$~dBm, with the given error estimations.
+The 1-dB compression point was measured with two different measurements. The first was done 
+using a signal generator and a spectrum analyser, and the second was done using only a VNA. 
+In a nutshell, the input power was gradually increased, and the output power measured. In this 
+report, figures are presented from which it is possible to define the 1-dB compression point. 
+The compression point defined with the first setup is $CP_a = -5.6 \pm 1.5$~dBm and the second 
+setup gives a compression point of $CP_b = -4.1 \pm 0.3$~dBm, with the given error estimations.
 
-The frequency response was already defined in the previous laboratory assignment. The S21 parameter of the RX block was measured with a VNA. The $3$~dB and noise bandwidths were defined from the obtained graph, yielding $40.6$~MHz and $38.1$~MHz, respectively. However, the difference between these two values is small. Therefore, it is concluded that the $3$~dB bandwidth may be used as the noise bandwidth as well, thus avoiding too optimistic measurement results.
+The frequency response was already defined in the previous laboratory assignment. The S21 
+parameter of the RX block was measured with a VNA. The $3$~dB and noise bandwidths were 
+defined from the obtained graph, yielding $40.6$~MHz and $38.1$~MHz, respectively. However, 
+the difference between these two values is small. Therefore, it is concluded that the $3$~dB 
+bandwidth may be used as the noise bandwidth as well, thus avoiding too optimistic measurement 
+results.
 
-The DDU noise power was measured with and without a low noise amplifier in between the signal generator and the spectrum analyser. The noise power was then calculated using Y coefficient method, which requires a hot/cold noise source. The noise temperature results for the DDU are $T_\mathrm{DDU, w} = 142.4$~K and $T_\mathrm{DDU, wo} = 612 \pm 20$~K, with and without the LNA, respectively. It is concluded that the measurement setup requires an amplifier, as the cold source noise power is too low to be measured precisely without. Therefore, the DDU noise temperature is $142 \pm 20$~K. The result seems realistic.
+The DDU noise power was measured with and without a low noise amplifier in between the signal 
+generator and the spectrum analyser. The noise power was then calculated using Y coefficient
+ method, which requires a hot/cold noise source. The noise temperature results for the DDU are 
+ $T_\mathrm{DDU, w} = 142.4$~K and $T_\mathrm{DDU, wo} = 612 \pm 20$~K, with and without the 
+ LNA, respectively. It is concluded that the measurement setup requires an amplifier, as the 
+ cold source noise power is too low to be measured precisely without. Therefore, the DDU noise 
+ temperature is $142 \pm 20$~K. The result seems realistic.
 
-The minimum detectable power of the RX pre-amp block was measured using the spectrum amplifier, and compared to the GSM standard. The GSM standard specifies a signal to noise ratio of $10$~dB for sensitivity measurements. With the specified signal to noise ratio, the sensitivity is defined to be $-116.1 \pm 1.5$~dBm. In comparison with the sensitivity specified by producer ($-112.5$~dBm), the measured value is about $-3.6$~dB lower.
+The minimum detectable power of the RX pre-amp block was measured using the spectrum amplifier, 
+and compared to the GSM standard. The GSM standard specifies a signal to noise ratio of $10$~dB 
+for sensitivity measurements. With the specified signal to noise ratio, the sensitivity is 
+defined to be $-116.1 \pm 1.5$~dBm. In comparison with the sensitivity specified by producer 
+($-112.5$~dBm), the measured value is about $-3.6$~dB lower.
 
-The dynamic range can be calculated from the minimum detectable power and $1$~dB compression point given above. It is the range in between these two values, and is the range of received signal levels over which the receiver can operate. The measured dynamic range is therefore $110.5 \pm 3.0$~dB. The theoretical dynamic range calculated using the manufacturers MDP is $106.9 \pm 1.5$~dB. The measured dynamic range is therefore about 3.6 dBs lower than the manufacturers range.
+The dynamic range can be calculated from the minimum detectable power and $1$~dB compression 
+point given above. It is the range in between these two values, and is the range of received 
+signal levels over which the receiver can operate. The measured dynamic range is therefore 
+$110.5 \pm 3.0$~dBm. The theoretical dynamic range calculated using the manufacturers MDP is 
+$106.9 \pm 1.5$~dBm. The measured dynamic range is therefore about 3.6~dB lower than the 
+range given by the manufacturer.
 
-In conclusion, the receiver block parameters were measured, and a good deal of new things learned. It was especially interesting to measure low powers and to estimate how it effects the measurements. It was also fun to measure the same parameters using different devices/setups, and see how they affect the results.
+In conclusion, the receiver block parameters were measured, and a good deal of new things 
+learned. It was especially interesting to measure low powers and to estimate how it effects 
+the measurements. It was also fun to measure the same parameters using different devices/setups, 
+and see how they affect the results.
 
 \newpage
 \section{Feedback}
 
-The second laboratory assignment was a good practical example of how power levels affect measurements. In addition, it was interesting to learn how noise measurements may be conducted. However, there were some drawbacks as well.
+The second laboratory assignment was a good practical example of how power levels affect 
+measurements. In addition, it was interesting to learn how noise measurements may be conducted. 
+However, there were some drawbacks as well.
 
-When writing the preliminary report, we were left wondering if all the needed devices were really listed in the instructions sheet. In the noise measurements, the LNA was definitely required, but not listed. Feedback for all the reports would also be welcome, as a grade does not tell the pluses and minuses of a report. What was especially good? What could have been better? Any wrong thoughts or deductions? After all, learning process depends very much on "learning from mistakes". Also, there was the question on sweep time. Not the assistant nor the lecturer could not thoroughly explain for example how it affects measurements.
+When writing the preliminary report, we were left wondering if all the needed devices were 
+really listed in the instructions sheet. In the noise measurements, the LNA was definitely 
+required, but not listed. Feedback for all the reports would also be welcome, as a grade 
+does not tell the pluses and minuses of a report. What was especially good? What could have 
+been better? Any wrong thoughts or deductions? After all, learning process depends very much 
+on ``learning from mistakes.'' Also, there was the question on sweep time. Not the assistant 
+nor the lecturer could not thoroughly explain for example how it affects measurements.
 
-The assistant was very helpful and ready to answer questions. For example, when we asked for some equipment that would not normally be used in the lab, he brought them immediately. In addition, the assistant had taken our feedback from the previous lab into account, and improved the measurement setup.
+The assistant was very helpful and ready to answer questions. For example, when we asked for 
+some equipment that would not normally be used in the lab, he brought them immediately. In 
+addition, the assistant had taken our feedback from the previous lab into account, and improved 
+the measurement setup.
 
 \newpage
 \begin{thebibliography}{9}%\itemsep 7pt\parskip -5pt 
