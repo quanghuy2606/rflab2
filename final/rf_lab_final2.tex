@@ -264,7 +264,7 @@ power (SG \& SA), or equivalently as lower gain (VNA).
 
 Since we were measuring a GSM receiver, we used settings found in the GSM 
 specification for the spectrum analyzer with the expeception of smaller 
-averaging factor. They settings were as follows: an averaging factor of 100, 
+averaging factor. The settings were as follows: an averaging factor of 100, 
 zero span and 30~kHz video and resolution bandwidths. Input attenuation of the 
 spectrum analyzer was increased from 10~dB all the way to 30~dB as we moved onto 
 higher powers. 
@@ -385,7 +385,7 @@ Y = \frac{P_\mathrm{H}}{P_\mathrm{C}}
 \end{equation}
 where $P_\mathrm{H/C}$ is the measured power for hot and cold loads at equivalent noise 
 temperatures $T_\mathrm{H/C}$, and $T_\mathrm{e}$ is the noise temperature of the measured 
-device. $T_\mathrm{C} = 295$~K is the physical temperature of the noise diode, and 
+device. $T_\mathrm{C} = 290$~K is the physical temperature of the noise diode, and 
 $T_\mathrm{H}$ may be solved from the definition of $\textit{ENR}$:
 \begin{equation}\label{e:ENR}
 \mathit{ENR} = 10 \lg \left( \frac{T_\mathrm{H}}{T_\mathrm{0}} - 1 \right) 
@@ -421,7 +421,7 @@ For the spectrum analyzer, $F = ?$~dB.
 
 \subsection{Sensitivity}
 
-In the sensitivity measurement, we're measured the minimum input power at the ANT$_\mathrm{A}$-input 
+In the sensitivity measurement, we measured the minimum input power at the ANT$_\mathrm{A}$-input 
 that results in a reliably detectable signal above the noise floor in the ouput of the DDU module. 
 In GSM-systems, a signal with $\mathit{SNR} > 10$~dB is detected with an acceptable $\mathit{BER}$. 
 For this, a measurement setup identical to the one used in the first task may be used. The setup 
@@ -552,7 +552,7 @@ The 3~dB bandwidth may thus be used to avoid being overly optimistic.
 In the graphical approximation method we need to investigate the effect of frequency 
 roll-off speed. From Fig.~\ref{f:s12} the transition bands are approx. 30~MHz (3.4 \%) 
 and 5~MHz (0.55 \%) for lower and upper bands, respectively. During this transition, 
-the $S_12$ drops roughly 100~dB from $+20$~dB to $-80$~dB. This corresponds to a slope 
+the $S_{12}$ drops roughly 100~dB from $+20$~dB to $-80$~dB. This corresponds to a slope 
 of $3.3$~dB/MHz (29~dB/\%) and $-20$~dB/MHz ($-180$~dB/\%), respectively. The effect of 
 such steep slopes are neglectable, and thus the 3~dB bandwidth may be used as the noise 
 bandwidth.
@@ -562,26 +562,26 @@ bandwidth.
 
 \noindent
 The noise of the RX block was measured two times using the Y coefficient method, the noise diode
-working as a hot load and a short circuit as a cold load in room temperature (295~K). The first 
+working as a hot load and a short circuit as a cold load in room temperature (290~K). The first 
 measurement was done without an extra LNA in between the spectrum analyser and the RX block, and 
 the second measurement was done with the LNA in between.
 
 The noise temperature of the hot load can be calculated from the $\mathit{ENR}$ using Eq. \ref{e:ENR}, which 
-gives $T_\mathrm{H} = 41773.4$~K. The equivalent noise temperature of the chain in between the diode and 
+gives $T_\mathrm{H} = 41065$~K. The equivalent noise temperature of the chain in between the diode and 
 the spectrum analyser can be calculated from this temperature, room temperature and the measured 
-noise powers. This is done using the $Y$-coefficient method, which gives $T_{\mathrm{total,\;w/}} = 164.9$~K 
-and $T_{\mathrm{total,\;w/o}} = 654.9$~K for the setups with and without the LNA, respectively.
+noise powers. This is done using the $Y$-coefficient method, which gives $T_{\mathrm{total,\;w/}} = 162.1$~K 
+and $T_{\mathrm{total,\;w/o}} = 643.8$~K for the setups with and without the LNA, respectively.
 
 The previous noise temperature values still include the noise powers from the other parts of the 
 chain, i.e., cables, the LNA and the SA. The RX block noise temperature can be obtained from Eq.~\ref{e:Friis},
 which is for example for the LNA setup
 
 \begin{equation}
-T_\mathrm{DDU,\;w/} = T_\mathrm{C1} + L_\mathrm{C1} T_\mathrm{DDU} + \frac{L_\mathrm{C1} T_\mathrm{LNA}}{G_\mathrm{DDU}} + \frac{L_\mathrm{C1} T_\mathrm{C2}}{G_\mathrm{DDU} G_\mathrm{LNA}},
+T_\mathrm{total,\;w/} = T_\mathrm{C1} + L_\mathrm{C1} T_\mathrm{DDU,\;w/} + \frac{L_\mathrm{C1} T_\mathrm{LNA}}{G_\mathrm{DDU}} + \frac{L_\mathrm{C1} T_\mathrm{C2}}{G_\mathrm{DDU} G_\mathrm{LNA}},
 \end{equation}
 
 \noindent
-and yields $T_{\mathrm{DDU,\;w/}} = 142.4$~K and $T_{\mathrm{DDU,\;w/o}} = 612.1$~K for the setups 
+and yields $T_{\mathrm{DDU,\;w/}} = 139.7$~K and $T_{\mathrm{DDU,\;w/o}} = 601.4$~K for the setups 
 with and without the LNA, respectively.
 
 \begin{table}[!h]
@@ -592,8 +592,8 @@ with and without the LNA, respectively.
 	\begin{tabular}{cccccc}
 	LNA? 			& $P_\mathrm{C}$ [dBm] 		& $P_\mathrm{H}$ [dBm]	& $T_\mathrm{total}$ [K] 	& $T_\mathrm{DDU}$ [K] 	& $F_\mathrm{DDU}$ [dB] \\
 	\hline
-	No				& $-107.3$					& $-90.8$				& $654.9$ 							& $612.1$ 						& $4.9$\\
-	Yes				& $-91.3$					& $-71.7$				& $164.3$ 							& $142.4$ 						& $1.7$ 	
+	No				& $-107.3$					& $-90.8$				& $643.8$ 							& $601.4$ 						& $4.9$\\
+	Yes				& $-91.3$					& $-71.7$				& $162.1$ 							& $139.7$ 						& $1.7$ 	
 	\end{tabular}
 	\end{center}
 	\vspace*{-12pt}
@@ -753,7 +753,7 @@ $0.01$~dB/${}^\circ \mathrm{\,C}$, and $0.1$~dB/\% for variations in the operati
 In the $Y$-factor method, the hot and cold temperatures should be suitable for the noise 
 temperature that is to be defined. Mismatch prevents some of the noise from reaching to 
 the measurement device. Finally, attenuations have to be taken carefully into account when 
-calculating the noise temperature using the formula.
+calculating the noise temperature using the Frii's formula.
 
 For our laboratory assignment it is assumed, that the chain is perfectly matched, attenuations 
 precisely measured, and the $\mathit{ENR}$ variations due to temperature and voltage source fluctuations 
@@ -786,32 +786,32 @@ report, figures are presented from which it is possible to define the 1-dB compr
 The compression point defined with the first setup is $CP_a = -5.6 \pm 1.5$~dBm and the second 
 setup gives a compression point of $CP_b = -4.1 \pm 0.3$~dBm, with the given error estimations.
 
-The frequency response was already defined in the previous laboratory assignment. The S21 
+The frequency response was already defined in the previous laboratory assignment. The $S_{21}$ 
 parameter of the RX block was measured with a VNA. The $3$~dB and noise bandwidths were 
 defined from the obtained graph, yielding $40.6$~MHz and $38.1$~MHz, respectively. However, 
-the difference between these two values is small. Therefore, it is concluded that the $3$~dB 
+the difference between these two values is small, and the band edges are steep. Therefore, it is concluded that the $3$~dB 
 bandwidth may be used as the noise bandwidth as well, thus avoiding too optimistic measurement 
 results.
 
 The DDU noise power was measured with and without a low noise amplifier in between the signal 
 generator and the spectrum analyser. The noise power was then calculated using Y coefficient
  method, which requires a hot/cold noise source. The noise temperature results for the DDU are 
- $T_\mathrm{DDU, w} = 142.4$~K and $T_\mathrm{DDU, wo} = 612 \pm 20$~K, with and without the 
+ $T_\mathrm{DDU, w/} = 140 \pm 20$~K and $T_\mathrm{DDU, w/o} = 612 \pm 20$~K, with and without the 
  LNA, respectively. It is concluded that the measurement setup requires an amplifier, as the 
  cold source noise power is too low to be measured precisely without. Therefore, the DDU noise 
- temperature is $142 \pm 20$~K. The result seems realistic.
+ temperature is $140 \pm 20$~K. The result seems realistic.
 
 The minimum detectable power of the RX pre-amp block was measured using the spectrum amplifier, 
 and compared to the GSM standard. The GSM standard specifies a signal to noise ratio of $10$~dB 
 for sensitivity measurements. With the specified signal to noise ratio, the sensitivity is 
 defined to be $-116.1 \pm 1.5$~dBm. In comparison with the sensitivity specified by producer 
-($-112.5$~dBm), the measured value is about $-3.6$~dB lower.
+($-112.5$~dBm), the measured value is about $-3.6$~dBm lower.
 
 The dynamic range can be calculated from the minimum detectable power and $1$~dB compression 
 point given above. It is the range in between these two values, and is the range of received 
 signal levels over which the receiver can operate. The measured dynamic range is therefore 
 $110.5 \pm 3.0$~dBm. The theoretical dynamic range calculated using the manufacturers MDP is 
-$106.9 \pm 1.5$~dBm. The measured dynamic range is therefore about 3.6~dB lower than the 
+$106.9 \pm 1.5$~dBm. The measured dynamic range is therefore about $3.6$~dBm lower than the 
 range given by the manufacturer.
 
 In conclusion, the receiver block parameters were measured, and a good deal of new things 
