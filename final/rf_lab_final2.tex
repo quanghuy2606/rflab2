@@ -154,7 +154,7 @@ The laboratory consisted of four measrurement tasks. In the first task, the 1~dB
 point of the RX pre-amp block was measured at 900~MHz using both the spectrum analyzer and the 
 VNA. The 1~dB compression point sets the limit to maximum power level of the received signal 
 at input of the pre-amp block. In the second task, the gain of the RX pre-amp block was 
-determined by measuring the 3-dB RX bandwidth of the block. The approximated equivalent 
+determined by measuring the 3~dB RX bandwidth of the block. The approximated equivalent 
 noise bandwidth of the block and the TX-band attenuation were also measured. This task was 
 already covered in the first lab assignment as a part of the diplexer characteristics. 
 
@@ -416,7 +416,9 @@ The parameters required by the formula may be obtained through calculation, or a
 by the manufacturer. For example the noise contribution of the cables can be obtained from 
 their attenuation $L$ and physical temperature $T_\mathrm{phys}$ through formula 
 $F = (L - 1) T_\mathrm{phys}$. The amplifier specifications were given already in the text.
-For the spectrum analyzer, $F = ?$~dB.
+For the spectrum analyzer, its noise noise characteristics eluded us. Luckily, there is 
+significant gain earlier in the chain, thus minimizing the effect of the noise originating 
+in the SA.
 
 
 \subsection{Sensitivity}
@@ -452,7 +454,8 @@ we're hoping to detect. That is, the RF power was switched off at the generator.
 Then we turned on an input signal that's some dBs below the reported sensitivity 
 level of $-112.5$~dBm. We gradually increased the power until the signal-to-noise 
 ratio was no less than the 10~dB required by the standard. The corresponding power 
-level was recorded.
+level was recorded. Also powers corresponding to an $\textit{SNR}$ of 12.5 and 7.5~dB 
+we measured. 
 
 One could have also measure the power required to beat the noise just barely, and 
 add the SNR later on. This approach is, however, less accurate and more painful. It 
@@ -509,7 +512,8 @@ into account when analysing the DDU performance.
 The compression point derived from the spectrum analyser measurement is \linebreak{}$CP_\mathrm{a} = -5.6$~dBm. 
 Fig. \ref{f:1dB}(c) shows how the measured gain fluctuates around the average gain of 24.6~dB, 
 however, with a small amplitude. The compression point derived from the VNA measurement is 
-$CP_\mathrm{b} = -4.1$~dBm without any gain fluctuation.
+$CP_\mathrm{b} = -4.1$~dBm without any gain fluctuation. One could assume the ``actual'' 
+compression point to be found within these limits.
 
 
 \begin{figure}
@@ -582,7 +586,7 @@ T_\mathrm{total,\;w/} = T_\mathrm{C1} + L_\mathrm{C1} T_\mathrm{DDU,\;w/} + \fra
 
 \noindent
 and yields $T_{\mathrm{DDU,\;w/}} = 139.7$~K and $T_{\mathrm{DDU,\;w/o}} = 601.4$~K for the setups 
-with and without the LNA, respectively.
+with and without the LNA, respectively. Subscript $\mathrm{C}i$ refers to the $i$th cable.
 
 \begin{table}[!h]
 	\begin{center}
@@ -600,21 +604,22 @@ with and without the LNA, respectively.
 \end{table}
 
 
-The final results are presented in Table \ref{t:noise}. The results differ significantly. The noise temperature 
-calculated from the LNA setup is clearly closer to reality than the result obtained without the LNA. 
-The reason for this is that the noise power is situated lower than the actual noise floor of the 
-spectrum analyser. The LNA is required in the setup to rise the noise level high enough, so that it 
-can be defined more precisely with the spectrum analyser.
+The final results are presented in Table \ref{t:noise}. The results differ significantly. The noise 
+temperature calculated from the LNA setup is clearly closer to reality than the result obtained without 
+the LNA. The reason for this is that the cold noise power is does not exceed the noise floor of the SA 
+with a large enough margin. The LNA is required in the setup to rise the noise level high enough, so 
+that it can be defined more precisely with the spectrum analyser.
+
 
 \subsection{Sensitivity}
 
 In this measurement, the sensitivity or the minimum detectable input power of the RX pre-amp block 
 was measured using SA. The noise level at the output of the block was measured, when the RF power from 
 SG was completely turned off, to be at $-101.89$~dBm. Three different output SNR values of the block, 
-the minimum SNR from GSM standard, below GSM minimum standard and above GSM minimum standard, were 
-used to calculate desired power level at the output side. Input power levels from SG were written 
+the minimum \textit{SNR} from GSM standard, below GSM minimum standard and above GSM minimum standard, 
+were used to calculate desired power level at the output side. Input power levels from SG were written 
 down when the desired output powers were reached. Table \ref{t:sens} below summarizes the 
-measurement data for the minimum detectable input power at different values of SNR.
+measurement data for the minimum detectable input power at different values of $\textit{SNR}$.
 
 \begin{table}[!h]
 	\begin{center}
@@ -635,12 +640,16 @@ measurement data for the minimum detectable input power at different values of S
 It can be seen that at the minimum SNR required from GSM standard (around 10 dB) the measured 
 sensitivity of the RX pre-amp block is $-115.6$~dBm. Taking into account the attenuations caused 
 by SMA-cables, which were measured in the first task, the actual sensitivity is $-116.1$~dBm 
-(${\!\!}=-115.6\mathrm{\;dBm} - 0.2\mathrm{\;dBm} - 0.3\mathrm{\;dBm}$).
+(${\!\!}=-115.6\mathrm{\;dBm} - 0.2\mathrm{\;dBm} - 0.3\mathrm{\;dBm}$). 
+
+These results assume the SA recognizes its measuring noise and applies internal correction. Most 
+likely this correction must be done manually by adding 2.5~dB to the noise floor. \cite{kakkaa_huuleen} 
+The same effect may achieved by using an SNR of 12.5~dB, resulting in a sensitivity level of $-113.6$~dBm.
 
 \subsection{Dynamic range}
 
 The dynamic range of a radio receiver is a range of received signal levels over which the receiver 
-can operate. The dynamic range of the DDU under test can be determined as a ratio of the 1-dB 
+can operate. The dynamic range of the DDU under test can be determined as a ratio of the 1~dB 
 compression point and the sensitivity or the minimum detectable power (MDP) of the pre-amp block. 
 In decibels, the dynamic range is simply a difference between these two power limits:
 \begin{equation}
@@ -649,7 +658,7 @@ In decibels, the dynamic range is simply a difference between these two power li
 Using the values of the 1~dB compression point and the sensitivity obtained from measurement, the 
 measured dynamic range of the RX pre-amp block is:
 \begin{equation}
-\mathit{DR}_\mathrm{meas} = -5.6 \mathrm{\;dBm} - (-116.1 \mathrm{\;dBm}) = 110.5 \mathrm{\;dB}
+\mathit{DR}_\mathrm{measured} = -5.6 \mathrm{\;dBm} - (-116.1 \mathrm{\;dBm}) = 110.5 \mathrm{\;dB}
 \end{equation}
 The theoretical value of dynamic range is calculated with the provided sensitivity from producer as 
 following:
@@ -661,6 +670,11 @@ The measured 1~dB compression point value was applied in the theoretical dynamic
 above, since there is no such value given by producer. Therefore, the theoretical and measured dynamic 
 ranges differ by $-3.6$~dB due to different sensitivity values as discussed in the 
 previous subsection.
+
+These measurements we obtained using the 1~dB compression point from the SG \& SA measurement along 
+with the assumption that the spectrum analyzer makes the noise correction. Using 1~dB compression point 
+obtained from the VNA measuremens indcreases both dynamic ranges by 1.5~dB. Correcting for the noise 
+decreases $\mathit{DR}_\mathrm{measured}$ by 2.5~dB.
 
 
 \newpage
@@ -745,21 +759,30 @@ last subsection apply here to some extent to here as well.
 
 According to the lecture supplement handout \cite{kakkaa_huuleen}, error sources in noise 
 measurements can be divided into four categories. First error source is the noise diode 
-calibration error, second error source arises from Y-factor method, third from mismatches 
-and fourth from the attenuations.
+calibration error, second error source arises from $Y$-factor method, third from mismatches 
+and fourth from the attenuations. Also the physical operating temperatures might have been 
+some kelvins above $T_0 = 290$~K.
 
 The noise diode calibration uncertainty is about $\pm0.1$~dB. The noise diode ENR varies 
 $0.01$~dB/${}^\circ \mathrm{\,C}$, and $0.1$~dB/\% for variations in the operating voltage. 
 In the $Y$-factor method, the hot and cold temperatures should be suitable for the noise 
-temperature that is to be defined. Mismatch prevents some of the noise from reaching to 
-the measurement device. Finally, attenuations have to be taken carefully into account when 
-calculating the noise temperature using the Frii's formula.
+temperature that is to be defined. Also mismatch and cable temperatures (see \cite{kakkaa_huuleen}, p.\ 89-90) 
+should be taken into account if top-notch accuracy is wanted. Finally, attenuations have 
+to be taken carefully into account when calculating the noise temperature using the Frii's 
+formula.
 
 For our laboratory assignment it is assumed, that the chain is perfectly matched, attenuations 
 precisely measured, and the $\mathit{ENR}$ variations due to temperature and voltage source fluctuations 
 are small. Therefore, only the effect of the $\pm 0.1$~dB calibration uncertainty is to be 
 taken into account. This corresponds to about $\pm900$~K in hot source temperature, and 
 $\pm20$~K in the final equivalent noise temperature.
+
+
+\subsection{Signal generator}
+
+For the sensitivity measurement, also the uncertainty of the signal generator should be taken 
+into account. The signal generator amplitude error and amplitude flatness are relevant parameters.
+For more thorough discurssion, the reader is advised to refer to \cite{kakkaa_huuleen, sg}.
 
 \newpage
 \section{Conclusions}
@@ -810,9 +833,9 @@ defined to be $-116.1 \pm 1.5$~dBm. In comparison with the sensitivity specified
 The dynamic range can be calculated from the minimum detectable power and $1$~dB compression 
 point given above. It is the range in between these two values, and is the range of received 
 signal levels over which the receiver can operate. The measured dynamic range is therefore 
-$110.5 \pm 3.0$~dBm. The theoretical dynamic range calculated using the manufacturers MDP is 
-$106.9 \pm 1.5$~dBm. The measured dynamic range is therefore about $3.6$~dBm lower than the 
-range given by the manufacturer.
+$110.5 \pm 3.0$~dBm (add $+2.5$~dB for noise correction). The theoretical dynamic range calculated 
+using the manufacturers $\textit{MDP}$ is $106.9 \pm 1.5$~dBm. The measured dynamic range is 
+therefore about $3.6$~dB (1.1~dB for noise-corrected) higher than the range given by the manufacturer. 
 
 In conclusion, the receiver block parameters were measured, and a good deal of new things 
 learned. It was especially interesting to measure low powers and to estimate how it effects 
@@ -862,6 +885,11 @@ the measurement setup.
 	Version 06.00, Dec 2008. 
 	Available online at \url{http://www.upc.edu/pct/documents_equipament/d_160_id-655-2.pdf} 
 	[Retrieved: Jan 2nd, 2014].
+	
+\bibitem{sg} R\&S SML03 Signal Generator Operating Manual,
+	Aug 2008.
+	Available online at \url{http://cdn.rohde-schwarz.com/dl_downloads/dl_common_library/dl_manuals/gb_1/s/sml_1/SML_SMV__e_gl.pdf}
+	[Retrieved: Feb 10th, 2014].
 
 
 %\bibitem{pozar} D.\ M.\ Pozar, 
