@@ -13,7 +13,13 @@
 \usepackage{subcaption}
 \usepackage{epsfig}
 \usepackage{epstopdf}
+\usepackage{verbatim}
 
+
+\newlength{\oneLine}
+\newlength{\halfLine}
+\setlength{\oneLine}{12pt}
+\setlength{\halfLine}{6pt}
 
 \newlength{\eqMargin}
 \newlength{\eqHorizMargin}
@@ -39,7 +45,7 @@
 
 % Header
 \setlength{\topmargin}{0pt}
-\setlength{\headheight}{30pt}
+\setlength{\headheight}{42pt}
 \setlength{\headsep}{18pt}
 \renewcommand{\headrulewidth}{0pt}
 
@@ -65,7 +71,7 @@
     pdffitwindow=false,				% window fit to page when opened
     pdfstartview={FitH},			% fits the width of the page to the window
     pdftitle={S-26.3120 Radio Engineering, laboratory course},	% title
-    pdfauthor={Tuomas Leinonen} {Sampo Salo},	% author
+    pdfauthor={Tuomas Leinonen} {Sampo Salo} {Huy Nguyen},	% author
     pdfsubject={Radio Engineering},	% subject of the document
     pdfcreator={LaTeX},				% creator of the document
     pdfproducer={Aalto},			% producer of the document
@@ -86,8 +92,8 @@
 \definecolor{dkblue}{rgb}{0, 0, 0.6}
 
 \pagestyle{fancy}
-\lhead{S-26.3120 Radio Engineering, laboratory course\\Lab 1: GSM BS TX -- Final report}
-\rhead{Sampo Salo, 79543L\\Tuomas Leinonen, 84695P}
+\lhead{S-26.3120 Radio Engineering, laboratory course\\Lab 2: GSM Base Station Receiver -- Final report\\}
+\rhead{Sampo Salo, 79543L\\Tuomas Leinonen, 84695P\\Huy Nguyen, 411330}
 \cfoot{\thepage}
 
 
@@ -102,7 +108,7 @@
 
 \vspace*{2cm}
 
-\Large{\textbf{Lab 1: GSM Base station Transmitter}}\\
+\Large{\textbf{Lab 2: GSM Base Station Receiver}}\\
 
 \vspace*{1.5cm}
 
@@ -113,9 +119,10 @@
 \vspace*{3cm}
 \large{
 	\begin{tabular}{l l}
-		\textbf{Group 4:} 	& \\
+		\textbf{Group 3:} 	& \\
 		Sampo Salo			& 79543L	\\
-		Tuomas Leinonen 	& 84695P		
+		Tuomas Leinonen 	& 84695P	\\
+		Nguyen Pham Quang Huy			& 411330		
 	\end{tabular}
 }
 
@@ -126,383 +133,548 @@
 
 \section{Introduction}
 
-The first laboratory assignment was mainly about learning to use the radio
-frequency measurement devices. The devices included a signal source, spectrum
-analyzer, and a vector network analyzer. The measurement setup included also
-cables, attenuators, and connectors. The signal source was actually a GSM
-base station (BS) transmitter (see Fig. \ref{fig:bs}), and the assignment simulated 
-measurements one could face in real life as well. 
+The second laboratory assignment was mainly about getting acquainted with the receiver 
+part of the GSM base station (BS), understand the effect of noise and non-linearity in 
+different parts of the heterodyne receiver, and to practice RF measurement with commonly 
+used measurement equipment, including coaxial cables and attenuators, a vector network 
+analyzer (VNA), a spectrum analyzer (SA), a signal generator and a noise diode. The 
+measurement covered the pre-stage of the heterodyne receiver, consisting of the bias 
+tee, the diplexer and the LNA, as shown in Fig.~\ref{f:bs}.
 
 \begin{figure}[h!]
 	\begin{center}
-	\epsfig{file=img/bs.jpg, width=\textwidth}
-	\caption{GSM base station block diagram.}
-	\label{fig:bs}
+	\includegraphics[scale=0.3]{img/bs.jpg}
+	\caption{Receiver under study.}
+	\label{f:bs}
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
 
-The assignment consisted of four different tasks. In the first task, the base station 
-transmitter (TX) output power was measured using five different output power levels. 
-The base station's dynamic power control allowed the downlink power to be reduced in 
-15 steps with a step size of 2 dB. In the second and third tasks the base station 
-performance was compared to GSM specifications. The purpose of the second task 
-was to verify that the in-band output spectrum does not exceed the system specific 
-levels for an individual transceiver. The third task covered the whole measurable 
-frequency band, as the GSM specifications set interference limits for out-of-band 
-frequencies as well. In the last task, the diplexer insertion loss was measured.
+The laboratory consisted of four measrurement tasks. In the first task, the 1~dB compression 
+point of the RX pre-amp block was measured at 900~MHz using both the spectrum analyzer and the 
+VNA. The 1~dB compression point sets the limit to maximum power level of the received signal 
+at input of the pre-amp block. In the second task, the gain of the RX pre-amp block was 
+determined by measuring the 3~dB RX bandwidth of the block. The approximated equivalent 
+noise bandwidth of the block and the TX-band attenuation were also measured. This task was 
+already covered in the first lab assignment as a part of the diplexer characteristics. 
 
-This report is divided in five sections. The first section after Introduction describes 
-the general measurement procedures for the measurement setups used. The third section 
-presents the measurement results and error estimates, while the fourth section 
-states the conclusions. In the final section, feedback is given to further improve 
-the first laboratory assignment of the course.
+The third task is a noise measurement whose purpose was to determine the noise temperature of 
+the RX pre-amplifier block using $Y$-coefficient method. Finally, the fourth task involving 
+measuring the sensitivity of the RX pre-amplifier block, i.e., the minimum power level at 
+input of the pre-amp block that can be detected with predefined $\textit{BER}$.
+
+This report is divided in five sections. After this introduction, general measurement procedures 
+are discussed. The third section presents the measurement results while the fourth section includes 
+the error estimates. In the second to last section, some conclusions are drawn. Finally, feedback 
+is also given in the last section to further improve this laboratory assignment of the course.
 
 
 \newpage
 \section{Measurement steps}
 
-There were two types of measurements; power measurements with a spectrum analyzer 
-(SA) and two-port measurements with a vector network analyzer (VNA). While the 
-first three measurement tasks (i.e., $3.1 - 3.3$) were of the first kind, the 
-last measurement (i.e., 3.4) was carried out using a VNA. The aforementioned 
-measurement setups are described in detail in the following subsections, respectively. 
-The setups correspond very closely to those presented in the pre-study.
+In this section, used measurement configurations are presented for each measurement 
+task. Measurements in question may be divided into two distinct categories: power 
+measurements with a spectrum analyzer (SA) and two-port transmission measurements ($S_{21}$)
+with a vector network analyzer (VNA). There were no significant differences between 
+the planned setups and those used in the actual measurements. The following 
+measurement-specific subsections will elaborate.
 
 
-\subsection{Spectrum analyzer measurements}
+\subsection{1~dB compression point}
 
-Spectrum analyzer measurements will be carried out as the following figure 
-(Fig. \ref{fig:sa}) suggests. A laptop running maintenance software is controlling 
-the base station which is in turn connected to the \textit{HP 8596E} spectrum 
-analyzer as follows. The antenna connector of the A-half is connected via a 
-SMA-cable to chain of attenuators with nominal attenuations of 6 dB, 10 dB, 
-and 20 dB, respectively (i.e., 36 dB in total). Following the attenuator 
-chain is a N-type cable connected to the SA.
+To measure 1~dB compression point of a device, one needs a (manually) sweepable signal source 
+and power detector. These may come separately or be incorporated in a single device. 
+In both cases, the DDU module is connected the in between the source and the detector.
+We used both approaches, and made two measurements with equal power levels.
+
+For separate signal generation and detection, we used \textit{Rohde \& Schwarz SML03} signal 
+generator (SG) and \textit{HP 8596E} spectrum analyzer.The measurement setup is shown in Figures 
+\ref{f:sg1} and \ref{f:sg2}. The setup employing \textit{Rohde \& Schwarz ZVL} VNA is shown in 
+Figures \ref{f:vna1} and \ref{f:vna2}. All equipment came precalibrated. In both measurements, 
+the A-half of the base station was used.
 
 \begin{figure}[h!]
 	\begin{center}
-	\epsfig{file=img/sa.jpg, width=\textwidth}
 	\setlength{\unitlength}{1mm}
-	\begin{picture}(1, 1)
-		\put(-60, 95){\makebox(0,0){Laptop running}}
-		\put(-60, 90){\makebox(0,0){maintenance}}
-		\put(-60, 85){\makebox(0,0){software}}
-		\put(-67, 48){\makebox(0,0){\textcolor{white}{BS: ANT$_\mathrm{A}$}}}
-		\put(-30, 47){\makebox(0,0){\textcolor{white}{SMA-cable}}}
-		\put(20, 71){\makebox(0,0){Attenuators:}}
-		\put(22.3, 66){\makebox(0,0){$6 + 10 + 20$ dB}}
-		\put(67, 55){\makebox(0,0){N-cable}}
-		\put(10, 10){\makebox(0,0){HP 8596E SA}}
+	\begin{picture}(142, 13)
+		\linethickness{0.2mm}
+		\put(0, 0.4){\framebox[34mm]{Signal generator}}
+		\put(34, 1.4){\vector(1,0){20}}
+		\put(54, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
+		\put(82, 1.4){\vector(1,0){20}}
+		\put(102, 0.4){\framebox[40mm]{Sprectrum analyzer}}
+		\put(68, 7){\makebox(0,0){DDU module}}
 	\end{picture}
-	\vspace*{-12pt}
-	\caption{Measurement setup used in spectrum analyzer measurements: 
-	BS: ANT$_\mathrm{A}$ $\rightarrow$ SMA-cable $\rightarrow$ $6 + 10 + 20$ dB attenuators $\rightarrow$ N-cable $\rightarrow$ HP 8596E SA}
-	\label{fig:sa}
+	\vspace*{\halfLine}
+	\caption{Measurement setup used in the first measurement task.}
+	\label{f:sg1}
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
 
-For all the SA measurements, following settings were used: zero span, 
-video and resolution bandwidth of 30 kHz, 500-measurements averaging 
-and10 dB input attenuation. Changing the center frequency, we could 
-read the required power levels using markers. The SA was not explicitly 
-calibrated as the assistant deemed it unnecessary. Also, required 
-connectors/adapters were not available.
-
-In the \textit{2G Flexi BTS Site Manager (Flexi EDGE) EX4\_0 Build 058} 
-(supplied by Nokia Siemens Networks) maintenance software (SW), 
-\textit{BCCH Transmission Test} was used throughout the measurement. 
-Test parameters are listed in the following table (Table \ref{tbl:bcch}). 
-
-\begin{table}[!h]
+\begin{figure}[h!]
 	\begin{center}
-	\caption{Used \textit{BCCH Transmission Test} parameters.}
-	\label{tbl:bcch}
-	\renewcommand*{\arraystretch}{1.2}
-	\begin{tabular}{lcl}
-	\textbf{Option} 		& \textbf{Value} 	& \textbf{Note} \\
-	\hline
-	TRX Number				& TRX 1				& A-half (ANT$_\mathrm{A}$ is used as BS output) \\
-	Power					& 0					& also levels 1, 7, 14 and 15 for the first measurement \\
-	ARFN					& 0					& $f_\mathrm{RX} = 890$ MHz and $f_\mathrm{TX} = 935$ MHz \\
-	Network Color Code		& 0					& \\
-	Base Station Color Code & 0					&
-	\end{tabular}
+	\includegraphics[width=0.75\textwidth]{img/sg-ddu-sa.jpg}
+	\caption{Using a signal generator and spectrum analyzer to characterize the DDU module.}
+	\label{f:sg2}
 	\end{center}
 	\vspace*{-12pt}
-\end{table}
+\end{figure}
 
-For the first measurement (\textit{Dynamic Downlink Power Control Level}), 
-the spectrum analyzer is tuned to 935 MHz while the \textit{Power} parameter 
-is changed (values 0, 1, 7, 14 and 15 are used) in the control software. 
-The power level is written down.
+\begin{figure}[h!]
+	\begin{center}
+	\setlength{\unitlength}{1mm}
+	\begin{picture}(155, 10)
+		\linethickness{0.2mm}
+		\put(0, 0.4){\framebox[29mm]{VNA (Port 1)}}
+		\put(29, 1.4){\vector(1,0){15}}
+		\put(44, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
+		\put(72, 1.4){\vector(1,0){15}}
+		\put(87, 0.4){\framebox[24mm]{Attenuator}}
+		\put(111, 1.4){\vector(1,0){15}}
+		\put(126, 0.4){\framebox[29mm]{VNA (Port 2)}}
+		\put(58, 7){\makebox(0,0){DDU module}}
+		\put(99, 7){\makebox(0,0){$L = 20$ dB}}
+	\end{picture}
+	\vspace*{\halfLine}
+	\caption{VNA measurements connections}
+	\label{f:vna1}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
 
-For the second measurement (\textit{In-band output spectrum}), the TX power 
-is reset to its maximum value (i.e., \textit{Power} is set to 0 in the SW).
-The power is measured like before, but now the frequency is offset to test 
-for a spectral mask. The following positive frequency offsets (based on the 
-GSM standard) are used: 100, 200, 250, 400, 600, 800, 1000 and 1200 kHz.
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width=0.75\textwidth]{img/vna-ddu-vna.jpg}
+	\caption{Measuring the DDU module with the VNA.}
+	\label{f:vna2}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
 
-In the final SA measurement (\textit{Interference}), we scan both the lower 
-and upper bands ($100 \mathrm{\;kHz} - 1 \mathrm{\;GHz}$ and $1 - 12.75$ GHz, 
-respectively) for the single, most powerful spurious emission. The lower limit
-of the lower band was originally 9 kHz in the instructions, but was increased 
-to 100 kHz due to limitations in the SA. Maximum TX power is used.
+In essence, the measurement was a power sweep at a constant frequency of 
+$f = 900$ MHz; mapping detected power or gain against used input power. 
+This raw data was later postprocessed using Matlab.
+
+We started with a source power of $-40$~dBm; a power level well below the 
+1~dB compression point. The power was gradually used in steps of first 
+10~dB, then 5~dB and finally 1~dB, until clear compression was observed. 
+Compression may be seen in the lower than expected values of detected 
+power (SG \& SA), or equivalently as lower gain (VNA).
+
+Since we were measuring a GSM receiver, we used settings found in the GSM 
+specification for the spectrum analyzer with the expeception of smaller 
+averaging factor. The settings were as follows: an averaging factor of 100, 
+zero span and 30~kHz video and resolution bandwidths. Input attenuation of the 
+spectrum analyzer was increased from 10~dB all the way to 30~dB as we moved onto 
+higher powers. 
+
+The two cables and attenuators were measured separately using a VNA. For the VNA, 
+the measurement settings throughout this lab were as follows: 1601 points over 
+a frequency range of $800 \ldots 1000$~MHz, a measurement bandwidth of 10~kHz 
+and averaging over 200 samples with a transmit power of $-20$~dBm.
+
+For more accurate and/or reliable SA measurements, even a larger attenuation factor 
+could have been used to avoid the small, yet possible, compression in the SA. One 
+chould have also not trusted the quality of the SG as much than we did. The whole 
+power sweep should have also been recorded without the DDU-module in between.
+Also, there was some oversigth in making the connections as can be seen in 
+Fig.~\ref{f:vna2}. As its only an attenuator in a transmission measurement, 
+there is most likely no great an impact on the results as such. Nevertheless, 
+it begs to question connector repeatability.
 
 
-\subsection{Measurements with the vector network analyzer}
+\subsection{Frequency response}
 
-The last measurement was carried out using a \textit{Rohde \& Schwarz ZVL} VNA, 
+The frequency response was already measured in the first labs using a VNA. Thus 
+we didn't need to measure the gain in these labs, as we used the results from 
+the first labs. While the measurement procedure was given in the final report of 
+the first labs, it is repeated here for completeness.
+
+The measurement was carried out using a \textit{Rohde \& Schwarz ZVL} VNA, 
 calibrated by the assistant prior to our arrival. The calibration settings were 
-as follows: full two-port calibration with 1577 points within the $850 - 1000$ 
-MHz band, $-20$ dBm transmit power, and an averaging factor of 100. The SMA-cables
-with a copper colored jacket were included in the calibration (see Fig. \ref{fig:vna}).
+as follows: full two-port calibration with 1577 points within the $850 \ldots 1000$~MHz 
+band, $-20$ dBm reference power, and an averaging factor of 100. The reference 
+plane was located at the non-VNA end of the used cables.
+
+The actual measurement included connecting the VNA to the B-half of the DDU module in 
+order to obtain the values of $|S_{12}|$ over a set frequency range. In terms of physical 
+connections, this would mean the following: VNA (Port~2) $\rightarrow$ DDU module 
+(in: $\mathrm{ANT}_\mathrm{B}$, out: $\mathrm{RX}_\mathrm{B1}$) $\rightarrow$ VNA (Port~1). 
+The raw data was stored onto a USB-memory as \texttt{*.s1p} files for post processing 
+using Matlab.
+
+The theoretical noise bandwidth $B_\mathrm{n}$ for a device may be found as using the 
+following formula
+\begin{equation}\label{e:Bn}
+B_\mathrm{n} = \frac{1}{G_\mathrm{T,\;max}} \int_0^\infty G_\mathrm{T}(f) \, df,
+\end{equation}
+where $G_\mathrm{T}(f)$ is the transducer gain at frequency $f$. In practice, one may 
+only approximate this using numerical integration over the finite measurement bandwidth. Such 
+approximation is bound to yield slightly optimistic values. Another possibility is to 
+approximate the noise bandwidth as the 3~dB bandwidth, and applying a compensation factor 
+based on the transition bands. Results obtained using both methods are shown and compared 
+later in the text.
+
+
+\subsection{Noise temperature}
+
+In the noise measurement task, we used the $Y$-coefficient method. The setup is shown 
+in Figures \ref{f:nd1} and \ref{f:nd2}. A DC-voltage source is connected to a noise 
+diode which is in turn connected by an SMA-cable to the $\mathrm{ANT}_\mathrm{A}$-input 
+in the pre-amplifier block (A-half). It would have been better to use desired direct 
+connection, but that was not possible due to missing adapters.
+
+The signal is led then from the RX$_\mathrm{A1}$ output to the spectrum analyzer. We 
+made another measurement where an amplifier was placed in between, as the noise power 
+from the cold noise source might've been masked by the SA noise. The parameters of 
+the amplifier, made by Minicircuits, were as follows: $B = 15 \ldots 3000$~MHz, 
+$G = 19$~dB, $T = 463$~K, $F = 4.1$~dB and $V_\mathrm{CC} = +15$~V.
 
 \begin{figure}[h!]
 	\begin{center}
-	\epsfig{file=img/vna.jpg, width=\textwidth}
 	\setlength{\unitlength}{1mm}
-	\begin{picture}(1, 1)
-		\put(-43, 112){\makebox(0,0){R\&S ZVL VNA}}
-		\put(8, 74){\makebox(0,0){\textcolor{white}{RX$_\mathrm{B1}$}}}
-		\put(43, 75){\makebox(0,0){\textcolor{white}{TX$_\mathrm{B}$}}}
+	\begin{picture}(163, 13)
+		\linethickness{0.2mm}
+		\put(0, 0.4){\framebox[10mm]{$V_\mathrm{DC}$}}
+		\put(10, 1.4){\vector(1,0){12}}
+		\put(22, 0){\framebox[25mm]{Noise diode}}
+		\put(47, 1.4){\vector(1,0){12}}
+		\put(59, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
+		\put(87, 1.4){\vector(1,0){12}}
+		\put(99, 0.4){\framebox[12mm]{LNA}}
+		\put(111, 1.4){\vector(1,0){12}}
+		\put(123, 0.4){\framebox[40mm]{Sprectrum analyzer}}
+		\put(5, 7){\makebox(0,0){0/28 V}}
+		\put(73, 7){\makebox(0,0){DDU module}}
+		\put(111, 8){\makebox(0,0){$\overbrace{\hspace{23mm}}^\textrm{with and without}$}}
 	\end{picture}
-	\vspace*{-12pt}
-	\caption{Measurement setup used in diplexer characterization; 
-	$\mathrm{TX_B \rightarrow RX_B}$ -measurement shown ($S_{12}$): 
-	R\&S ZVL VNA (Port 2) $\rightarrow$ TX$_\mathrm{B}$ $\rightarrow$ RX$_\mathrm{B1}$ $\rightarrow$ R\&S ZVL VNA (Port 1)}
-	\label{fig:vna}
+	\vspace*{\halfLine}
+	\caption{Noise temperature measurement setup}
+	\label{f:nd1}
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
 
-The actual measurement included connecting the VNA successively to the port pairs 
-in order to obtain the absolute values of $S_{12}$ parameters in the following 
-fashion: VNA (Port 2) $\rightarrow$ Two-port (In) $\rightarrow$ Two-port (Out) 
-$\rightarrow$ VNA (Port 1). The raw data was stored onto a USB-memory as 
-\texttt{*.s1p} files for post processing using Matlab. The two-ports in 
-question are listed in the table below (Table \ref{tbl:2p}). Fig. \ref{fig:vna} 
-illustrates one of the diplexer measurements (3.4).
-
-\begin{table}[!h]
+\begin{figure}[h!]
 	\begin{center}
-	\caption{Two-ports measured with the VNA.}
-	\label{tbl:2p}
-	\renewcommand*{\arraystretch}{1.2}
-	\begin{tabular}{ll}
-	\textbf{Measurement} & \textbf{Two-port} \\
-	\hline
-	3.1 $-$ 3.3		& SMA-cable $+$ attenuator chain $+$ N-cable $+$ required adapters \\
-	3.4 (a)			& $\mathrm{TX_B \rightarrow ANT_B}$ 	\\
-	3.4 (b)			& $\mathrm{TX_B \rightarrow RX_{B1}}$ 	\\
-	3.4 (c)			& $\mathrm{ANT_B \rightarrow RX_{B1}}$
-	\end{tabular}
+	\includegraphics[width=0.75\textwidth]{img/nd-ddu-sa.jpg}
+	\caption{Noise temperature measurement setup without the additional amplifier.}
+	\label{f:nd2}
 	\end{center}
 	\vspace*{-12pt}
-\end{table}
-\newpage
-\vspace*{1pt}
+\end{figure}
+
+The measurements themselves were carried out measuring two power levels required in the 
+Y-pa\-ram\-e\-ter; when the DC-voltage is off/shorted (``cold'') and on (``hot''). We 
+used \textit{HP 346B} noise diode ($\textit{ENR} = 21.48$~dB when $f = 1.00$~GHz) with 
+a control voltage of 28~V$_\mathrm{DC}$ taken from a laboratory-grade voltage source.
+
+As for the SA settings, the settings we as follows: 0~dB input attenuation, zero span, 
+10~kHz resolution and video bandwidths and an averaging over 100 sweeps. For more accurate 
+results, more time should have spent on this measurement. This would have allowed us to use 
+smaller bandwidths and larger averaging factor.
+
+The noise temperature, or equivalently noise factor/figure, may be found using the following
+formulae. $Y$-coefficient is given as
+\begin{equation}\label{e:Y}
+Y = \frac{P_\mathrm{H}}{P_\mathrm{C}} 
+	= \frac{T_\mathrm{H} + T_\mathrm{e}}{T_\mathrm{C} + T_\mathrm{e}}
+	\quad\Rightarrow\quad
+	T_\mathrm{e} = \frac{T_\mathrm{H} + YT_\mathrm{C}}{Y - 1},
+\end{equation}
+where $P_\mathrm{H/C}$ is the measured power for hot and cold loads at equivalent noise 
+temperatures $T_\mathrm{H/C}$, and $T_\mathrm{e}$ is the noise temperature of the measured 
+device. $T_\mathrm{C} = 290$~K is the physical temperature of the noise diode, and 
+$T_\mathrm{H}$ may be solved from the definition of $\textit{ENR}$:
+\begin{equation}\label{e:ENR}
+\mathit{ENR} = 10 \lg \left( \frac{T_\mathrm{H}}{T_\mathrm{0}} - 1 \right) 
+	\quad\Rightarrow\quad
+	T_\mathrm{H} = T_\mathrm{0} \left( 10^\frac{\mathit{ENR}}{10} + 1 \right).
+\end{equation}
+Obtained noise temperature $T_\mathrm{e}$ may be converted to noise factor $F$ or figure 
+$F_\mathrm{dB}$ using the following relationship:
+\begin{equation}
+F_\mathrm{dB} = 10 \lg \left( F \right) \mathrm{\;dB} =  10 \lg \left( 1 + \frac{T_\mathrm{e}}{T_0} \right) \mathrm{\;dB}.
+\end{equation}
+
+One should notice that the $T_\mathrm{e}$ given by Eq.~\ref{e:Y} is actually the noise 
+temperature of the whole chain. This chain is a cascaded system, consisting of a SMA-cable, 
+the DDU module, the optional amplifier, another SMA-cable and the spectrum analyzer, in 
+this order. The contribution of the DDU module may be determined by reverse calculating 
+Friis' noise equation:
+\begin{equation}\label{e:Friis}
+	F_\mathrm{total} = F_1 + \frac{F_2 - 1}{G_1} + \frac{F_3 - 1}{G_1 G_2} + \cdots
+	\quad\Leftrightarrow\quad
+	T_\mathrm{total} = T_1 + \frac{T_2}{G_1} + \frac{T_3}{G_1 G_2} + \cdots,
+\end{equation}
+where $G_i$ is the available power gain of the $i$th stage. Similar indexing is also used 
+for both of the noise quantities $F$ and $T$. This simplified formula assumes equal noise 
+bandwidths between the stages.
+
+The parameters required by the formula may be obtained through calculation, or are provided 
+by the manufacturer. For example the noise contribution of the cables can be obtained from 
+their attenuation $L$ and physical temperature $T_\mathrm{phys}$ through formula 
+$F = (L - 1) T_\mathrm{phys}$. The amplifier specifications were given already in the text.
+For the spectrum analyzer, its noise noise characteristics eluded us. Luckily, there is 
+significant gain earlier in the chain, thus minimizing the effect of the noise originating 
+in the SA.
+
+
+\subsection{Sensitivity}
+
+In the sensitivity measurement, we measured the minimum input power at the ANT$_\mathrm{A}$-input 
+that results in a reliably detectable signal above the noise floor in the ouput of the DDU module. 
+In GSM-systems, a signal with $\mathit{SNR} > 10$~dB is detected with an acceptable $\mathit{BER}$. 
+For this, a measurement setup identical to the one used in the first task may be used. The setup 
+used there is shown in Figures \ref{f:sg1} and \ref{f:sg2}. An attenuator may be used between 
+the signal generator and the DDU module.
+
+\begin{figure}[h!]
+	\begin{center}
+	\setlength{\unitlength}{1mm}
+	\begin{picture}(142, 13)
+		\linethickness{0.2mm}
+		\put(0, 0.4){\framebox[34mm]{Signal generator}}
+		\put(34, 1.4){\vector(1,0){20}}
+		\put(54, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
+		\put(82, 1.4){\vector(1,0){20}}
+		\put(102, 0.4){\framebox[40mm]{Sprectrum analyzer}}
+		\put(68, 7){\makebox(0,0){DDU module}}
+	\end{picture}
+	\vspace*{\halfLine}
+	\caption{Measurement setup used in the sensitivity measurement.}
+	\label{f:m4}
+	\end{center}
+	\vspace*{-12pt}
+\end{figure}
+
+The first step was to measure the noise floor at 900~MHz without any signal 
+we're hoping to detect. That is, the RF power was switched off at the generator. 
+Then we turned on an input signal that's some dBs below the reported sensitivity 
+level of $-112.5$~dBm. We gradually increased the power until the signal-to-noise 
+ratio was no less than the 10~dB required by the standard. The corresponding power 
+level was recorded. Also powers corresponding to an $\textit{SNR}$ of 12.5 and 7.5~dB 
+we measured. 
+
+One could have also measure the power required to beat the noise just barely, and 
+add the SNR later on. This approach is, however, less accurate and more painful. It 
+also assumes $P_\mathrm{out}(P_\mathrm{in})$ relationship to be ideal in the range.
+
+Since it's a GSM system, we use the measurement settings as they are defined in 
+the standard with the exception of averaging. The standard 500-sweep averaging was 
+used in when measuring the noise floow, but 100 was used when RF power was enabled. 
+The final settings were as follows: an averaging factor of 500/100, zero span and 
+30~kHz video and resolution bandwidths. The input attenuator was disabled in the 
+SA settings.
 
 
 \newpage
 \section{Results}
 
-For the first three measurements (described in further detail in the following three 
-subsections), the attenuation of the SMA-cable $\rightarrow$ $6 + 10 + 20$ dB attenuators 
-$\rightarrow$ N-cable -chain was measured with the VNA. In forward and reverse directions 
-we got $S_{12} = -43.1$ dB and $S_{21} = -43.0$ dB, respectively. The attenuation is 
-found as the average of these two $L = 43.05 \mathrm{\;dB} \approx 43.1 \mathrm{\;dB}$.
+The results are described in detail in the following subsections. The four measurement 
+data were post-processed either by Matlab or by means of calculation to find wanted 
+parameters of the pre-amp block under test.
 
-Since measured value is $7.1$ dB above the nominal attenuation of 36 dB, it would suggest 
-that this excess attenuation originates in the cables and connectors. As there is only a 
-total of roughly two meters of cable ($f = 935$ MHz), it's highly likely there's some 
-human error in the connections. This is due falling behind schedule due to problems with 
-the BS in the SA measurements, and consequently having to hurry in the VNA measurements. 
-The response was flat across the VNA band ($850 - 1000$ MHz), and small bending of the cable 
-did not have any noticeable effect. 
-
-Even the assistant did not notice this during the measurement. It was until later, after 
-the labs, when we got a chance to discuss the matter. The measured attenuation was indeed 
-deemed too high, and the assistant suggested we would use the nominal attenuation of 
-$L = 36.0 dB$ in this report. Both attenuation values are used in the results (tasks 
-$3.1 - 3.3$) for completeness.
-
-Results of the diplexer characterization, independent of the aforementioned attenuation, 
-are given in the last subsection.
+The attenuation of cables and attenuator used in the measurements were determined using 
+the VNA, and were taken into account when post-processing the measurement data. The 
+attenuations are $19.95$~dB, $0.2$~dB and $0.3$~dB, for the attenuator, thin cable and 
+thick cable, respectively. The parameters of the additional amplifier used in the noise 
+measurement were specified as follows: $G = 19$~dB, $T = 463$~K, $F = 4.1$~dB.
 
 
-\subsection{Dynamic Downlink Power Control Level}
+\subsection{1~dB compression point}
 
-Table \ref{tbl:m1} states the results of the first measurement, where the TX power was 
-analyzed as a function of the control level $N_\mathrm{control}$ (i.e., \textit{Power} 
-parameter) set in the BS SW. The values in the \textit{Measured power} column 
-($P_\mathrm{measured}$) are the values taken from the SA, and they include the attenuator. 
-The attenuator effect is compensated in the \textit{Output power} column ($P_\mathrm{output}$), 
-which corresponds to the actual TX power of the BS. The \textit{Expected power} column 
-($P_\mathrm{expected}$) shows the expected values if the control step would 
-be exactly 2 dB when the maximum power is taken as a reference. In mathematical terms 
-this would be (using decibels):
-\begin{equation}
-	P_\mathrm{expected} = \underbrace{P_\mathrm{measured} + L}_{= P_\mathrm{output}} - 2 \times N_\mathrm{control}.
-\end{equation}
+1~dB compression point arises from the nonlinearities of the receiver LNA. At high enough 
+powers, the gain of the LNA for a certain frequency starts to drop with increasing power. 
+The input power at which the LNA gain is compressed by 1~dB was measured using two different 
+measurement setups. The results are presented here.
 
-\noindent The power difference $\Delta P$ between the output power and the expected power can be 
-found as follows:
-\begin{equation}
-	\Delta P = P_\mathrm{output} - P_\mathrm{expected}.
-\end{equation}
+The first measurement setup consisted of a signal generator and a spectrum analyser. A single 
+frequency of 900~MHz sent from the signal generator was measured with the spectrum analyser. 
+The signal generator power was increased gradually, until a 1~dB drop in the gain was achieved. 
+The measurement results for the first setup are presented in Fig.~\ref{f:1dB}(a, c and e). 
+The attenuations of the cables are corrected from the results.
 
-The two values in the \textit{Output power} and \textit{Expected power} columns correspond 
-to the values obtained by using the two attenuations. On the left we have values obtained 
-using the measured attenuation of the values correspond to attenuation of $L = 43.1$ dB, 
-and on the right we have used the nominal attenuation of $L = 36.0$ dB. 
+The second measurement setup consisted of a vector network analyser. The VNA was measuring 
+the $|S_{21}|$ as the input power was increased gradually, until a 1 dB~drop was visible 
+on the screen. An attenuator was required in between the base station and VNA port 2 
+to protect the device from the amplified signal. The measurement results for the second setup 
+are presented in Fig.~\ref{f:1dB}(b, d and f). The vector network analyser was calibrated 
+before use. 
 
-\begin{table}[!h]
-	\begin{center}
-	\caption{Results from the first measurement. All power values are given in dBm. 
-	In the \textit{Output power} and \textit{Expected power} columns the values correspond to attenuation of 
-	$L = 43.1$ dB (measured, left) and $L = 36.0$ dB (nominal, right), respectively.}
-	\label{tbl:m1}
-	\renewcommand*{\arraystretch}{1.2}
-	\begin{tabular}{ccccccc}
-	\textbf{Level} & \textbf{Measured power} 	& \multicolumn{2}{c}{\textbf{Output power}}		& \multicolumn{2}{c}{\textbf{Expected power}}		& \textbf{Difference}	\\
-	\hline
-	0	& $+2.0$ 	& $+45.0$ 	& $+38.0$ 	& $-$ 		& $-$		& $-$ 		\\
-	1 	& $-0.2$ 	& $+42.9$ 	& $+35.8$ 	& $+43.0$ 	& $+36.0$ 	& $-0.1$ 	\\
-	7	& $-11.8$ 	& $+31.3$ 	& $+24.2$ 	& $+31.0$ 	& $+24.0$ 	& $+0.2$	\\
-	14 	& $-25.8$ 	& $+17.2$ 	& $+10.2$ 	& $+17.0$ 	& $+10.0$ 	& $+0.2$	\\
-	15	& $-28.3$ 	& $+14.8$ 	& $+7.8$  	& $+15.0$ 	& $+8.0 $ 	& $-0.2$
-	\end{tabular}
-	\end{center}
-	\vspace*{-12pt}
-\end{table}
+All the sub figures are plotted from one data set for spectrum analyser setup and VNA setup each. 
+The data sets are post processed using Matlab. Both data sets are visualised with three different 
+figures, so that it is easier to compare the two measurements. Matlab \textit{'phcip'} interpolation with 
+additional extrapolation was used for completeness. The Extrapolated data should not thus be taken 
+into account when analysing the DDU performance.
 
-One should note that the maximum power input to the SA is $+2.0$ dBm, enough to 
-cause nonlinear effects, such as gain compression and harmonics in the analyzer. 
-The extent of these effects is unclear since the nonlinear behaviour of the SA 
-was not explained clearly in the user manual. In this measurement, only gain 
-compression is of significance. With the information available, it can only be 
-said that the ``actual'' value might be slightly higher than the reported $+2.0$ 
-dBm. All in all it can be said that the dynamic downlink power control meets the 
-BS specifications (tolerance of $\pm 1.5$ dB relative to the previous level \cite{lab1}).
+The compression point derived from the spectrum analyser measurement is \linebreak{}$CP_\mathrm{a} = -5.6$~dBm. 
+Fig. \ref{f:1dB}(c) shows how the measured gain fluctuates around the average gain of 24.6~dB, 
+however, with a small amplitude. The compression point derived from the VNA measurement is 
+$CP_\mathrm{b} = -4.1$~dBm without any gain fluctuation. One could assume the ``actual'' 
+compression point to be found within these limits.
 
 
-\subsection{In-band output spectrum}
+\begin{figure}
+\centering
+\subcaptionbox{$P_\mathrm{out}(P_\mathrm{in})$ using SG \& SA}{\epsfig{file=img/PoutPin1.eps, width=0.45\textwidth}}
+\subcaptionbox{$P_\mathrm{out}(P_\mathrm{in})$ using VNA}{\epsfig{file=img/PoutPin2.eps, width=0.45\textwidth}}
+\subcaptionbox{$G(P_\mathrm{in})$ using SG \& SA}{\epsfig{file=img/GPin1.eps, width=0.45\textwidth}}
+\subcaptionbox{$G(P_\mathrm{in})$ using VNA}{\epsfig{file=img/GPin2.eps, width=0.45\textwidth}}
+\subcaptionbox{$G(P_\mathrm{out})$ using SG \& SA}{\epsfig{file=img/GPout1.eps, width=0.45\textwidth}}
+\subcaptionbox{$G(P_\mathrm{out})$ using VNA}{\epsfig{file=img/GPout2.eps, width=0.45\textwidth}}
+\caption{Results from the 1~dB compression point measurements. Ideal behaviour is shown with red straights, 
+	measuremets with blue markers and Matlab \texttt{'pchip'} interpolant in blue.}\label{f:1dB}
+\end{figure}
 
-In the second measurement, the spectral shape of the transmitter signal was 
-measured using the SA. The results of this measurement are shown in the next 
-table (Table \ref{tbl:m2}). Values given \textit{Specification} are the maximum 
-allowed relative powers (compared to the carrier) at different offset frequencies 
-defined in the GSM standard \cite{lab1}. Values in the left column correspond 
-to carrier power of $P_\mathrm{TX} \geq 43$ dBm, and are used in comparison when 
-measured attenuation of $L = 43.1$ dB is used ($P_\mathrm{TX} = 45.0$ dBm). 
-Similarly for the values on the right; they are defined for TX power range of
-$37 \mathrm{\;dBm} \geq P_\mathrm{TX} < 39 \mathrm{\;dBm}$. The output power 
-falls in this range when nominal value is assumed for the attenuators 
-($P_\mathrm{TX} = 37.0$ dBm for $L = 36.0$ dB).
+\newpage
+\subsection{Frequency response}
 
-\begin{table}[!h]
-	\begin{center}
-	\caption{Results from the in-band output spectrum measurement. 
-		All power values are given in dBm. 
-		Values in the \textit{Specification} and \textit{Outcome} columns correspond to attenuation of $L = 43.1$ dB (measured, left) and  $L = 36.0$ dB (nominal, right), respectively.}
-	\label{tbl:m2}
-	\renewcommand*{\arraystretch}{1.2}
-	\begin{tabular}{ccccccc}
-	\textbf{Frequency} 		& \textbf{Measured]} 		& \textbf{Relative}			& \multicolumn{2}{c}{\textbf{Specification}}		& 	\\
-	\textbf{offset [kHz]} 	& \textbf{power [dBm]}		& \textbf{power [dBc]}		& \multicolumn{2}{c}{\textbf{[dBc]} \cite{lab1}}	& \multicolumn{2}{c}{\textbf{Outcome}}	\\
-	\hline
-	0			& $+2.0$ 	& $-$ 		& $-$		& $-$	 	& $-$	 	& $-$	\\
-	+100 		& $-5.4$ 	& $-7.3$ 	& $+0.5$ 	& $+0.5$ 	& \textcolor{dkgrn}{Pass} 		& \textcolor{dkgrn}{Pass} 	\\
-	+200		& $-31.0$ 	& $-32.9$ 	& $-30$ 	& $-30$ 	& \textcolor{dkgrn}{Pass} 		& \textcolor{dkgrn}{Pass} 	\\
-	+250 		& $-39.5$ 	& $-41.4$ 	& $-33$ 	& $-33$ 	& \textcolor{dkgrn}{Pass} 		& \textcolor{dkgrn}{Pass} 	\\
-	+400		& $-63.3$ 	& $-65.3$ 	& $-60$  	& $-60$ 	& \textcolor{dkgrn}{Pass} 		& \textcolor{dkgrn}{Pass} 	\\
-	+600		& $-67.6$ 	& $-69.6$ 	& $-70$ 	& $-66$ 	& \textcolor{dkred}{Fail} 		& \textcolor{dkgrn}{Pass}	\\
-	+800 		& $-68.0$ 	& $-70.0$ 	& $-70$ 	& $-66$ 	& \textcolor{dkgrn}{Pass} 		& \textcolor{dkgrn}{Pass}	\\
-	+1000		& $-68.1$ 	& $-70.1$ 	& $-70$  	& $-66$ 	& \textcolor{dkgrn}{Pass} 		& \textcolor{dkgrn}{Pass}	\\
-	+1200		& $-68.2$ 	& $-70.1$ 	& $-70$  	& $-66$ 	& \textcolor{dkgrn}{Pass} 		& \textcolor{dkgrn}{Pass}	\\
-	\hline
-	\multicolumn{5}{r}{\textbf{Total:}} 						& \textcolor{dkred}{Fail}		& \textcolor{dkgrn}{Pass}
-	\end{tabular}
-	\end{center}
-	\vspace*{-12pt}
-\end{table}
-
-Using the measured attenuation value, the BS fails to meet the GSM specifications 
-by a $0.4$ dB margin. With the nominal value the BS passes with flying colours, 
-as it should since it's a real and fully operational BS. The nonlinear effects 
-discussed in the end of the previous section and presented reasoning applies here 
-as well. Since the carrier power might be less than ``actually'', the relative 
-powers might also be too small. This is due to smaller nonlinear effects with 
-smaller powers at measured offset frequencies.
-
-
-\subsection{Interference}
-\label{s:int}
-
-In the third measurement we were interested in the spurious emissions caused be the 
-BS. Two bands of interest we defined: a lower band from 100 kHz to 1 GHz and an upper 
-band from 1 GHz to 12.75 GHz. In the lower band the single most powerful spurious spike 
-was found at $f = 925$ MHz. It's power was measured to be $-68.5$ dBm, corresponding to 
-actual output power of $-25.4$ dBm or $-32.5$ dBm, for measured and nominal attenuations, 
-respectively. In the GSM specification it's stated that interference in this band should 
-be limited to less than $-36$ dBm \cite{lab1}. Thus the limit is exceeded by $10.6$ dB 
-or $3.5$ dB.
-
-In the upper band the largest spurious was found on the second harmonic of the transmission 
-frequency: $f = 1870$ MHz. The measured power was $-51.6$ dBm corresponding to output 
-power of $-8.5$ dBm or $-15.6$ dBm, depending on the attenuator value used. This power 
-level is 21.5 dB or 14.4 dB, respectively, above the $-30$ dBm limit specified in the 
-standard.
-
-Thus the BS seems to be exceeding the both of the limits. In the upper band the measured 
-signal is actually originated in the SA due to nonlinear effects with large input power. 
-The small actual interference signal originating inside the BS is masked by this behaviour. 
-The real interference value is unavailable since we came up with this theory after the 
-measurement. The actual interference could be measured by using more attenuation in the 
-signal path to avoid nonlinear effects, provided that signal is not lost in the increased 
-noise.
-
-In the case of lower band, the interferer may be generated in the BS or it maybe result 
-of a nonlinear effect in the SA. Intermodulation comes to mind. To find out, one could use 
-similar method as for the upper band. Reasoning for the BS origination is somewhat connected 
-to the diplexer measurement task described more closely in the next subsection. Fig. 
-\ref{fig:dpx} shows that the TX pass-band extends below 925 MHz, making it possible that
-it's in fact the BS that's causing the problem.
-
-
-\subsection{Diplexer characterization}
-
-The fourth measurement task involved two-port transfer measurements of the diplexer 
-using a VNA. The measurement results are shown in the following figure (Fig. \ref{fig:dpx}). 
-The overall shape is what one would expect for a GSM BS diplexer. Yet in both RX and TX 
-paths the pass-band extends further down than is required in the standard GSM specification. 
-The pass-bands are $880 - 915$ MHz and $925 - 960$ MHz for uplinks and downlinks, respectively, 
-corresponding to the extended GSM-900 band.
+The $|S_{12}|$ response of the DDU module (B-half) within the $850 \ldots 1000$~MHz band 
+is shown in the following figure (Fig.~\ref{f:s12}). In the figure, in addition to the 
+actual response (in black), additional information is shown. GSM RX and TX band limits 
+(in red), both 3~dB (in blue) and noise (in green) bandwidth of the pre-amp block are also 
+visualized. Visualization of the noise bandwidth is somewhat questionable as it's a purely 
+theoretical concept, but is nevertheless shown for scale. 
 
 \begin{figure}[h!]
 	\begin{center}
-	\epsfig{file=img/dpx.eps, width=\textwidth}
-	\caption{Diplexer measurement.}
-	\label{fig:dpx}
+	\epsfig{file=img/s12.eps, width=\textwidth}
+	\caption{$S_{12}$ of the DDU module as was measured in the first labs.}
+	\label{f:s12}
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
 
-The results suggest the diplexer insertion loss in the pass-band is approx. 1 dB, meaning the 
-amp in the receive path (see Fig. \ref{fig:bs}) has a gain of roughly 30 dB. The total gain 
-in the path is smaller than this due to the four-way power divider introducing 6 dB loss in 
-each path (assuming ideal, equi-split divider). It is also possible there's a small gain 
-compression in the VNA since the maximum VNA input power was roughly 4.4 dBm, but related 
-information was omitted from the VNA specifications.
+The noise bandwidth shown, obtained from Eq.~\ref{e:Bn} is less than the actual band since 
+we cannot use infinite frequency range. Frequency range of $850 \ldots 1000$~MHz with
+$G_\mathrm{T,\;max} = |S_{12}|_\mathrm{max} = 24.4$~dB was used instead. The obtained 
+value (38.1~MHz) is roughly 6~\% shy of the 3~dB bandwidth (40.6~MHz), as one might expect.
+The 3~dB bandwidth may thus be used to avoid being overly optimistic.
 
-95 dB TX-RX diplexer isolation was required in the pre-study problem. Our measurements suggest 
-that minimum isolation of 66 dB is achieved in the upper boundary of the RX band. Thus the 
-95 dB requirement is not met. Nevertheless, one should not make hasty decisions based on a 
-simplified calculation with more or less make-believe values. Also, effect of termination of 
-the third port was not studied here. In our measurements, unused RX and TX ports were connected 
-to the default operation setting, and ANT port was left open (as can be seen in Fig. \ref{fig:vna}).
+In the graphical approximation method we need to investigate the effect of frequency 
+roll-off speed. From Fig.~\ref{f:s12} the transition bands are approx. 30~MHz (3.4 \%) 
+and 5~MHz (0.55 \%) for lower and upper bands, respectively. During this transition, 
+the $S_{12}$ drops roughly 100~dB from $+20$~dB to $-80$~dB. This corresponds to a slope 
+of $3.3$~dB/MHz (29~dB/\%) and $-20$~dB/MHz ($-180$~dB/\%), respectively. The effect of 
+such steep slopes are neglectable, and thus the 3~dB bandwidth may be used as the noise 
+bandwidth.
+
+
+\subsection{Noise Temperature}
+
+\noindent
+The noise of the RX block was measured two times using the Y coefficient method, the noise diode
+working as a hot load and a short circuit as a cold load in room temperature (290~K). The first 
+measurement was done without an extra LNA in between the spectrum analyser and the RX block, and 
+the second measurement was done with the LNA in between.
+
+The noise temperature of the hot load can be calculated from the $\mathit{ENR}$ using Eq. \ref{e:ENR}, which 
+gives $T_\mathrm{H} = 41065$~K. The equivalent noise temperature of the chain in between the diode and 
+the spectrum analyser can be calculated from this temperature, room temperature and the measured 
+noise powers. This is done using the $Y$-coefficient method, which gives $T_{\mathrm{total,\;w/}} = 162.1$~K 
+and $T_{\mathrm{total,\;w/o}} = 643.8$~K for the setups with and without the LNA, respectively.
+
+The previous noise temperature values still include the noise powers from the other parts of the 
+chain, i.e., cables, the LNA and the SA. The RX block noise temperature can be obtained from Eq.~\ref{e:Friis},
+which is for example for the LNA setup
+
+\begin{equation}
+T_\mathrm{total,\;w/} = T_\mathrm{C1} + L_\mathrm{C1} T_\mathrm{DDU,\;w/} + \frac{L_\mathrm{C1} T_\mathrm{LNA}}{G_\mathrm{DDU}} + \frac{L_\mathrm{C1} T_\mathrm{C2}}{G_\mathrm{DDU} G_\mathrm{LNA}},
+\end{equation}
+
+\noindent
+and yields $T_{\mathrm{DDU,\;w/}} = 139.7$~K and $T_{\mathrm{DDU,\;w/o}} = 601.4$~K for the setups 
+with and without the LNA, respectively. Subscript $\mathrm{C}i$ refers to the $i$th cable.
+
+\begin{table}[!h]
+	\begin{center}
+	\caption{Results from the noise measurement.}
+	\label{t:noise}
+	\renewcommand*{\arraystretch}{1.2}
+	\begin{tabular}{cccccc}
+	LNA? 			& $P_\mathrm{C}$ [dBm] 		& $P_\mathrm{H}$ [dBm]	& $T_\mathrm{total}$ [K] 	& $T_\mathrm{DDU}$ [K] 	& $F_\mathrm{DDU}$ [dB] \\
+	\hline
+	No				& $-107.3$					& $-90.8$				& $643.8$ 							& $601.4$ 						& $4.9$\\
+	Yes				& $-91.3$					& $-71.7$				& $162.1$ 							& $139.7$ 						& $1.7$ 	
+	\end{tabular}
+	\end{center}
+	\vspace*{-12pt}
+\end{table}
+
+
+The final results are presented in Table \ref{t:noise}. The results differ significantly. The noise 
+temperature calculated from the LNA setup is clearly closer to reality than the result obtained without 
+the LNA. The reason for this is that the cold noise power is does not exceed the noise floor of the SA 
+with a large enough margin. The LNA is required in the setup to rise the noise level high enough, so 
+that it can be defined more precisely with the spectrum analyser.
+
+
+\subsection{Sensitivity}
+
+In this measurement, the sensitivity or the minimum detectable input power of the RX pre-amp block 
+was measured using SA. The noise level at the output of the block was measured, when the RF power from 
+SG was completely turned off, to be at $-101.89$~dBm. Three different output SNR values of the block, 
+the minimum \textit{SNR} from GSM standard, below GSM minimum standard and above GSM minimum standard, 
+were used to calculate desired power level at the output side. Input power levels from SG were written 
+down when the desired output powers were reached. Table \ref{t:sens} below summarizes the 
+measurement data for the minimum detectable input power at different values of $\textit{SNR}$.
+
+\begin{table}[!h]
+	\begin{center}
+	\caption{Results from the sensitivity measurement.}
+	\label{t:sens}
+	\renewcommand*{\arraystretch}{1.2}
+	\begin{tabular}{cc}
+	$\mathit{SNR}$ [dB] 			& $P_\mathrm{transmit}$ [dBm]  \\
+	\hline
+	7.5								& $-118.0$ 	\\
+	10								& $-115.6$ 	\\
+	12.5							& $-113.0$ 	
+	\end{tabular}
+	\end{center}
+	\vspace*{-12pt}
+\end{table}
+
+It can be seen that at the minimum SNR required from GSM standard (around 10 dB) the measured 
+sensitivity of the RX pre-amp block is $-115.6$~dBm. Taking into account the attenuations caused 
+by SMA-cables, which were measured in the first task, the actual sensitivity is $-116.1$~dBm 
+(${\!\!}=-115.6\mathrm{\;dBm} - 0.2\mathrm{\;dBm} - 0.3\mathrm{\;dBm}$). 
+
+These results assume the SA recognizes its measuring noise and applies internal correction. Most 
+likely this correction must be done manually by adding 2.5~dB to the noise floor. \cite{kakkaa_huuleen} 
+The same effect may achieved by using an SNR of 12.5~dB, resulting in a sensitivity level of $-113.6$~dBm.
+
+\subsection{Dynamic range}
+
+The dynamic range of a radio receiver is a range of received signal levels over which the receiver 
+can operate. The dynamic range of the DDU under test can be determined as a ratio of the 1~dB 
+compression point and the sensitivity or the minimum detectable power (MDP) of the pre-amp block. 
+In decibels, the dynamic range is simply a difference between these two power limits:
+\begin{equation}
+\mathit{DR} = P_\mathrm{1\;dB} - P_\mathrm{MDP} 
+\end{equation}
+Using the values of the 1~dB compression point and the sensitivity obtained from measurement, the 
+measured dynamic range of the RX pre-amp block is:
+\begin{equation}
+\mathit{DR}_\mathrm{measured} = -5.6 \mathrm{\;dBm} - (-116.1 \mathrm{\;dBm}) = 110.5 \mathrm{\;dB}
+\end{equation}
+The theoretical value of dynamic range is calculated with the provided sensitivity from producer as 
+following:
+\begin{equation}
+\mathit{DR}_\mathrm{theoretical} = -5.6 \mathrm{\;dBm} - (-112.5 \mathrm{\;dBm}) = 106.9 \mathrm{\;dB}
+\end{equation}
+
+The measured 1~dB compression point value was applied in the theoretical dynamic range calculation 
+above, since there is no such value given by producer. Therefore, the theoretical and measured dynamic 
+ranges differ by $-3.6$~dB due to different sensitivity values as discussed in the 
+previous subsection.
+
+These measurements we obtained using the 1~dB compression point from the SG \& SA measurement along 
+with the assumption that the spectrum analyzer makes the noise correction. Using 1~dB compression point 
+obtained from the VNA measuremens indcreases both dynamic ranges by 1.5~dB. Correcting for the noise 
+decreases $\mathit{DR}_\mathrm{measured}$ by 2.5~dB.
 
 
 \newpage
@@ -515,7 +687,7 @@ In this section, we do not take human errors (see previous section) into account
 It is just stated that systematic errors arising from the cables and connections 
 are possible in measurement all measurements. Thus they are valid only for 
 ``correct'' measurements, and are more of the ``provided for completeness'' 
-nature. Probabilities are not given due to the nature/basis of the estimation.
+nature. Propabilities are not given due to the nature/basis of the estimation.
 
 
 \subsection{Spectrum analyzer}
@@ -525,7 +697,7 @@ depending for example on the signal frequencies, amplitudes, and measurement set
 The Agilent (former HP, manufacturer of the used SA) has made available a document that 
 specifies the different error sources, giving also rough estimates for some spectrum 
 analyzers. According to the document \cite{sa}, the error estimates vary broadly among 
-different analyzer models, giving worst case uncertainties exceeding $\pm 6$ dB. On the 
+different analyzer models, giving worst case uncertainties exceeding $\pm 6$~dB. On the 
 other hand, the document gives also representative values of amplitude uncertainties, 
 which in our case yields about $\pm 1$ dB.
 
@@ -570,164 +742,135 @@ measurement was done inside a short time interval.
 Rohde \& Schwarz provides specifications that describe the measurement uncertainty 
 of the VNA in question in different frequency bands. For transmission measurements 
 in the frequency range of 50 MHz to 3 GHz, accuracy for signal powers of $-50 \ldots 0$ 
-dB is better than $0.2$ dB ($0.3$ dB for powers of $-50 \ldots {-70}$ dB) with 0 dBm 
+dB is better than $0.2$ dB ($0.3$ dB for powers of $-50 \ldots {-70}$ dB) with 0~dBm 
 transmit power. \cite{vna} The reader should note that these ranges was exceeded 
 from both ends during the measurements (the measurement power range was roughly 
 $-100 \ldots {+4}$ dBm). 
 
 In conclusion, two things are assumed. First, calibration is assumed to cancel the 
-systematic errors arising from cables and connectors. Second, random errors are 
-cancelled with averaging. The manufacturer provides error estimates for the device 
-itself, giving an error estimate of under $0.3$ dB that is mostly applicable in 
-our case. The topics discussed in the last paragraph of the last subsection apply 
-here to some extent to here as well.
+systematic errors arising from cables and connectors to a neligible level. Second, 
+random errors are cancelled with averaging almost entirely. The manufacturer provides 
+error estimates for the device itself, giving an error estimate of under $0.3$ dB that 
+is mostly applicable in our case. The topics discussed in the last paragraph of the 
+last subsection apply here to some extent to here as well.
 
+
+\subsection{Noise diode}
+
+According to the lecture supplement handout \cite{kakkaa_huuleen}, error sources in noise 
+measurements can be divided into four categories. First error source is the noise diode 
+calibration error, second error source arises from $Y$-factor method, third from mismatches 
+and fourth from the attenuations. Also the physical operating temperatures might have been 
+some kelvins above $T_0 = 290$~K.
+
+The noise diode calibration uncertainty is about $\pm0.1$~dB. The noise diode ENR varies 
+$0.01$~dB/${}^\circ \mathrm{\,C}$, and $0.1$~dB/\% for variations in the operating voltage. 
+In the $Y$-factor method, the hot and cold temperatures should be suitable for the noise 
+temperature that is to be defined. Also mismatch and cable temperatures (see \cite{kakkaa_huuleen}, p.\ 89-90) 
+should be taken into account if top-notch accuracy is wanted. Finally, attenuations have 
+to be taken carefully into account when calculating the noise temperature using the Frii's 
+formula.
+
+For our laboratory assignment it is assumed, that the chain is perfectly matched, attenuations 
+precisely measured, and the $\mathit{ENR}$ variations due to temperature and voltage source fluctuations 
+are small. Therefore, only the effect of the $\pm 0.1$~dB calibration uncertainty is to be 
+taken into account. This corresponds to about $\pm900$~K in hot source temperature, and 
+$\pm20$~K in the final equivalent noise temperature.
+
+
+\subsection{Signal generator}
+
+For the sensitivity measurement, also the uncertainty of the signal generator should be taken 
+into account. The signal generator amplitude error and amplitude flatness are relevant parameters.
+For more thorough discurssion, the reader is advised to refer to \cite{kakkaa_huuleen, sg}.
 
 \newpage
 \section{Conclusions}
 
-The purpose of the first laboratory assignment was to get familiar with the most 
-common radio frequency measurement devices. This was done by measuring properties 
-suchs as power level control, in-band and out-of-band amplitudes, and diplexer 
-performance of a real-life GSM base station. In this report, results of these measurements
-were presented and compared to GSM specifications. In addition, error sources 
-and magnitudes were estimated.
+In this laboratory assignment, the receiver part of a GSM base station was measured. The 
+measurements covered the most important performance parameters of a receiver part, including 
+1-dB compression point, frequency response, noise temperature, and sensitivity. The most 
+important learning outcome was to understand high and low power measurements, and how a 
+power level affects measurements. Sensitivity and noise measurements require very low power 
+measurements, whereas 1~dB compression point demonstrates the effects of high powers. This 
+report presented the measurement setups and their corresponding results.
 
-The two most important error sources for the spectrum analyzer measurements are 
-the power marker fluctuation and errors arising from the analyzer hardware. 
-The fluctuation of the marker reading was estimated to be $\pm 0.5$ dB. The more 
-difficult of the pair, errors originating in the analyzer, were estimated from 
-the manufacturer's manual. The analyzer’s error was estimated to be $\pm 1$ dB. 
-Together these uncorrelated errors give an error estimation of $\pm 1.5$ dB.
+The main measurement instruments included a spectrum analyser, a vector network analyser, and 
+a signal generator, which all were pre calibrated and ready to use. An attenuator and a low 
+noise amplifier were used to transform the measured signals to proper levels. In addition, 
+different connecting cables were used, and their attenuations defined with the VNA. Measurement 
+uncertainties for the spectrum analyser and VNA are estimated to be approximately $\pm1.5$~dB 
+and $\pm0.3$~dB, respectively.
 
-The vector network analyzer error estimations were easier, as the device is 
-always calibrated using a specific calibration module. It was assumed that the 
-calibration cancels the systematic errors arising from the measurement setup. In 
-addition, the measurement was averaged in turn lowering the effect of random errors. 
-Based on these assumptions, the measurement errors were estimated using the 
-manufacturer’s manual, yielding better than 0.3 dB accuracy for the frequency 
-range of interest.
+The 1-dB compression point was measured with two different measurements. The first was done 
+using a signal generator and a spectrum analyser, and the second was done using only a VNA. 
+In a nutshell, the input power was gradually increased, and the output power measured. In this 
+report, figures are presented from which it is possible to define the 1-dB compression point. 
+The compression point defined with the first setup is $CP_a = -5.6 \pm 1.5$~dBm and the second 
+setup gives a compression point of $CP_b = -4.1 \pm 0.3$~dBm, with the given error estimations.
 
-The BS dynamic power control has 15 different power levels with a 2 dB step size. 
-When comparing the measured results and assumed power levels in Table \ref{tbl:m1}, 
-the difference is not more than $\pm 0.2$ dB. Given the estimated uncertainty of 
-$\pm 1.5$ dB, it is difficult to evaluate the power control level performance. 
-However, when excluding the uncertainty, each of the measurements agree well with 
-the base station specifications. When taking this into account, it is relatively 
-certain that the dynamic power control is working properly.
+The frequency response was already defined in the previous laboratory assignment. The $S_{21}$ 
+parameter of the RX block was measured with a VNA. The $3$~dB and noise bandwidths were 
+defined from the obtained graph, yielding $40.6$~MHz and $38.1$~MHz, respectively. However, 
+the difference between these two values is small, and the band edges are steep. Therefore, it is concluded that the $3$~dB 
+bandwidth may be used as the noise bandwidth as well, thus avoiding too optimistic measurement 
+results.
 
-The results from the in-band output spectrum measurement are presented in Table 
-\ref{tbl:m2}. The results are presented using the measured and given connection 
-chain attenuations ($L = 43.1$ dB and $L = 36.0$ dB, respectively). While the 
-results obtained using the measured attenuation do not pass the GSM specifications, 
-the values obtained using the given attenuation pass the specification even with 
-the estimated uncertainty of $\pm 1.5$ dB. Therefore, the result is that the 
-base station passes the in-band GSM specifications. 
+The DDU noise power was measured with and without a low noise amplifier in between the signal 
+generator and the spectrum analyser. The noise power was then calculated using Y coefficient
+ method, which requires a hot/cold noise source. The noise temperature results for the DDU are 
+ $T_\mathrm{DDU, w/} = 140 \pm 20$~K and $T_\mathrm{DDU, w/o} = 612 \pm 20$~K, with and without the 
+ LNA, respectively. It is concluded that the measurement setup requires an amplifier, as the 
+ cold source noise power is too low to be measured precisely without. Therefore, the DDU noise 
+ temperature is $140 \pm 20$~K. The result seems realistic.
 
-In subsection \ref{s:int}, the power levels of the single greatest interference in 
-two bands (below and abode 1 GHz) was presented and compared against the GSM standard. 
-In both bands, the measured values exceeded the specified limits, even when nominal 
-attenuation was assumed. For the lower band, it was reasoned that the fault may be the 
-nonlinearity of the SA (intermodulation perhaps) or the BS itself. In the upper band, 
-the measured peak was created by the SA. Thus nothing definite can be said about the 
-interference of the SA; it would require more measurements.
+The minimum detectable power of the RX pre-amp block was measured using the spectrum amplifier, 
+and compared to the GSM standard. The GSM standard specifies a signal to noise ratio of $10$~dB 
+for sensitivity measurements. With the specified signal to noise ratio, the sensitivity is 
+defined to be $-116.1 \pm 1.5$~dBm. In comparison with the sensitivity specified by producer 
+($-112.5$~dBm), the measured value is about $-3.6$~dBm lower.
 
-In the fourth measurement we were interested in the diplexer, the purpose of which 
-is to separate the receiver and transmitter, while at the same time allowing a 
-free route for the signal from the transmitter to the antenna and from the antenna 
-to the receiver. In addition, there should be some gain in between the antenna 
-and receiver. The measurement presented in Fig. \ref{fig:dpx} corresponds the 
-aforementioned requirements. Diplexer separates the sides effectively, giving 
-a minimum attenuation of $13.0$ dB in the ``no-man's land'' between the bands 
-(66 dB at the upper edge of the RX band). The antenna-receiver path has a gain 
-of $24.3$ dB, and the transmitter-antenna path attenuation is $-1.1$ dB. These 
-results agree with the expected values.
+The dynamic range can be calculated from the minimum detectable power and $1$~dB compression 
+point given above. It is the range in between these two values, and is the range of received 
+signal levels over which the receiver can operate. The measured dynamic range is therefore 
+$110.5 \pm 3.0$~dBm (add $+2.5$~dB for noise correction). The theoretical dynamic range calculated 
+using the manufacturers $\textit{MDP}$ is $106.9 \pm 1.5$~dBm. The measured dynamic range is 
+therefore about $3.6$~dB (1.1~dB for noise-corrected) higher than the range given by the manufacturer. 
 
-For the most parts, the results presented here agree well with the expected 
-results, even though there were some difficulties with the tasks that seemed 
-so simple at a first glance. Dynamic downlink power control seems to work as 
-advertised, and the base station seems to pass GSM specifications when it comes 
-to the shape of in-band spectrum. Determining the interference characteristics 
-would require more measurements. The diplexer measurements agree also well with the 
-theory. 
-
-In conclusion, we (re)familiarized ourselves with the measurement devices and got 
-more knowledge about measurement devices nonlinearities for future reference.
-It will be easier to perform measurements in both the upcoming assignments and in 
-real-life as well. This in turn allows us to concentrate more on the actual results 
-based on thorough and reliable measurements. However, defining different uncertainties 
-presents still a challenge. Consequently, it should be taken into extra consideration 
-when conducting RF measurements in the future.
-
+In conclusion, the receiver block parameters were measured, and a good deal of new things 
+learned. It was especially interesting to measure low powers and to estimate how it effects 
+the measurements. It was also fun to measure the same parameters using different devices/setups, 
+and see how they affect the results.
 
 \newpage
 \section{Feedback}
 
-The laboratory measurement was both interesting and educational 
-even though it wasn't smooth sailing all the way. To be honest, 
-it was more like the Bermuda triangle. There some minor 
-issues and even some difficulties of the more major kind. Since 
-we'd like no other students to go through such an ordeal, we'd like 
-to give feedback. The following text will elaborate.
+The second laboratory assignment was a good practical example of how power levels affect 
+measurements. In addition, it was interesting to learn how noise measurements may be conducted. 
+However, there were some drawbacks as well.
 
-Let's start with the schedule. In our opinion its outright absurd/idiotic 
-to have the lab in the last week of the semester, amidst the exams. On 
-top of that, this final report is to be completed outside the 
-curriculum, when everyone is spending their Christmas holiday 
-most likely hundreds of miles away from Otaniemi. Thus we propose 
-that either the lab (in its entirety) is held in November or postponed 
-to January.
+When writing the preliminary report, we were left wondering if all the needed devices were 
+really listed in the instructions sheet. In the noise measurements, the LNA was definitely 
+required, but not listed. Feedback for all the reports would also be welcome, as a grade 
+does not tell the pluses and minuses of a report. What was especially good? What could have 
+been better? Any wrong thoughts or deductions? After all, learning process depends very much 
+on ``learning from mistakes.'' Also, there was the question on sweep time. Not the assistant 
+nor the lecturer could not thoroughly explain for example how it affects measurements.
 
-It seemed we were the ``try run'' and encountered issues the course 
-staff was not properly prepared to deal with. It's somewhat like being 
-handicapped against the other groups having the advantage. Also some 
-topics we had our doubts about were not clarified as well as we'd hoped. 
-These issues are covered in the next five paragraphs. Otherwise the 
-course staff was pleasant to work with.
-
-First, the course staff should be prepared for every foreseeable 
-contingency by having their own try runs and going over the notes 
-from previous years. How about making a checklist of sorts?
-
-Second, having many years of experience from contact teaching and 
-guiding laboratory measurements between us, we are safe say that 
-students will not remember the theory given weeks ago in the heat 
-of the moment. In some cases (freshmen) even 30 minutes is enough 
-for a ``memory wipe.''
-
-The theory needs to be tied to the task at hand. This can be done in 
-numerous ways. One is to include a related problem (nonlinearity issues 
-in this case) in the pre-study. Another is to print out the slides etc. 
-to have the information available for students in the lab. This latter 
-requires attention from the assistant.
-
-Third, another go at the measurement would be more than welcome. It's 
-way more demanding for a student to come up with the cause of a problem 
-than to justify expected results. We'd reckon it would benefit the learning 
-process as well. And in our case the time was running out, making the 
-VNA measurements feel a bit too hasty.
-
-Fourth, uncertainty is one of the not-so-clear topics. During the lectures, 
-it was advertised as the most difficult aspect of a measurement and that 
-its estimation requires experience above all. It's a daunting task at best, 
-and to make it worse, we feel we were not given good enough ``tools'' to really
-stand up to this challenged as first-timers. Determining the uncertainty in 
-complex measurements (or in ``simple'' measurements with complex equipment) 
-should be covered in more detail in the lectures or in the lab instructions. 
-One could also print/point out the relevant information from the operators' 
-manual. 
-
-For easier VNA access, a USB-hub and a LCD-display would be great. 
-The former costs around 5 euros and the latter can be found within 
-the department, since a display too small for everyday use would do 
-just fine. This kind of setup is used in the 
-\textit{S-26.2300 Suurtaajuusmittaukset} course.
+The assistant was very helpful and ready to answer questions. For example, when we asked for 
+some equipment that would not normally be used in the lab, he brought them immediately. In 
+addition, the assistant had taken our feedback from the previous lab into account, and improved 
+the measurement setup.
 
 \newpage
 \begin{thebibliography}{9}%\itemsep 7pt\parskip -5pt 
 
-\bibitem{lab1} C.\ Icheln, S.\ Khanal, 
-	\textit{GSM Transmitter laboratory assignment instructions},
+\bibitem{lab2} C.\ Icheln, S.\ Khanal, 
+	\textit{GSM Receiver laboratory assignment instructions},
+	S-26.3120 Laboratory course in Radio Engineering course material.
+	
+\bibitem{kakkaa_huuleen} C.\ Icheln (edited), 
+	\textit{Lecture supplement handout},
 	S-26.3120 Laboratory course in Radio Engineering course material.
 
 \bibitem{sa} Agilent, Spectrum Analysis Basics, Application Note 150. 
@@ -742,6 +885,11 @@ just fine. This kind of setup is used in the
 	Version 06.00, Dec 2008. 
 	Available online at \url{http://www.upc.edu/pct/documents_equipament/d_160_id-655-2.pdf} 
 	[Retrieved: Jan 2nd, 2014].
+	
+\bibitem{sg} R\&S SML03 Signal Generator Operating Manual,
+	Aug 2008.
+	Available online at \url{http://cdn.rohde-schwarz.com/dl_downloads/dl_common_library/dl_manuals/gb_1/s/sml_1/SML_SMV__e_gl.pdf}
+	[Retrieved: Feb 10th, 2014].
 
 
 %\bibitem{pozar} D.\ M.\ Pozar, 

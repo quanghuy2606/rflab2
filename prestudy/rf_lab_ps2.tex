@@ -14,6 +14,7 @@
 \usepackage{enumitem}
 \usepackage{epsfig}
 \usepackage{epstopdf}
+\usepackage{verbatim}
 
 
 \newlength{\oneLine}
@@ -87,13 +88,18 @@
 % Bad hyphenation
 %\hyphenation{}
 
+% Macros
+\newcommand{\dB}{\mathrm{\;dB}}
+\newcommand{\dBm}{\mathrm{\;dBm}}
+\newcommand{\m}[1]{\mathrm{#1}}
+
 \definecolor{dkred}{rgb}{0.6, 0, 0}
 \definecolor{dkgrn}{rgb}{0, 0.6, 0}
 \definecolor{dkblue}{rgb}{0, 0, 0.6}
 
 \pagestyle{fancy}
 \lhead{S-26.3120 Radio Engineering, laboratory course\\Lab 2: GSM Base Station Receiver -- Pre-study report\\}
-\rhead{Sampo Salo, 79543L\\Tuomas Leinonen, 84695P\\Huy Nguyen, 12345A}
+\rhead{Sampo Salo, 79543L\\Tuomas Leinonen, 84695P\\Huy Nguyen, 411330}
 \cfoot{\thepage}
 
 
@@ -122,7 +128,7 @@
 		\textbf{Group 3:} 	& \\
 		Sampo Salo			& 79543L	\\
 		Tuomas Leinonen 	& 84695P	\\
-		Huy Nguyen			& 12345A			
+		Huy Nguyen			& 411330			
 	\end{tabular}
 }
 
@@ -200,9 +206,10 @@ of $-80$~dBm.
 The measurement itself is basically a power sweep at a constant frequency of 
 $f = 900$ MHz. We start off with a power level well above the receiver sensitivity 
 level ($P_\mathrm{min,\;BS} \approx -112.5$~dBm), say $-100$~dBm. From there we 
-gradually increase the power in suitable steps of $1 \ldots 5$~dB, depending on 
+gradually increase the power in suitable steps of $0.1 \ldots 10$~dB, depending on 
 the current position on the $P_\mathrm{out}(P_\mathrm{in})$ transfer curve. That 
-is, we'll decrease the step size as we get close to the ``sweet spot''. 
+is, we'll start with a big step size and decrease it as we get close to the 
+``sweet spot''. 
 
 This power sweep is continued until we experience a compression of more than the 
 required 1 dB. While one could just measure the input power required for the output 
@@ -216,7 +223,15 @@ spectrum analyzer as we did in the first labs -- except for the averaging factor
 They were as follows: an averaging factor of 500, zero span and 30~Hz video and 
 resolution bandwidths. An averaing factor of 500 would make the measurement quite 
 lengthy, especially if dense power ``grid'' is used. Averaging over 100 measurements 
-will most likely be more than adequate.
+will most likely be more than adequate. Depending on the 1~dB compression point, 
+we might need to watch out for compression in the spectrum analyzer. This is taken 
+care of by altering the input attenuation.
+
+The effect of the cables and the attenuator may be measured using a VNA (could be used 
+for the entire measurement aswell), or using the SA by making the whole measurement 
+relative. In a relative measurement, the power is measured again when the DDU module 
+is by-passed to account only for the cables and the possible attenuator. This also 
+required to know the real input power. 
 
 
 \subsection{Gain of the RX pre-amplifier block}
@@ -258,16 +273,23 @@ compression in the pass-band (in neither the VNA nor in the pre-amp itself).
 	\vspace*{-12pt}
 \end{figure}
 
-The following figure (Fig. \ref{f:r1}) shows the results obtained in the first 
-measurements. The noise bandwidth is found using the formula given in the lecture 
-supplement handout:
+The following figure (Fig. \ref{f:r1}) shows the results obtained in the first lab works 
+with a transmit power of $-20$ dBm in the VNA (using the B-half of the BS and connecting 
+the ports vice versa). In the figure, in addition to GSM RX and TX bands (in red), both 
+3~dB (in blue) and noise (in green) bandwidth of the pre-amp block are visualized. This 
+noise bandwidth visualization is somewhat questionable as it's a purely theoretical concept, 
+but is nevertheless shown for scale. The shown noise bandwidth is found using a numerical 
+approximation with $|S_{12}|$ of the formula given in the lecture supplement handout:
 
 \begin{equation}
-B_\mathrm{n} = \frac{1}{G_\mathrm{T,\;max}} \int_0^\infty G_\mathrm{T}(f) \, df,
+B_\mathrm{n} = \frac{1}{G_\mathrm{T,\;max}} \int_0^\infty G_\mathrm{T}(f) \, df.
 \end{equation}
 
-or more specifically, it's numerical approximation in the frequency range of 
-$850 \ldots 1000$~MHz.
+The noise bandwidth shown is less than the actual band since we cannot use infinite frequency 
+range. Frequency range of $850 \ldots 1000$~MHz with $|S_{12}|_\mathrm{max} = 24.4$~dB 
+was used instead. The obtained value (38.1~MHz) is roughly 6~\% shy of the 3~dB bandwidth 
+(40.6~MHz), as one might expect. The 3~dB bandwidth may thus be used to avoid being 
+overly optimistic.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -277,6 +299,21 @@ $850 \ldots 1000$~MHz.
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
+
+In the graphical approximation method we need to investigate the effect of frequency 
+roll-off speed. From Fig. \ref{f:r1} the transition bands are approx. 30~MHz (3.4 \%) 
+and 5~MHz (0.55 \%) for lower and upper bands, respectively. During this transition, 
+the $S_12$ drops roughly 100~dB from $+20$~dB to $-80$~dB. This corresponds to a slope 
+of $3.3$~dB/MHz (29~dB/\%) and $-20$~dB/MHz ($-180$~dB/\%), respectively. The effect of 
+such steep slopes are neglectable, and thus the 3~dB bandwidth may be used as the noise 
+bandwidth.
+
+If a VNA is not available as the instructions suggest, the task is quite laborious and 
+absurd, just to be honest. Nevertheless, the procedure is listed here for completeness. 
+We would need to simulate the VNA function manually using a signal generator and a power 
+meter or a signal analyzer, leading to a setup like the one shown in Fig. \ref{f:m1}. The
+output power is kept constant while frequency is swept over the range, taking notes on the 
+relative power levels observed in the detector.
 
 
 \subsection{Noise temperature of the RX pre-amplifier block}
@@ -288,26 +325,36 @@ supply voltage is switched off).}
 
 \vspace*{\oneLine}
 \noindent
-Text here.
+In the third measurement task, we'll use a setup shown in Fig. \ref{f:m3}. 
+A DC-voltage source is connected to a noise diode connected directly to the 
+ANT-input in the pre-amplifier block. This direct connection is desirable as 
+attenuation changes the noise temperature. The signal is led from the RX$_1$ 
+output to a spectrum analyzer. An LNA may be needed in between the DDU output 
+and the spectrum analyzer, as the spectrum analyzer might not be sensitive 
+enough for the cold noise source. See section \ref{s:noise} for details.
 
 \begin{figure}[h!]
 	\begin{center}
 	\setlength{\unitlength}{1mm}
-	\begin{picture}(168, 13)
+	\begin{picture}(166, 13)
 		\linethickness{0.2mm}
 		\put(0, 0.4){\framebox[10mm]{$V_\mathrm{DC}$}}
-		\put(10, 1.4){\vector(1,0){20}}
-		\put(30, 0){\framebox[25mm]{Noise diode}}
-		\put(55, 1.4){\vector(1,0){25}}
-		\put(80, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
-		\put(108, 1.4){\vector(1,0){20}}
-		\put(128, 0.4){\framebox[40mm]{Sprectrum analyzer}}
+		\put(10, 1.4){\vector(1,0){9}}
+		\put(19, 0){\framebox[25mm]{Noise diode}}
+		\put(44, 1.4){\vector(1,0){24}}
+		\put(68, 0.4){\framebox[28mm]{$\mathrm{ANT} \rightarrow \mathrm{RX}_1$}}
+		\put(96, 1.4){\vector(1,0){9}}
+		\put(105, 0.4){\framebox[12mm]{LNA}}
+		\put(117, 1.4){\vector(1,0){9}}
+		\put(126, 0.4){\framebox[40mm]{Sprectrum analyzer}}
 		
+		\put(5, 7){\makebox(0,0){On/Off}}
 		%\put(20, 4){\makebox(0,0){Cable}}
-		\put(67.5, 8){\makebox(0,0){Direct}}
-		\put(67.5, 4){\makebox(0,0){connection}}
+		\put(56, 8){\makebox(0,0){Direct}}
+		\put(56, 4){\makebox(0,0){connection}}
 		%\put(118, 4){\makebox(0,0){Cable}}
-		\put(94, 7){\makebox(0,0){DDU module}}
+		\put(81.5, 7){\makebox(0,0){DDU module}}
+		\put(115.5, 8){\makebox(0,0){$\overbrace{\hspace*{19mm}}^\textrm{if needed}$}}
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Noise temperature measurement setup}
@@ -316,6 +363,22 @@ Text here.
 	\vspace*{-12pt}
 \end{figure}
 
+%In room temperature, a matched load (an approximation in this case) outputs a noise power 
+%of $-159$ dBm for a 30 Hz band. With a maximum gain of 24.4~dB and a total noise figure 
+%of 3.9~dB, the expected noise level is around $-131$~dBm. This value is considerably 
+%lower than the given sensitivity of the SA: $P_\mathrm{SA,\;min} < -125$~dBm when 
+%$B_\mathrm{res.} = 30$~Hz. LNA could be used to boost the signal to a more appropriate 
+%level as it's effect on the noise temperature could be compensated using the Friis' 
+%noise formula.
+
+The measurement itself is carried out measuring two power levels required in the 
+Y-pa\-ram\-e\-ter; when the DC-voltage is off/shorted (``cold'') and on (``hot''). As 
+for the SA settings, we are measuring noise at a single frequency (using zero-span): 
+a very weak, random signal. Thus, input attenuator should be disabled, and minimum 
+resolution bandwith used. A large averaging factor, say a thousand, is also beneficial. 
+The measurement may take a few minutes, and it's OK; there are only two measurements 
+to be made.
+
 
 \subsection{Sensitivity of the RX pre-amplifier block}
 
@@ -323,7 +386,11 @@ Text here.
 
 \vspace*{\oneLine}
 \noindent
-Text here.
+In the sensitivity measurement, we're trying to measure the minimum input power at 
+ANT input that results in a detectable signal above the noise floor in the ouput 
+of the DDU module. For this, a measurement setup identical to the one used in the 
+first task may be used, as is shown in the following figure (Fig \ref{f:m4}). This 
+time though it's more than likely that an attenuator is required.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -342,7 +409,7 @@ Text here.
 		%\put(78, 4){\makebox(0,0){Cable}}
 		%\put(120, 4){\makebox(0,0){Cable}}
 		\put(99, 7){\makebox(0,0){DDU module}}
-		\put(66.5, 8){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{only if needed}$}}
+		\put(66.5, 8){\makebox(0,0){$\overbrace{\hspace*{35mm}}^\textrm{if needed}$}}
 	\end{picture}
 	\vspace*{\halfLine}
 	\caption{Measurement setup used in the sensitivity measurement.}
@@ -350,6 +417,20 @@ Text here.
 	\end{center}
 	\vspace*{-12pt}
 \end{figure}
+
+The measurement starts by measuring the noise floor at 900~MHz without any signal 
+we're hoping to detect. That is, the RF power is switched off at the generator. 
+Then we turn on an input signal that's some dBs sensitivity of $-112.5$~dBm. We 
+gradually increase the power until the signal-to-noise ratio is no less than the 
+10~dB required by the standard. One could also measure the power required to beat 
+the noise just barely, and add the SNR later on if  $P_\mathrm{out}(P_\mathrm{in})$ 
+relation is assumed to be ideal.
+
+Since it's a GSM system, we use the measurement settings as they are defined in 
+the standard. They are as follows: an averaging factor of 500, zero span and 30~Hz 
+video and resolution bandwidths. As the spectrum analyzer input power is expected 
+to be less than $-80$~dBm ($P_\mathrm{SA} \approx P_\mathrm{DDU,\;min} + G_\mathrm{DDU} = -112.5 \mathrm{\;dBm} + 24.4 \mathrm{\;dB}= -88.1 \mathrm{\;dBm}$), 
+it's best to disable the input attenuator.
 
 
 \newpage
@@ -374,10 +455,61 @@ the output of the signal generator is 1.6.
 		
 \vspace*{\halfLine}
 \noindent
-Text here.
+Mismatch causes some of the source power to be reflected back from the load, 
+reflecting back again from the source. This way, the power from the source does not 
+transfer fully to the load. The power attenuation $\eta$ due to mismatch can be 
+calculated using equations
 
+\begin{equation}
+\eta_\mathrm{SL,\;max} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|^2)}
+	{(1 - |\rho_\mathrm{S}||\rho_\mathrm{L}|)^2}
+\end{equation}
+
+\noindent
+and
+
+\begin{equation}
+\eta_\mathrm{SL,\;min} = \frac{(1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|^2)}
+{(1 + |\rho_\mathrm{S}||\rho_\mathrm{L}|)^2},
+\end{equation}
+
+\noindent
+where $\rho_\mathrm{S}$ and $\rho_\mathrm{S}$ are the source and load reflection 
+coefficients, respectively. The equations are special forms of an equation, and are 
+used in the case when the phase relation of the set-up is not known. The reflection 
+coefficients can be calculated from voltage standing wave ratio 
+$\mathit{VSWR}$ by 
+
+\begin{equation}
+|\rho| = \frac{\mathit{VSWR} - 1}{\mathit{VSWR} + 1}.
+\end{equation} 
+\noindent
+Using the equations, the maximum efficiency of power transfer is $\eta_\mathrm{SL,\;max} 
+= -0.05$ dB, and the minimum efficiency of power transfer is 
+$\eta_\mathrm{SL,\;min} = -1.39$~dB. Therefore, the range of mismatch attenuation 
+is $-1.39 \ldots {-0.05}$~dB.
+
+With the attenuator in between, the reflections are attenuated 20~dB each time 
+the power travels back and forth in between the source and the load. The 
+attenuation for the reflections grows relatively large, and so the maximum 
+efficiency of power may be approximated using an equation that is derived for 
+a set-up where an isolator is placed between the source and the load. The equation 
+is
+
+\begin{equation}
+\eta = (1 - |\rho_\mathrm{S}|^2)(1 + |\rho_\mathrm{L}|^2),
+\end{equation}
+
+\noindent
+and it gives a power attenuation of $-0.22$~dB. The advantage of using a power 
+attenuator in between the source and the load is that the attenuation due to 
+mismatch can be approximated more precisely. Another advantage is that the 
+attenuator protects the signal generator from reflected power. On the other hand, 
+the total attenuation grows to $-10.2$~dB, which could be a disadvantageous in 
+some situations.
 
 \subsection{Noise temperature}
+\label{s:noise}
 
 \textit{The noise temperature of the pre-amp block is determined using the 
 Y-coefficient method. The noise level of the spectrum analyzer HP8596E is 
@@ -387,7 +519,7 @@ bandwidth is 30~Hz.
 \begin{enumerate}[label=\alph*), itemsep=0pt]
 \item How much gain is required from the LNA in order to measure the noise 
 	temperature with the HP8596E? The noise figure of the amplifier is 2.8~dB 
-	and the attenuation of the bias Tee and the diplexer is 0.7~dB and 0.4~dB, 
+	and the attenuation of the bias tee and the diplexer is 0.7~dB and 0.4~dB, 
 	respectively.
 \item Does the order (i.e. which is first in the chain) of the amplifier, 
 	bias tee and the diplexer in the pre-amp block have any influence on the 
@@ -396,7 +528,91 @@ bandwidth is 30~Hz.
 
 \vspace*{\halfLine}
 \noindent
-Text here.
+The receiver path of the DDU module, also referred to as the pre-amp block, 
+consists of a bias tee, diplexer, LNA and a four-way power-divider (in this 
+order). Assuming the physical operating temperature of the pre-amp block to be 
+$T_0 = 290$~K, we have the attenuations and noise factors/figures listed in 
+the following table (Table \ref{t:c2}).
+
+\begin{table}[!h]
+	\begin{center}
+	\caption{Given parameters for this problem.}
+	\label{t:c2}
+	\renewcommand*{\arraystretch}{1.2}
+	\begin{tabular}{lccc}
+	\textbf{Block} 			& \textbf{Subscript}	& \textbf{Attenuation} $L$ 	& \textbf{Noise figure} $F$ \\
+	\hline
+	Bias tee				& BT					& $0.7 \dB \approx 1.175$	& $0.7 \dB \approx 1.175$ \\
+	Diplexer				& DPX					& $0.4 \dB \approx 1.096$	& $0.4 \dB \approx 1.096$ \\
+	Low-noise amplifier		& LNA					& ???						& $2.8 \dB \approx 1.905$ \\
+	4-way power divider		& DIV					& $6.0 \dB \approx 3.981$	& $6.0 \dB \approx 3.981$
+	\end{tabular}
+	\end{center}
+	\vspace*{-12pt}
+\end{table}
+
+The total noise figure of a cascaded system $F_\mathrm{T}$ is given by the 
+Friis noise equation (linear quantities)
+
+\begin{equation} \label{e:f}
+F_\mathrm{T} = F_1 + \frac{F_2 - 1}{G_1} + \frac{F_3 - 1}{G_1 G_2} + \frac{F_4 - 1}{G_1 G_2 G_3} + \cdots,
+\end{equation}
+
+\noindent
+or equivalently using noise powers
+
+\begin{equation}
+F_\mathrm{T} = \frac{\mathit{SNR}_\mathrm{in}}{\mathit{SNR}_\mathrm{out}} 
+	= \frac{S_\mathrm{in}}{N_\mathrm{in}} \, \frac{N_\mathrm{out}}{S_\mathrm{out}}
+	= \frac{N_\mathrm{out}}{G_\mathrm{T} N_\mathrm{in}}
+	= \frac{N_\mathrm{out}}{G_\mathrm{T} \, k T_0 B_\mathrm{N}}.
+\end{equation}
+
+\noindent
+Solving for $N_\mathrm{out}$ yields
+
+\begin{equation}
+N_\mathrm{out} = F_\mathrm{T} \, G_\mathrm{T} \, k T_0 B_\mathrm{N} 
+	= F_\mathrm{T} \, \frac{G_\mathrm{LNA}}{L_\mathrm{BT} L_\mathrm{DPX} L_\mathrm{DIV}} \, k T_0 B_\mathrm{N}
+\end{equation}
+
+\noindent
+which can in turn be solved for required gain $G_\mathrm{LNA}$ when we set 
+$N_\mathrm{out} > P_\mathrm{SA,\;min}$. Thus we obtain
+
+\begin{equation} \label{e:g}
+G_\mathrm{LNA} > \frac{P_\mathrm{SA,\;min} \, L_\mathrm{BT} \, L_\mathrm{DPX} \, L_\mathrm{DIV}}%
+	{F_\mathrm{T} \, k T_0 B_\mathrm{N}}.
+\end{equation}
+
+\vspace*{\oneLine}
+\noindent
+\textbf{a)} First we need to find the total noise figure of our four-stage cascaded system. 
+Using Eq. \ref{e:f}, it is found to be
+\begin{equation} \label{e:f2}
+F_\mathrm{T} = 2.533 + \frac{3.840}{G_\m{LNA}}.
+\end{equation}
+
+\noindent
+Using this in Eq. \ref{e:g} yields
+\begin{equation} \label{e:g2}
+G_\mathrm{LNA} > 5624.69 \ldots = 37.500 \ldots \dB \approx 37.5 \dB.
+\end{equation}
+
+This assumes the output of the DDU module ($RX_1$) to be perfectly matched 
+to the spectrum analyzer. If we were to neglect the power divider 
+($L_\m{DIV} = F_\m{DIV} = 1 = 0 \dB$), a gain of 31.5~dB would 
+be required from the LNA.
+
+\vspace*{\oneLine}
+\noindent
+\textbf{b)} From Eq. \ref{e:f} it can be observed that the noise figure of a 
+system is dominated by the noise figure of the first stage since the effect of 
+the following stages are reduced by several gains. That is, if the first 
+stage has a significant gain, the overall system noise figure more or less 
+depends on the noise characteristics of the stage in question. Thus, if the 
+order in the pre-amp block changes, it will definitely have influence on the 
+noise temperature of the block.
 
 
 \subsection{Requirements with evolving standards}
@@ -407,9 +623,71 @@ RF performance of the blocks in the RX chain when we move from 2G to
 
 \vspace*{\oneLine}
 \noindent
-Text here.
+Following table (Table \ref{t:234g}) lists some of the major differences 
+between digital cellular commucation standards. The table in question has 
+been simplified; an interested reader is adviced to take a look at the actual 
+specifications \cite{2g, 3g, 4g}. In addition, some of the information shown, 
+may be considered ``misleading'' to an untrained eye, as the information shown 
+is based on the specifications. They are known not to address real-life outcomes 
+as much as possibilities.
 
+For example, there are actually 14 GSM bands defined in the standard, yet only 
+four of those (850/900/1800/1900) are ``widely recognized'' as there's overlapping 
+for instances. One should also note that the newer standards have been written 
+on ``top of'' the existing older standards for backward/co-existence compatibilty. 
+For instance, 3G includes/supports 2G functionality to some extent. 
 
+\begin{table}[!h]
+	\begin{center}
+	\caption{A simplified list of some of the significant changes in evolving communication systems.}
+	\label{t:234g}
+	\renewcommand*{\arraystretch}{1.2}
+	\begin{tabular}{lccc}
+	\textbf{Parameter}							& \textbf{2G} \cite{2g} 					& \textbf{3G} \cite{3g} 				& \textbf{4G} \cite{4g} \\
+	\hline
+	System frequency [MHz]						& $380 \ldots 1990$							& $700 \ldots 3590$						& $700 \ldots 3800$	 \\
+	Number of system bands						& 14										& 30									& 38	 \\
+	System bandwidth [MHz]						& $7 \ldots 75$								& $10 \ldots 80$						& $10 \ldots 200$	 \\
+	Channel bandwidth [MHz]						& 0.2										& $1.3 \ldots 7.7$							& $1.4 \ldots 20$	 \\
+	Duplexing mode								& TDD										& TDD / FDD								& TDD / FDD	 \\
+	%Duplex separation [MHz]						& $10 \ldots 95$							& $0 \ldots 400$						& $0 \ldots 400$	 \\
+	Multi-access method							& TDMA										& CDMA									& FDMA	 \\
+	Modulation schemes							& GSMK, 8PSK, 16QAM,						& QPSK, 8PSK, 							& BPSK, QPSK, 	 \\[-2.4pt]
+												& 32QAM, AQPSK								& 16QAM, 64QAM							& 16QAM, 64QAM	 \\
+	%Max. TX power [dBm]						& $+22 \ldots {+39}$						& $+10 \ldots {+33}$					& $+23$	 \\
+	%Max. RX power [dBm]						& $-$										& $-25$									& $-23$	 \\
+	%Max. IBB [dBm]								& $-53 \ldots {-23}$						& $-61 \ldots {-41}$					& $-23$	 \\
+	%Max. OBB [dBm]								& $-27 \ldots 0$							& $-44 \ldots {-15}$					& $-23$	 \\
+	%Max. NBB [dBm]								& $-$										& $-57 \ldots {-56}$					& $-23$	 \\
+	%Max. spurious [dBm]						& $-30$										& $-44$									& $-23$	 \\
+	%Min. ACS [dB]								& $-$										& $33$									& $33$	 \\
+	%Ref. sensitivity [dBm]						& $-104 \ldots {-100}$						& $-108 \ldots {-99}$					& $-91 \ldots {-106}$	 \\
+	%Linearity, min. $\mathit{IIP}_3$ [dBm]		& $+55$										& $+65$									& $+72 \ldots {+90}$
+	\end{tabular}
+	\end{center}
+	\vspace*{-12pt}
+\end{table}
+
+A clear trend toward more users and higher datarates is evident; all the 
+parameters shown point to that fact. More and more frequency bands are 
+allocated as channel bandwidths increse at the same time. More complex 
+multi-level modulation schemes with full-duplex all-time transmission has 
+become more and more common. Also multiple input -- multiple output (MIMO) 
+and carrier aggregation (CA) techniques are emerging to serve customers 
+with the appetite for even larger data rates, achieved in multi-band 
+and/or multi-antenna configurations.
+
+When it comes to the radio receivers, it's all about flexibility. 
+Software-defined radio (SDR) principles come in real handy when the alternative 
+is to replicate a front-end for each band. Naturally some replication of the 
+RX-chain is required for both MIMO and CA. In addition to being required 
+to work on a larger band using wider channel, the linearity requirements 
+have gone up as. In the last two generations, there have been no groundbreaking 
+changes in the power requirements, such as minimum/maximum levels for 
+(un)wanted signals, inside or outside the band of interest. Of course 
+there are some changes mostly explainable due to increased bandwidth.
+
+\newpage
 \begin{thebibliography}{9}%\itemsep 7pt\parskip -5pt 
 
 \bibitem{hs} $\mathrm{Huber}+\mathrm{Suhner}$, 
@@ -418,22 +696,30 @@ Text here.
 	Available online at \href{http://ipaper.ipapercms.dk/HUBERSUHNER/Technologies/Radiofrequency/RFCablesEN/}
 		{\texttt{http://ipaper.\linebreak{}ipapercms.dk/HUBERSUHNER/Technologies/Radiofrequency/RFCablesEN/}}
 	[Retrieved: January 10th, 2014].
+	
+\bibitem{2g} 3GPP Technical Specification, Series 45: 
+	Radio aspects -- GSM only (Rel-4 and later)
+	
+\bibitem{3g} 3GPP Technical Specification, Series 25: 
+	Radio aspects -- 3G and beyond / GSM (R99 and later)
+	
+\bibitem{4g} 3GPP Technical Specification, Series 36: 
+	LTE (Evolved UTRA) and LTE-Advanced radio technology
 
-
-\bibitem{pozar} D.\ M.\ Pozar, 
-	\textit{Microwave Engineering}, 
-	J.\ Wiley \& Sons, 4th Ed., 2012. 
-	ISBN: 978-0-470-63155-3.
+%\bibitem{pozar} D.\ M.\ Pozar, 
+%	\textit{Microwave Engineering}, 
+%	J.\ Wiley \& Sons, 4th Ed., 2012. 
+%	ISBN: 978-0-470-63155-3.
 	
 %\bibitem{gains} J.\ C.\ Logan, J.\ W.\ Rockway, 
 %	``Dipole and Monopole Antenna Gain and Effective Area for Communication Formulas.''
 %	Available online at \url{www.dtic.mil/cgi-bin/GetTRDoc?AD=ADA332891}
 %	[Retrieved: November 25th, 2013].
 
-\bibitem{parts} M.\ Steer, 
-	\textit{Microwave and RF Design -- A Systems Approach}, 
-	SciTech Publishing, 2010. 
-	ISBN: 978-1-891-12188-3.
+%\bibitem{parts} M.\ Steer, 
+%	\textit{Microwave and RF Design -- A Systems Approach}, 
+%	SciTech Publishing, 2010. 
+%	ISBN: 978-1-891-12188-3.
 	
 %\bibitem{kandi} T.\ Leinonen, 
 % 	``Antenna and front-end challenges for mobile software-defined radio receiver,''
